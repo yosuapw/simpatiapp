@@ -4,7 +4,7 @@
   <groupId>com.simpati</groupId>
   <artifactId>simpatiapp</artifactId>
   <version>1.0.0</version>
-  <url>http://www.ninjaframework.org</url>
+  <url>http://maven.apache.org</url>
   <build>
     <resources>
       <resource>

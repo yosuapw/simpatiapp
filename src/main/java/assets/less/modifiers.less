@@ -1,0 +1,1098 @@
+/**
+ * Modifiers apply custom styles to default Bootstrap features and classes. In
+ * some cases they may also include helper classes nested within an existing
+ * Bootstrap default class.
+ */
+
+html {
+	font-size: unit(@base-increment, px); // defines increments for rem value
+}
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+// Max width for fluid same as normal container
+.container-fluid {
+	max-width: @container-lg;
+}
+
+// Navbar =====================================================================
+
+// Core navbar structure
+.navbar {
+	text-shadow: none;
+	border: none;
+
+	// Bigger brand text
+	&-brand {
+		font-size: ceil(@navbar-height * .375);
+		font-weight: 300;
+		padding: unit(@base-increment * 2, px) @navbar-padding-horizontal;
+		line-height: @navbar-height - (@base-increment * 4);
+
+		@media screen and (max-width: @screen-sm-max) {
+
+			#MainMenu& {
+				max-width: 75%;
+			}
+		}
+
+		// Add logo images to brand
+		img {
+			max-height: @navbar-height - (@base-increment * 4);
+			width: auto !important;
+			height: auto !important;
+			vertical-align: middle; // top;
+		}
+	}
+	// Responsive menu adjustments
+	.navbar-collapse {
+		border-top-color: @dropdown-divider-bg;
+		.box-shadow(none);
+	}
+	// Better vertical positioning on form and input elements
+	&-form {
+		margin-top: ((@navbar-height - @input-height-base) / 2);
+		margin-bottom: ((@navbar-height - @input-height-base) / 2);
+
+		.form-control {
+			border-color: @navbar-default-border;
+			.box-shadow(none);
+
+			&.input-sm {
+				margin-top: ((@input-height-base - @input-height-small) / 2);
+				margin-bottom: ((@input-height-base - @input-height-small) / 2);
+			}
+		}
+	}
+	&-btn.btn-xs {
+		margin-top: ((@navbar-height - 25) / 2);
+		margin-bottom: ((@navbar-height - 25) / 2);
+	}
+	.dropdown {
+		&-menu {
+			border: none;
+			min-width: 22rem; // ~175px
+
+			// Adjust sub-menu links
+			> li > a, > li > a:focus {
+				background-color: transparent;
+				font-size: floor(@font-size-base * .9); // ~14px;
+				white-space: normal;
+			}
+		}
+	}
+	// Responsive toggle button
+	&-toggle {
+		.box-shadow(none);
+	}
+	// Default drop menu styles
+	&-default {
+		.dropdown-menu {
+			background-color: darken(@navbar-default-bg, 5%);
+
+			> li > a, > li > a:focus {
+				color: @navbar-default-link-color;
+			}
+			> li > a:hover, > .active > a, > .active > a:hover {
+				color: @navbar-default-link-hover-color;
+				background-color: @navbar-default-link-hover-bg;
+			}
+		}
+	}
+	// Inverse menu style
+	&-inverse {
+		.dropdown {
+			// Sub-menu styles
+			&-menu {
+				background-color: darken(@navbar-inverse-bg, 5%);
+
+				> li > a, > li > a:focus {
+					color: @navbar-inverse-link-color;
+				}
+				> li > a:hover, > .active > a, > .active > a:hover {
+					color: @navbar-inverse-link-hover-color;
+					background-color: @navbar-inverse-link-hover-bg;
+				}
+			}
+			// Menu headings style
+			&-header {
+				color: lighten(@navbar-inverse-bg, 50%);
+			}
+		}
+		// Form elements in menu
+		.navbar-form .form-control {
+			border-color: @navbar-inverse-border;
+		}
+	}
+	// Makes it so navbar-right still has left aligned sub-menus, except for the last menu item.
+	&-right {
+
+		& > li .dropdown-menu {
+
+			@media (min-width: @grid-float-breakpoint) {
+				left: 0;
+			}
+		}
+
+		& > li:last-child > .dropdown-menu {
+			@media (min-width: @grid-float-breakpoint) {
+				left: auto;
+				right: 0px;
+
+				& li > .dropdown-menu {
+					left: auto;
+					right: 100%;
+				}
+			}
+		}
+	}
+}
+
+
+
+// In Page Navbars ============================================================
+
+div:not([class*='navbar-wrapper']) {
+	> .navbar {
+		min-height: @container-navbar-height;
+		border-width: 1px;
+
+		.navbar {
+			&-brand {
+				font-size: @font-size-large;
+				font-weight: normal;
+				padding: @container-navbar-padding-vertical @navbar-padding-horizontal;
+				line-height: @container-navbar-height - (@container-navbar-padding-vertical * 2);
+				height: @container-navbar-height;
+
+				img {
+					max-height: @container-navbar-height - (@container-navbar-padding-vertical * 2);
+				}
+			}
+			&-nav > li > a {
+				padding-top: @container-navbar-padding-vertical;
+				padding-bottom: @container-navbar-padding-vertical;
+			}
+			&-form {
+				margin-top: ((@container-navbar-height - @input-height-base) / 2);
+				margin-bottom: ((@container-navbar-height - @input-height-base) / 2);
+			}
+			&-btn {
+				margin-top: ((@container-navbar-height - @input-height-base) / 2);
+				margin-bottom: ((@container-navbar-height - @input-height-base) / 2);
+
+				&.btn-sm {
+					margin-top: ((@container-navbar-height - @input-height-small) / 2);
+					margin-bottom: ((@container-navbar-height - @input-height-small) / 2);
+				}
+				&.btn-xs {
+					margin-top: ((@container-navbar-height - 25) / 2);
+					margin-bottom: ((@container-navbar-height - 25) / 2);
+				}
+			}
+			&-text {
+				margin-top: ((@container-navbar-height - @line-height-computed) / 2);
+				margin-bottom: ((@container-navbar-height - @line-height-computed) / 2);
+			}
+			&-toggle {
+				margin-top: ((@container-navbar-height - 34) / 2); // Mixin: .navbar-vertical-align(@element-height) | Uses:((@navbar-height - @element-height) / 2)
+				margin-bottom:((@container-navbar-height - 34) / 2);
+			}
+		}
+	}
+}
+
+// Navbars - Sub-menu on hover & multi-level subs =============================
+
+.navbar {
+
+	.dropdown {
+
+		// Sub-menu drop downs (multi-level menus)
+		&-submenu {
+			position: relative;
+
+			> a.dropdown-toggle {
+				padding-right: 20px;
+			}
+
+			> a.dropdown-toggle:after,
+			> a.dropdown-toggle:hover:after {
+				position: absolute;
+				border-color: transparent;
+				border-style: solid;
+				border-width: @caret-width-base 0 @caret-width-base @caret-width-base;
+				border-left-color: @navbar-default-link-color;
+				margin: -(@caret-width-base - 1) 2px 0 0;
+				top: 50%;
+				left: auto;
+				right: (@caret-width-base * 2);
+			}
+
+			> .dropdown-menu {
+					top: 0;
+					left: 100%;
+					border-radius: 0 @navbar-border-radius @navbar-border-radius @navbar-border-radius;
+			}
+
+			&.pull-left {
+				float: none;
+
+				> .dropdown-menu {
+					left: -100%;
+					margin-left: 10px;
+				}
+			}
+		}
+
+	    // Sub-menu indicators
+	    &-toggle {
+
+			// Hide any caret elements because we
+			.caret {
+				display: none;
+			}
+
+			&:after {
+				position: relative;
+				display: inline-block;
+				content: " ";
+				// float: right;
+				width: 0;
+				height: 0;
+				border-color: transparent;
+				border-style: solid;
+				border-width: @caret-width-base @caret-width-base 0 @caret-width-base;
+				border-top-color: @navbar-default-link-color;
+				margin: ((@line-height-computed - @caret-width-base) / 2) 0 0 @caret-width-base;
+				left: @caret-width-base;
+				top: -@caret-width-base;
+			}
+
+			&:hover:after {
+				border-top-color: @navbar-default-link-hover-color;
+			}
+	    }
+
+	    // Open drop-down indicator
+		&.open > .dropdown-toggle:after {
+			border-top-color: @navbar-default-link-active-color;
+		}
+
+		/* Show on hover */
+		@media (min-width: @screen-lg-min) {  // min-width:  @grid-float-breakpoint
+			&-submenu:hover,
+			&.show-on-hover:hover {
+
+				> .dropdown-menu {
+					display: block;
+				}
+			}
+		}
+
+		&-submenu:hover > a:after {
+			border-top-color: transparent;
+			border-left-color: @navbar-default-link-hover-color;
+		}
+
+	}
+
+	// Inverse menu style
+	&-inverse {
+
+		.dropdown {
+
+			// Sub-menus drop downs (multi-level menus)
+			&-submenu {
+
+				> a.dropdown-toggle:after,
+				> a.dropdown-toggle:hover:after {
+					border-left-color: @navbar-inverse-link-color;
+				}
+			}
+
+			&-submenu:hover > a:after {
+				border-top-color: transparent;
+				border-left-color: @navbar-inverse-link-hover-color;
+			}
+
+			// Sub-menu indicators
+			&-toggle {
+
+				&:after {
+					position: relative;
+					display: inline-block;
+					content: " ";
+					// float: right;
+					width: 0;
+					height: 0;
+					border-color: transparent;
+					border-style: solid;
+					border-width: @caret-width-base @caret-width-base 0 @caret-width-base;
+					border-top-color: @navbar-inverse-link-color;
+					margin: ((@line-height-computed - @caret-width-base) / 2) 0 0 @caret-width-base;
+					left: @caret-width-base;
+					top: -@caret-width-base;
+				}
+
+				&:hover:after {
+					border-top-color: @navbar-inverse-link-hover-color;
+				}
+			}
+
+			// Hover style for sub indicators
+			&.open > .dropdown-toggle:after {
+				border-top-color: @navbar-inverse-link-active-color;
+			}
+		}
+	}
+
+	// Transparent navbars (no background)
+	&.see-through {
+		background: transparent;
+		border-color: transparent;
+	}
+}
+
+// Buttons ====================================================================
+
+.btn {
+	border: none;
+	text-shadow: none;
+	padding-bottom: @padding-base-vertical + 2; // add 2px extra padding to account for no border on buttons
+	.box-shadow(inset 0 -3px 0 rgba(0, 0, 0, 0.2));
+
+	&.btn-lg {
+		padding-top: @padding-large-vertical - 1;
+		padding-bottom: @padding-large-vertical + 3;
+		.box-shadow(inset 0 -4px 0 rgba(0, 0, 0, 0.2));
+	}
+	&.btn-sm {
+		padding-bottom: @padding-small-vertical + 2;
+		.box-shadow(inset 0 -2px 0 rgba(0, 0, 0, 0.2));
+		border-radius: @border-radius-base;
+	}
+	&.btn-xs {
+		padding-bottom: @padding-xs-vertical + 2;
+		font-size: @font-size-small - 1;
+		.box-shadow(inset 0 -2px 0 rgba(0, 0, 0, 0.2));
+		border-radius: @border-radius-base;
+	}
+	&.btn-link {
+		box-shadow: none;
+	}
+}
+
+.btn-group {
+	> .btn {
+		+ .dropdown-toggle {
+			padding-left: (@padding-base-horizontal * .9);
+			padding-right: (@padding-base-horizontal * .9);
+
+			&.btn-xs {
+				padding-left: (@padding-xs-horizontal * .9);
+				padding-right: (@padding-xs-horizontal * .9);
+			}
+			&.btn-sm {
+				padding-left: (@padding-small-horizontal * .9);
+				padding-right: (@padding-small-horizontal * .9);
+			}
+			&.btn-lg {
+				padding-left: (@padding-large-horizontal * .75);
+				padding-right: (@padding-large-horizontal * .75);
+			}
+		}
+	}
+	.dropdown-menu {
+		border-top-width: 0;
+	}
+	&.dropup .dropdown-menu {
+		border-top-width: 1px;
+		border-bottom-width: 0;
+		margin-bottom: 0;
+	}
+	.dropdown-toggle {
+		&.btn-default ~ .dropdown-menu {
+			background-color: @btn-default-bg;
+			border-color: @btn-default-border;
+
+			> li > a {
+				color: @btn-default-color;
+			}
+			> li > a:hover {
+				background-color: darken(@btn-default-bg, 8%);
+			}
+		}
+		&.btn-primary ~ .dropdown-menu {
+			background-color: @btn-primary-bg;
+			border-color: @btn-primary-border;
+
+			> li > a {
+				color: @btn-primary-color;
+			}
+			> li > a:hover {
+				background-color: darken(@btn-primary-bg, 8%);
+			}
+		}
+		&.btn-success ~ .dropdown-menu {
+			background-color: @btn-success-bg;
+			border-color: @btn-success-border;
+
+			> li > a {
+				color: @btn-success-color;
+			}
+			> li > a:hover {
+				background-color: darken(@btn-success-bg, 8%);
+			}
+		}
+		&.btn-info ~ .dropdown-menu {
+			background-color: @btn-info-bg;
+			border-color: @btn-info-border;
+
+			> li > a {
+				color: @btn-info-color;
+			}
+			> li > a:hover {
+				background-color: darken(@btn-info-bg, 8%);
+			}
+		}
+		&.btn-warning ~ .dropdown-menu {
+			background-color: @btn-warning-bg;
+			border-color: @btn-warning-border;
+
+			> li > a {
+				color: @btn-warning-color;
+			}
+			> li > a:hover {
+				background-color: darken(@btn-warning-bg, 8%);
+			}
+		}
+		&.btn-danger ~ .dropdown-menu {
+			background-color: @btn-danger-bg;
+			border-color: @btn-danger-border;
+
+			> li > a {
+				color: @btn-danger-color;
+			}
+			> li > a:hover {
+				background-color: darken(@btn-danger-bg, 8%);
+			}
+		}
+	}
+}
+
+// Typography =================================================================
+
+p {
+	margin: 0 0 @line-height-computed*.8
+}
+em {
+	h1 &, .h1 &, h2 &, .h2 &, h3 &, .h3 &, h4 &, .h4 &, h5 &, .h5 &, h6 &, .h6 &, .lead & {
+		color: @accent-1;
+		font-weight: 800;
+	}
+}
+h4, .h4, h5, .h5, h6, .h6 {
+	margin-top: @line-height-computed*.8;
+}
+.lead {
+	color: @gray-light;
+}
+cite {
+	font-style: italic;
+}
+blockquote {
+	color: @gray;
+	padding: 2rem 1rem 2rem 2rem;
+	margin-bottom: @line-height-computed*.8;
+
+	&.pull-right {
+		border-right-width: 5px;
+		padding: 2rem 2rem 2rem 1rem;
+	}
+
+	&.pull-right,
+	&.pull-left {
+		width: 100%;
+
+		@media (min-width:@grid-float-breakpoint) {
+			width: 55%;
+		}
+	}
+	small {
+		font-size: @font-size-small;
+		font-weight: 300;
+	}
+}
+.pull-quote {
+	&:extend(blockquote all);
+	margin-top: @line-height-computed*.8;
+	margin-bottom: @line-height-computed*.8;
+}
+code, pre {
+	text-shadow: none;
+}
+pre {
+	text-align: left;
+}
+.page-header {
+	padding-bottom: 0;
+	margin: 0 0 @line-height-computed;
+	border-bottom: 0;
+
+	.page-title {
+		margin-top: 0;
+	}
+}
+
+// Dividers ===================================================================
+
+hr {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+
+	&.small {
+		width: 75px;
+		margin: 3rem auto 4rem;
+		border-top: solid 4px rgba(0,0,0,0.05);
+	}
+
+	@media screen and (min-width:@screen-sm-min) {
+		margin-top: 5rem;
+		margin-bottom: 5rem;
+	}
+
+
+}
+
+// Images =====================================================================
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+// Tables =====================================================================
+
+table {
+	font-size: @font-size-small;
+}
+
+// Forms ======================================================================
+
+label, .control-label, .help-block, .checkbox, .radio {
+	font-size: @font-size-small;
+	font-weight: normal;
+}
+.form-control, input[type='text'], input[type='email'], input[type='password'], textarea, select {
+	.box-shadow(inset 0 1px 1px rgba(0,0,0,0.035));
+}
+input[type='text'], input[type='email'], input[type='password'], textarea, select {
+	// gives default .form-control styles to native inputs without extra class
+	&:extend(.form-control);
+	&:hover:extend(.form-control:hover) {
+		border-color: darken(@input-border, 12%);
+	}
+	&:focus:extend(.form-control:focus) {
+		border-color: @accent-2;
+	}
+	// gives default large input styles to native inputs without .form-control class
+	&.input-lg:extend(.input-lg) { }
+	// gives default small input styles to native inputs without .form-control class
+	&.input-sm:extend(.input-sm) { }
+}
+button, input[type='button'], input[type='submit'] {
+	// gives default .btn styles to native buttons
+	&:extend(.btn all);
+}
+input[type='submit']:extend(.btn-primary all) {
+	// gives default submit buttons primary color
+}
+.help-block {
+	color: @gray-light;
+}
+.form-control:focus, .has-warning .form-control:focus, .has-error .form-control:focus, .has-success .form-control:focus {
+	.box-shadow(none);
+}
+
+// Navs =======================================================================
+
+.nav {
+	.open > a, .open > a:hover, .open > a:focus {
+		border-color: transparent;
+	}
+	&-tabs {
+		> li > a {
+			background-color: @btn-default-bg;
+			color: @text-color;
+			margin-right: 3px;
+		}
+		.caret {
+			border-top-color: @text-color;
+			border-bottom-color: @text-color;
+		}
+	}
+	&-pills {
+		font-weight: 300;
+	}
+	&-justified {
+		// Justified 'default' navigation, not tabs or pills style
+		&:not([class*='nav-pills']):not([class*='nav-tabs']) {
+			background: @nav-link-hover-bg;
+			border: 1px solid @nav-tabs-justified-link-border-color;
+			border-radius: @nav-pills-border-radius;
+
+			> li > a {
+				color: @text-color;
+
+				&:hover {
+					background: darken(@nav-link-hover-bg, 5%);
+				}
+			}
+		}
+	}
+}
+.breadcrumb {
+	font-size: @font-size-small;
+}
+.pagination {
+	border-radius: @border-radius-base;
+
+	&-lg > li > a {
+		padding-left: 22px;
+		padding-right: 22px;
+	}
+	&-sm > li > a {
+		padding: 0 5px;
+	}
+}
+.pager {
+	font-size: @font-size-small;
+}
+.list-group {
+	font-weight: 300;
+}
+
+// Dropdowns ==================================================================
+
+// all dropdowns (nav, navbar, button, etc.)
+.dropdown-menu {
+	.box-shadow(0 7px 10px rgba(0,0,0,.2));
+}
+
+// Indicators =================================================================
+
+.close {
+	opacity: 0.4;
+	text-decoration: none;
+	text-shadow: none;
+
+	&:hover, &:focus {
+		opacity: 1;
+	}
+}
+.alert {
+	font-weight: 300;
+	border-width: 2px;
+	border-radius: 0;
+
+	.alert-link {
+		font-weight: normal;
+		color: #fff;
+		text-decoration: underline;
+	}
+	a:extend(.alert .alert-link all) {
+	}
+}
+.label {
+	padding-left: 1em;
+	padding-right: 1em;
+
+	&-default {
+		background-color: @btn-default-bg;
+		color: @btn-default-color;
+	}
+}
+
+// Progress bars ==============================================================
+
+.progress {
+	.box-shadow(none);
+}
+
+// Tooltips ===================================================================
+
+.tooltip {
+	min-width: 200px;
+	// max-width: @tooltip-max-width;
+
+	.tooltip-inner {
+		min-width: 200px;
+		// max-width: @tooltip-max-width;
+		padding: 1rem 1rem;
+		text-align: center;
+	}
+}
+
+// Containers =================================================================
+
+.dropdown {
+	&-menu {
+		padding: 0;
+		margin-top: 0;
+		font-size: @font-size-small;
+
+		> li > a {
+			padding: @nav-link-padding;
+		}
+	}
+	&-header {
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size: 10px;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+}
+.popover {
+	color: #fff;
+	font-size: 12px;
+	font-weight: 300;
+}
+.panel {
+	&-heading, &-footer {
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+	}
+	&-default {
+		.close {
+			color: @text-color;
+		}
+	}
+}
+.modal {
+	&-content {
+		border-radius: 3px;
+
+		@media (min-width:@grid-float-breakpoint) {
+			.box-shadow(0 2px 20px rgba(0, 0, 0, 0.4));
+		}
+	}
+	.close {
+		color: @text-color;
+	}
+}
+
+// Carousel ===================================================================
+
+.carousel {
+	width: 100%;
+	height: 100%;
+
+	&-inner {
+		width: 100%;
+		height: 100%;
+
+		> .item {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	&-indicators li {
+		margin: 3px;
+
+		&.active {
+			margin: 2px;
+		}
+	}
+	&:hover {
+		.carousel-controls {
+			opacity: 1;
+		}
+	}
+	&-controls {
+		position: absolute;
+		top: 50%;
+		width: 100%;
+		height: @carousel-control-font-size*2.5;
+		margin-top: @carousel-control-font-size*-1.25;
+		overflow: hidden;
+		opacity: 0;
+		.transition(opacity .25s linear .4s);
+
+		.container, .container-fluid {
+			position: relative;
+		}
+		// Control positioning in full width (requires parent element .carousel-contols)
+		.carousel-control {
+			&.left, &.right {
+				top: @carousel-control-font-size*.25;
+				margin-top: 0;
+			}
+			&.left {
+				margin-left: @carousel-control-font-size*-2.5;
+			}
+			&.right {
+				margin-right: @carousel-control-font-size*-2.5;
+			}
+		}
+	}
+	&-control {
+		@media screen and (min-width:@screen-sm-min) {
+			// Scale up the controls a smidge
+			.glyphicon-chevron-left, .glyphicon-chevron-right, .icon-prev, .icon-next {
+				width: @carousel-control-font-size;
+				height: @carousel-control-font-size;
+				margin-top: -@carousel-control-font-size/2;
+				font-size: @carousel-control-font-size;
+			}
+		}
+		&.left, &.right {
+			display: inline-block;
+			width: @carousel-control-font-size*2;
+			height: @carousel-control-font-size*2;
+			// top: @carousel-control-font-size*.25;
+			box-shadow: @carousel-text-shadow;
+			border: 1px solid @carousel-control-color;
+			border-radius: @carousel-control-font-size*2;
+			.transition(opacity .1s linear 0s);
+			position: absolute;
+			top: 50%;
+			margin-top: -28px;
+		}
+		&.left {
+			margin-left: @carousel-control-font-size;
+		}
+		&.right {
+			margin-right: @carousel-control-font-size;
+		}
+		// Set gradients for backgrounds
+		&.left, &.right {
+			background-image: none;
+			background-repeat: no-repeat;
+
+			&:hover, &:focus {
+				background-image: none;
+				background-repeat: no-repeat;
+			}
+		}
+	}
+	&-caption {
+		left: auto;
+		right: auto;
+		width: 100%;
+		text-align: left;
+		text-shadow: none;
+		z-index: 0;
+
+		@media (min-width:@screen-sm-min) {
+			margin-bottom: 30px;
+			padding-bottom: 20px;
+		}
+	}
+}
+
+// Cover ======================================================================
+
+html.cover {
+	height: 100%;
+	margin-top: 0 !important; // Because of WP navbar
+}
+.cover {
+	body {
+		height: 100%;
+		vertical-align: top;
+	}
+	#header {
+		margin-top: 0;
+
+		&:not(.cover-with-page) {
+			margin-bottom: 0;
+		}
+	}
+	#header, &-wrapper {
+		display: table;
+		width: 100%;
+		height: 100%; /* For at least Firefox */
+		min-height: 100%;
+		background-color: @gray;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: 50%;
+	}
+	&-container {
+		display: table-cell;
+		color: #fff;
+		text-align: center;
+		vertical-align: middle;
+		width: 100%;
+
+		/* Must be percentage or pixels for horizontal alignment */
+		&.overlay {
+			background-color: rgba(0, 0, 0, .6);
+			.box-shadow(inset 0 0 100px rgba(0, 0, 0, .5));
+		}
+
+		/* Full screen carousel inside cover */
+		.carousel {
+			display: table;
+			position: static;
+			overflow: hidden;
+
+			&-inner {
+				display: table-row;
+				position: absolute;
+				top: 0;
+
+				> .item {
+					position: absolute;
+					width: 100%;
+					height: 100%;
+				}
+			}
+			&-controls {
+				position: absolute;
+				top: 50%;
+				width: 100%;
+
+				.container {
+					position: absolute;
+					width: 100%
+				}
+				.left {
+					margin-left: 0;
+					left: 40px;
+				}
+				.right {
+					margin-right: 0;
+					right: 40px;
+				}
+			}
+		}
+	}
+	&-inner {
+		text-shadow: @carousel-text-shadow; // 0 1px 2px rgba(0, 0, 0, .5);
+
+		.lead {
+			color: @carousel-caption-color;
+		}
+	}
+}
+
+// Responsive Menu Breakpoint =================================================
+@media (max-width: @screen-md-max) {
+
+	#MainMenu .container-fluid {
+		max-width: @screen-md-max;
+	}
+
+	.navbar {
+		& > .container,
+		& > .container-fluid {
+			&.collapse-md {
+				& .navbar-brand {
+					margin-left: 0;
+				}
+			}
+		}
+	}
+
+	.collapse-md {
+
+		&.container {
+			&,
+			&-fluid {
+
+				& > .navbar {
+					&-header,
+					&-collapse {
+						margin-left: -@navbar-padding-horizontal;
+						margin-right: -@navbar-padding-horizontal;
+					}
+				}
+			}
+		}
+		.navbar {
+
+			&-header {
+				float: none;
+			}
+
+			&-left, &-right {
+				float: none !important;
+			}
+
+			&-toggle {
+				display: block;
+			}
+
+			&-fixed-top & {
+				top: 0;
+				border-width: 0 0 1px;
+			}
+
+			&-collapse {
+				border-top: 1px solid transparent;
+				box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+				&.collapse {
+					display: none !important;
+
+					&.in {
+						display: block !important;
+						overflow-y: auto !important;
+						overflow-x: hidden !important;
+					}
+				}
+
+				&.collapsing {
+					overflow-x: hidden !important;
+				}
+
+				// Make sure collapsed navbar has bg color for menu
+				#MainMenu & {
+					// .transition(background .01s ease 0s);
+					background: fade(@navbar-default-bg, 100%);
+				}
+
+				.dropdown-submenu > a.dropdown-toggle:after,
+				.dropdown-submenu > a.dropdown-toggle:hover:after {
+					position: relative;
+					border-width: 4px 4px 0 4px;
+					border-color: transparent;
+					border-top-color: #FFFFFF !important;
+					margin: 11px 0 0 4px;
+					left: 6px;
+					top: -1px;
+					right: auto;
+				}
+			}
+
+			&-nav {
+				float: none !important;
+				margin-top: 7.5px;
+
+				& > li {
+					float: none;
+				}
+
+				& .open .dropdown-menu {
+					position: static;
+					float: none;
+					width: auto;
+					margin-top: 0;
+					background-color: transparent;
+					border: 0;
+					box-shadow: none;
+				}
+			}
+
+			&-nav,
+			&-nav>li>a {
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+		}
+	}
+}

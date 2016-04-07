@@ -1,0 +1,28 @@
+@import "bootstrap/bootstrap.less";
+@import "variables.less";
+
+// base units
+@base-increment:            8; // the increment for rem values
+
+// in page navbar
+@container-navbar-height:                    58px;
+@container-navbar-padding-vertical:          ((@container-navbar-height - @line-height-computed) / 2);
+
+// Extra top navbar area
+@extra-top-navbar-height:                    48px;
+@extra-top-navbar-padding-vertical:          ((@extra-top-navbar-height - @line-height-computed) / 2);
+
+// Custom color variables
+@text-shadow: 			    0 1px 1px rgba(0,0,0,0.7);
+@accent-1:                  @brand-primary;
+@accent-2:                  @brand-success;
+@accent-3:                  #363c48;
+@accent-1-text-color:       #fff;
+@accent-2-text-color:       #fff;
+@accent-3-text-color:       #fff;
+@gray-lighter-er:           #f5f6f6;
+@font-size-xs:              ceil(@font-size-small * .9);
+
+@import "helpers.less";
+@import "modifiers.less";
+@import "wordpress.less";

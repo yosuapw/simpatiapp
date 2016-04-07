@@ -16,6 +16,9 @@
 
 package controllers;
 
+import java.util.List;
+
+import model.DailyTour;
 import ninja.Result;
 import ninja.Results;
 
@@ -55,6 +58,11 @@ public class ApplicationController {
         return Results.json().render(result);
     }
     
+	public Result getAll() {
+		List<DailyTour> result = dailyTourDAO.getAll();
+		return Results.json().render(result);
+	}
+
     public static class SimplePojo {
 
         public String content;
