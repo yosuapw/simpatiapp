@@ -1,5 +1,8 @@
 package model;
 
+import org.mongodb.morphia.annotations.Entity;
+
+@Entity("dailyTour")
 public class DailyTour {
     
     private Price prices;
