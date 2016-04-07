@@ -19,6 +19,9 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import dao.DailyTourDAO;
+import dao.DailyTourDAOImpl;
+
 @Singleton
 public class Module extends AbstractModule {
     
@@ -26,6 +29,9 @@ public class Module extends AbstractModule {
     protected void configure() {
         
         // bind your injections here!
+
+        bind(DailyTourDAO.class).to(DailyTourDAOImpl.class);
+        
         
     }
 

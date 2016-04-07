@@ -19,11 +19,21 @@ package controllers;
 import ninja.Result;
 import ninja.Results;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import dao.DailyTourDAO;
 
 
 @Singleton
 public class ApplicationController {
+    
+    DailyTourDAO dailyTourDAO;
+    
+    @Inject
+    public ApplicationController(DailyTourDAO dailyTourDAO) {
+        this.dailyTourDAO = dailyTourDAO;
+    }
 
     public Result index() {
 
@@ -38,6 +48,11 @@ public class ApplicationController {
 
         return Results.json().render(simplePojo);
 
+    }
+    
+    public Result testJson() {
+        long result = dailyTourDAO.countAll();
+        return Results.json().render(result);
     }
     
     public static class SimplePojo {

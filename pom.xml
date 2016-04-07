@@ -191,6 +191,11 @@
             <version>${ninja.version}</version>
         </dependency>
         <dependency>
+    		<groupId>net.binggl</groupId>
+   			<artifactId>ninja-mongodb-module</artifactId>
+    		<version>1.0.6</version>
+		</dependency>
+        <dependency>
             <groupId>org.ninjaframework</groupId>
             <artifactId>ninja-test-utilities</artifactId>
             <version>${ninja.version}</version>
