@@ -117,23 +117,8 @@
                     </filters>
                 </configuration>
                 <executions>
-                    <execution>
-                        <phase>package2</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ninja.standalone.NinjaJetty</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
                      <execution>
+                        <id>package</id>
          				 <phase>package</phase>
     				     	<goals><goal>copy</goal></goals>
          					 	<configuration>
@@ -169,11 +154,6 @@
         </resources>
     </build>
     <dependencies>
-	    <dependency>
-		    <groupId>net.binggl</groupId>
-		    <artifactId>ninja-mongodb-module</artifactId>
-		    <version>1.0.6</version>
-		</dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
