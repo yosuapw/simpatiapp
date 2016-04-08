@@ -99,7 +99,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
+         <!--   <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.2</version>
@@ -117,8 +117,7 @@
                     </filters>
                 </configuration>
                 <executions>
-                <!--     <execution>
-                        <id>package</id>
+                    <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
@@ -133,24 +132,30 @@
                                 </transformer>
                             </transformers>
                         </configuration>
-                    </execution>-->
-                    <execution>
-                        <id>package2</id>
-         				 <phase>package</phase>
-    				     	<goals><goal>copy</goal></goals>
-         					 	<configuration>
-            						<artifactItems>
-              							<artifactItem>
-               								 <groupId>org.mortbay.jetty</groupId>
-                						<artifactId>jetty-runner</artifactId>
-                						<version>7.5.4.v20111024</version>
-                						<destFileName>jetty-runner.jar</destFileName>
-             							</artifactItem>
-            						</artifactItems>
-          						</configuration>
-        				</execution> 
+                    </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
+            <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-dependency-plugin</artifactId>
+		      <version>2.3</version>
+		      <executions>
+		        <execution>
+		          <phase>package</phase>
+		          <goals><goal>copy</goal></goals>
+		          <configuration>
+		            <artifactItems>
+		              <artifactItem>
+		                <groupId>org.eclipse.jetty</groupId>
+		                <artifactId>jetty-runner</artifactId>
+		                <version>9.3.3.v20150827</version>
+		                <destFileName>jetty-runner.jar</destFileName>
+		              </artifactItem>
+		            </artifactItems>
+		          </configuration>
+		        </execution>
+		       </executions>
+		    </plugin>
         </plugins>
         <resources>
             <resource>
