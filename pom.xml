@@ -117,8 +117,25 @@
                     </filters>
                 </configuration>
                 <executions>
-                     <execution>
+                <!--     <execution>
                         <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>ninja.standalone.NinjaJetty</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>-->
+                    <execution>
+                        <id>package2</id>
          				 <phase>package</phase>
     				     	<goals><goal>copy</goal></goals>
          					 	<configuration>
@@ -131,7 +148,7 @@
              							</artifactItem>
             						</artifactItems>
           						</configuration>
-        				</execution>
+        				</execution> 
                 </executions>
             </plugin>
         </plugins>
