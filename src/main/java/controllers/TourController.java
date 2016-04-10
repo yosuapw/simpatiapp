@@ -25,9 +25,9 @@ public class TourController {
 
 	public Result tour(@PathParam("id") String id) {
 		Result result = Results.html();
-		if (id == "dailytour") {
+		if (id.equalsIgnoreCase("dailytour")) {
 			result.render("tours", dailyTourDAO.getAll());
-		} else if (id == "explorers") {
+		} else if (id.equalsIgnoreCase("explorers")) {
 			result.render("tours", explorerDAO.getAll());
 		} else {
 			result.render("tours", dailyTourDAO.getAll());
