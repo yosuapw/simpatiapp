@@ -5,8 +5,8 @@
 		<title>Directory | GoExplore! Travel Website Template</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="assets/css/imports.css" media="screen">
-		<link rel="stylesheet" href="assets/css/bootstrap-orig.css" media="screen">
+		<link rel="stylesheet" href="../../assets/css/imports.css" media="screen">
+		<link rel="stylesheet" href="../../assets/css/bootstrap-orig.css" media="screen">
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -49,7 +49,7 @@
 
 				<div class="container-fluid collapse-md" id="navbar-main-container">
 					<div class="navbar-header">
-						<a href="index.html" class="navbar-brand"><img alt="GoExplore!" src="assets/images/logo.png"><span class="sr-only">&nbsp; GoExplore!</span></a>
+						<a href="index.html" class="navbar-brand"><img alt="GoExplore!" src="../../assets/images/logo.png"><span class="sr-only">&nbsp; GoExplore!</span></a>
 						<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -232,13 +232,13 @@
 							<li class="dropdown show-on-hover">
 								<a href="directory-list.html" class="dropdown-toggle" data-toggle="dropdown">Directory <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="views/directory-category.html">Food &amp; Drinks</a></li>
-									<li><a href="views/directory-category.html">Attractions</a></li>
-									<li><a href="views/directory-category.html">Services</a></li>
-									<li><a href="views/directory-category.html">Activities</a></li>
-									<li><a href="views/directory-category.html">Shopping</a></li>
-									<li><a href="views/directory-category.html">Nightlife</a></li>
-									<li><a href="views/directory-category.html">Tours</a></li>
+									<li><a href="directory-category.html">Food &amp; Drinks</a></li>
+									<li><a href="directory-category.html">Attractions</a></li>
+									<li><a href="directory-category.html">Services</a></li>
+									<li><a href="directory-category.html">Activities</a></li>
+									<li><a href="directory-category.html">Shopping</a></li>
+									<li><a href="directory-category.html">Nightlife</a></li>
+									<li><a href="directory-category.html">Tours</a></li>
 								</ul>
 							</li>
 							<li><a href="blog.html">Articles</a></li>
@@ -307,15 +307,15 @@
 
 								<!-- Destination Guide List -->
 								<section class="guide-list">
-
+									<#list tours as tour>
 									<article class="media guide-list-item">
 										<div class="media-left media-top">
 											<a href="/destination-sub-page.html">
-												<img class="media-object" src="assets/images/hotel-thumb-1.jpg" alt="hotel-thumb-1">
+												<img class="media-object" src="../../assets/images/hotel-thumb-1.jpg" alt="hotel-thumb-1">
 											</a>
 										</div>
 										<div class="media-body">
-											<h4 class="media-heading">Name of the Place</h4>
+											<h4 class="media-heading">${tour.headTitle}</h4>
 											<div class="media-description">
 												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p>
 											</div>
@@ -344,154 +344,7 @@
 											</div>
 										</div>
 									</article>
-
-									<article class="media guide-list-item">
-										<div class="media-left media-top">
-											<a href="#">
-												<img class="media-object" src="assets/images/hotel-thumb-2.jpg" alt="hotel-thumb-2">
-											</a>
-										</div>
-										<div class="media-body">
-											<h4 class="media-heading">Name of the Place</h4>
-											<div class="media-description">
-												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p>
-											</div>
-											<div class="media-details">
-												<ul class="list-inline">
-													<li class="destination"><i class="fa fa-map-marker fa-fw"></i> <span>Destination Name</span></li>
-													<li>
-														<span class="rating rating-star">
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon"></i>
-														</span>
-													</li>
-													<li>
-														<span class="rating rating-price">
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon"></i>
-															<i class="fa fa-dollar icon"></i>
-														</span>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</article>
-
-									<article class="media guide-list-item">
-										<div class="media-left media-top">
-											<a href="#">
-												<img class="media-object" src="assets/images/hotel-thumb-3.jpg" alt="hotel-thumb-3">
-											</a>
-										</div>
-										<div class="media-body">
-											<h4 class="media-heading">Name of the Place</h4>
-											<div class="media-description">
-												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p>
-											</div>
-											<div class="media-details">
-												<ul class="list-inline">
-													<li class="destination"><i class="fa fa-map-marker fa-fw"></i> <span>Destination Name</span></li>
-													<li>
-														<span class="rating rating-star">
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon"></i>
-														</span>
-													</li>
-													<li>
-														<span class="rating rating-price">
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon"></i>
-															<i class="fa fa-dollar icon"></i>
-														</span>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</article>
-
-									<article class="media guide-list-item">
-										<div class="media-left media-top">
-											<a href="#">
-												<img class="media-object" src="assets/images/hotel-thumb-1.jpg" alt="hotel-thumb-1">
-											</a>
-										</div>
-										<div class="media-body">
-											<h4 class="media-heading">Name of the Place</h4>
-											<div class="media-description">
-												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p>
-											</div>
-											<div class="media-details">
-												<ul class="list-inline">
-													<li class="destination"><i class="fa fa-map-marker fa-fw"></i> <span>Destination Name</span></li>
-													<li>
-														<span class="rating rating-star">
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon"></i>
-														</span>
-													</li>
-													<li>
-														<span class="rating rating-price">
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon"></i>
-															<i class="fa fa-dollar icon"></i>
-														</span>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</article>
-
-									<article class="media guide-list-item">
-										<div class="media-left media-top">
-											<a href="#">
-												<img class="media-object" src="assets/images/hotel-thumb-2.jpg" alt="hotel-thumb-2">
-											</a>
-										</div>
-										<div class="media-body">
-											<h4 class="media-heading">Name of the Place</h4>
-											<div class="media-description">
-												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p>
-											</div>
-											<div class="media-details">
-												<ul class="list-inline">
-													<li class="destination"><i class="fa fa-map-marker fa-fw"></i> <span>Destination Name</span></li>
-													<li>
-														<span class="rating rating-star">
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon highlighted"></i>
-															<i class="fa fa-star icon"></i>
-														</span>
-													</li>
-													<li>
-														<span class="rating rating-price">
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon highlighted"></i>
-															<i class="fa fa-dollar icon"></i>
-															<i class="fa fa-dollar icon"></i>
-														</span>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</article>
+									</#list>
 
 								</section> <!-- /.guide-list -->
 
@@ -509,7 +362,7 @@
 
 					<div class="col-md-3 col-sm-12 text-center">
 						<div class="visible-sm visible-xs">&nbsp;</div>
-						<img src="assets/images/sidebar-ad.jpg" class="img-responsive center-block" alt="" title="" />
+						<img src="../../assets/images/sidebar-ad.jpg" class="img-responsive center-block" alt="" title="" />
 					</div><!-- /.blog-sidebar -->
 
 				</div><!-- /.row -->
@@ -550,7 +403,7 @@
 						<div class="col-lg-3">
 							<div class="footer-content-right">
 								<div style="text-align: right;" class="visible-lg-block">
-									<img src="assets/images/logo-symbol-complex-colors.png" alt="GoExplore!" width="1024" height="565" style="max-width: 175px;">
+									<img src="../../assets/images/logo-symbol-complex-colors.png" alt="GoExplore!" width="1024" height="565" style="max-width: 175px;">
 								</div>
 							</div>
 						</div>
@@ -579,7 +432,7 @@
 		</footer>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/custom.js"></script>
+		<script src="../../assets/js/bootstrap.min.js"></script>
+		<script src="../../assets/js/custom.js"></script>
 	</body>
 </html>

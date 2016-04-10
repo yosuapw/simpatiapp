@@ -21,6 +21,8 @@ import com.google.inject.Singleton;
 
 import dao.DailyTourDAO;
 import dao.DailyTourDAOImpl;
+import dao.ExplorerDAO;
+import dao.ExplorerDAOImpl;
 
 @Singleton
 public class Module extends AbstractModule {
@@ -31,6 +33,8 @@ public class Module extends AbstractModule {
         // bind your injections here!
 
         bind(DailyTourDAO.class).to(DailyTourDAOImpl.class);
+
+		bind(ExplorerDAO.class).to(ExplorerDAOImpl.class);
         
         
     }

@@ -16,13 +16,6 @@ public class DailyTourDAOImpl implements DailyTourDAO {
         this.mongoDB = mongoDB;
     }
 
-
-    @Override
-    public long countAll() {
-        // TODO Auto-generated method stub
-        return mongoDB.countAll(DailyTour.class);
-    }
-
 	@Override
 	public List<DailyTour> getAll() {
 		// TODO Auto-generated method stub

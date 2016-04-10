@@ -18,18 +18,33 @@ package conf;
 
 
 import ninja.AssetsController;
+import ninja.Results;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
 import controllers.ApplicationController;
+import controllers.TourController;
 
 public class Routes implements ApplicationRoutes {
 
     @Override
     public void init(Router router) {  
-        
-        router.GET().route("/").with(ApplicationController.class, "index");
+		router.GET().route("/").with(Results.html().template("/views/index.html"));
+		/*
+		 * router.GET().route("/tours")
+		 * .with(Results.html().template("/views/directory-list.html"));
+		 */
+		router.GET().route("/tours/{id}")
+				.with(TourController.class, "tour");
+
+		/*
+		 * router.GET().route("/tours/explorers") .with(TourController.class,
+		 * "explorers");
+		 */
+
+		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
-        router.GET().route("/hello_world3.json").with(ApplicationController.class, "testJson");
+		// router.GET().route("/hello_world3.json").with(ApplicationController.class,
+		// "testJson");
 		router.GET().route("/dailytour/list.json")
 				.with(ApplicationController.class, "getAll");
         

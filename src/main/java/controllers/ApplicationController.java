@@ -53,11 +53,11 @@ public class ApplicationController {
 
     }
     
-    public Result testJson() {
-        long result = dailyTourDAO.countAll();
-        return Results.json().render(result);
-    }
-    
+	/*
+	 * public Result testJson() { long result = dailyTourDAO.countAll(); return
+	 * Results.json().render(result); }
+	 */
+
 	public Result getAll() {
 		List<DailyTour> result = dailyTourDAO.getAll();
 		return Results.json().render(result);
