@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import ninja.Result;
 import ninja.Results;
 import ninja.params.PathParam;
@@ -25,9 +29,16 @@ public class TourController {
 
 	public Result tour(@PathParam("id") String id) {
 		Result result = Results.html();
-		if (id.equalsIgnoreCase("dailytour")) {
+		result.render("state", id);
+		if (id.equalsIgnoreCase("all")) {
+			List<Object> lstObject = new ArrayList<Object>();
+			lstObject.addAll(dailyTourDAO.getAll());
+			lstObject.addAll(explorerDAO.getAll());
+			Collections.shuffle(lstObject);
+			result.render("tours", lstObject);
+		} else if (id.equalsIgnoreCase("dailytour")) {
 			result.render("tours", dailyTourDAO.getAll());
-		} else if (id.equalsIgnoreCase("explorers")) {
+		} else if (id.equalsIgnoreCase("explorer")) {
 			result.render("tours", explorerDAO.getAll());
 		} else {
 			result.render("tours", dailyTourDAO.getAll());
