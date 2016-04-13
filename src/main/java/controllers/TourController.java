@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import model.DailyTour;
+import model.Explorer;
 import ninja.Result;
 import ninja.Results;
+import ninja.cache.NinjaCache;
 import ninja.params.PathParam;
 
 import com.google.inject.Inject;
@@ -20,28 +23,42 @@ public class TourController {
 	DailyTourDAO dailyTourDAO;
 
 	ExplorerDAO explorerDAO;
+	
+	NinjaCache ninjaCache;
 
 	@Inject
-	public TourController(DailyTourDAO dailyTourDAO, ExplorerDAO explorerDAO) {
+	public TourController(DailyTourDAO dailyTourDAO, ExplorerDAO explorerDAO, NinjaCache ninjaCache) {
 		this.dailyTourDAO = dailyTourDAO;
 		this.explorerDAO = explorerDAO;
+		this.ninjaCache = ninjaCache;
 	}
 
 	public Result tour(@PathParam("id") String id) {
 		Result result = Results.html();
+		List<DailyTour> dailyTours = ninjaCache.get("dailyTours", List.class);
+		List<Explorer> explorers = ninjaCache.get("explorers", List.class);
 		result.render("state", id);
 		if (id.equalsIgnoreCase("all")) {
 			List<Object> lstObject = new ArrayList<Object>();
-			lstObject.addAll(dailyTourDAO.getAll());
-			lstObject.addAll(explorerDAO.getAll());
+			
+			if (dailyTours == null) dailyTours = dailyTourDAO.getAll();
+			lstObject.addAll(dailyTours);
+			
+			if (explorers == null) explorers = explorerDAO.getAll();
+            lstObject.addAll(explorers);
+            
 			Collections.shuffle(lstObject);
 			result.render("tours", lstObject);
+			
 		} else if (id.equalsIgnoreCase("dailytour")) {
-			result.render("tours", dailyTourDAO.getAll());
+		    if (dailyTours == null) dailyTours = dailyTourDAO.getAll();
+			result.render("tours", dailyTours);
 		} else if (id.equalsIgnoreCase("explorer")) {
-			result.render("tours", explorerDAO.getAll());
+		    if (explorers == null) explorers = explorerDAO.getAll();
+			result.render("tours", explorers);
 		} else {
-			result.render("tours", dailyTourDAO.getAll());
+            if (dailyTours == null) dailyTours = dailyTourDAO.getAll();
+			result.render("tours", dailyTours);
 		}
 		return result;
 	}
