@@ -35,33 +35,45 @@ public class TourController {
 
 	public Result tour(@PathParam("id") String id) {
 		Result result = Results.html();
-		List<DailyTour> dailyTours = ninjaCache.get("dailyTours", List.class);
-		List<Explorer> explorers = ninjaCache.get("explorers", List.class);
 		result.render("state", id);
+		
 		if (id.equalsIgnoreCase("all")) {
 			List<Object> lstObject = new ArrayList<Object>();
-			
-			if (dailyTours == null) dailyTours = dailyTourDAO.getAll();
-			lstObject.addAll(dailyTours);
-			
-			if (explorers == null) explorers = explorerDAO.getAll();
-            lstObject.addAll(explorers);
+			lstObject.addAll(getDailyTours());
+            lstObject.addAll(getExplorers());
             
 			Collections.shuffle(lstObject);
 			result.render("tours", lstObject);
 			
 		} else if (id.equalsIgnoreCase("dailytour")) {
-		    if (dailyTours == null) dailyTours = dailyTourDAO.getAll();
-			result.render("tours", dailyTours);
+			result.render("tours", getDailyTours());
 		} else if (id.equalsIgnoreCase("explorer")) {
-		    if (explorers == null) explorers = explorerDAO.getAll();
-			result.render("tours", explorers);
+			result.render("tours", getExplorers());
 		} else {
-            if (dailyTours == null) dailyTours = dailyTourDAO.getAll();
-			result.render("tours", dailyTours);
+			result.render("tours", getDailyTours());
 		}
 		return result;
 	}
+	
+	private List<DailyTour> getDailyTours() {
+        List<DailyTour> dailyTours = ninjaCache.get("dailyTours", List.class);
+        if (dailyTours == null) { 
+            dailyTours = dailyTourDAO.getAll();
+            ninjaCache.set("dailyTours", dailyTours);
+        }
+        
+        return dailyTours;
+	}
+    
+    private List<Explorer> getExplorers() {
+        List<Explorer> explorers = ninjaCache.get("explorers", List.class);
+        if (explorers == null) {
+            explorers = explorerDAO.getAll();
+            ninjaCache.set("explorers", explorers);
+        }
+        
+        return explorers;
+    }
 
 	public Result explorer() {
 		Result result = Results.html();
