@@ -1,7 +1,13 @@
 package model;
 
-public class Tour {
-	private String headTitle;
+import java.io.Serializable;
+
+public class Tour  implements Serializable {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 6055850439289300107L;
+    private String headTitle;
 	private String image;
 	private String additionalInfo;
 	private Price prices;
