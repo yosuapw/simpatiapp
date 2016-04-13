@@ -56,6 +56,7 @@ public class TourController {
 	}
 	
 	private List<DailyTour> getDailyTours() {
+	    
         List<DailyTour> dailyTours = ninjaCache.get("dailyTours", List.class);
         if (dailyTours == null) { 
             dailyTours = dailyTourDAO.getAll();
@@ -66,6 +67,7 @@ public class TourController {
 	}
     
     private List<Explorer> getExplorers() {
+        
         List<Explorer> explorers = ninjaCache.get("explorers", List.class);
         if (explorers == null) {
             explorers = explorerDAO.getAll();
