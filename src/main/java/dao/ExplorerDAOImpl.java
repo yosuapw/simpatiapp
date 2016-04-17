@@ -21,4 +21,11 @@ public class ExplorerDAOImpl implements ExplorerDAO {
 		return mongoDB.findAll(Explorer.class);
 	}
 
+	@Override
+	public Explorer findByLink(String link) {
+		// TODO Auto-generated method stub
+		return mongoDB.getDatastore().find(Explorer.class).field("link")
+				.equal(link).get();
+	}
+
 }

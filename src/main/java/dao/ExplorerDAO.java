@@ -7,4 +7,6 @@ import model.Explorer;
 public interface ExplorerDAO {
 
 	List<Explorer> getAll();
+
+	Explorer findByLink(String link);
 }

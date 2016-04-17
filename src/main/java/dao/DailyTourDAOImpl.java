@@ -18,8 +18,14 @@ public class DailyTourDAOImpl implements DailyTourDAO {
 
 	@Override
 	public List<DailyTour> getAll() {
-		// TODO Auto-generated method stub
 		return mongoDB.findAll(DailyTour.class);
+	}
+
+	@Override
+	public DailyTour findByLink(String link) {
+		return mongoDB.getDatastore().find(DailyTour.class).field("link")
+				.equal(link)
+				.get();
 	}
     
 }

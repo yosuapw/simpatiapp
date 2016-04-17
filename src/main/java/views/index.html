@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="../assets/css/imports.css" media="screen">
-		<link rel="stylesheet" href="../assets/css/bootstrap-orig.css" media="screen">
+		<link rel="stylesheet" href="../assets/css/bootstrap.css" media="screen">
 		<link rel="stylesheet" href="../assets/css/owl-carousel.css" media="screen">
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -170,7 +170,42 @@
 								</div>
 							</article>
 						</div>
-					</div> <!-- /.row -->
+					</div>
+		
+					<div data-ng-app='myApp' data-ng-controller='numbersController'>
+						<hr>
+						<div id="separator" data-ng-if="toursData"><h2>All Tours</h2></div>
+						<div id="loading" data-ng-if="!toursData"></div>
+						<div class="row">
+								
+							<div class="col-sm-4" data-ng-repeat='tour in toursData track by $index'>
+								<article class="place-box card">
+									<a href="/tours/{{tour.type}}/{{tour.link}}" class="place-link">
+										<header>
+											<h3 class="entry-title"><i class="fa fa-map-marker"></i>{{tour.headTitle}}</h3> </header>
+										<div class="entry-thumbnail"> <img width="960" height="540" alt="" title="" src="assets/images/destinations-1-960x540.jpg"></div>
+									</a>
+								</article>
+							</div>
+							 <!--   <div class="col-sm-4" data-ng-repeat='tour in toursData track by $index'>
+									<article class="card">
+										<a href="/tours/excursions" class="featured-image" style="background-image: url(../assets/images/featured-destination-2.jpg)">
+											<div class="featured-img-inner"></div>
+										</a>
+										<div class="card-details">
+											<h4 class="card-title"><a data-ng-href="/{{tour.type}}/{{tour.link}}">{{tour.headTitle}}</a></h4>
+											<div class="meta-details clearfix">
+												<ul class="hierarchy">
+													<li><a data-ng-href="/tours/{{tour.type}}/{{tour.link}}">Go to see the ambience of the local people</a></li>
+												</ul>
+											</div>
+										</div>
+									</article>
+							
+							
+							</div>  -->
+						</div> <!-- /.row -->
+					</div>
 				</div>
 			</div>
 		</section>
@@ -270,5 +305,8 @@
 		<script src="../assets/js/bootstrap.min.js"></script>
 		<script src="../assets/js/owl.carousel.min.js"></script>
 		<script src="../assets/js/custom.js"></script>
+		<script src="../assets/js/angular/angular.js"></script>
+		<script src="../assets/js/angular/ng-infinite.js"></script>
+		<script src="../assets/js/angular/numbersController.js"></script>
 	</body>
 </html>

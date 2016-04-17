@@ -230,7 +230,8 @@
 										<div class="media-body">
 											<h4 class="media-heading">${tour.headTitle}</h4>
 											<div class="media-description">
-												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p>
+												<#if tour.line??><p>${tour.line}&hellip;</p><#else>
+												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p></#if>
 											</div>
 											<div class="media-details">
 												<ul class="list-inline">

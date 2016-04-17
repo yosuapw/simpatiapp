@@ -6,4 +6,6 @@ import model.DailyTour;
 
 public interface DailyTourDAO {
 	List<DailyTour> getAll();
+
+	DailyTour findByLink(String link);
 }

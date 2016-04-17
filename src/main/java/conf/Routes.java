@@ -36,6 +36,9 @@ public class Routes implements ApplicationRoutes {
 		router.GET().route("/tours/{id}")
 				.with(TourController.class, "tour");
 
+		router.GET().route("/tours/{id}/{link}")
+				.with(TourController.class, "detail");
+
 		/*
 		 * router.GET().route("/tours/explorers") .with(TourController.class,
 		 * "explorers");
@@ -47,6 +50,14 @@ public class Routes implements ApplicationRoutes {
 		// "testJson");
 		router.GET().route("/dailytour/list.json")
 				.with(ApplicationController.class, "getAll");
+		
+		
+
+		router.GET().route("/service/tours/all")
+				.with(TourController.class, "getAll");
+
+		router.GET().route("/service/tours/{id}/{link}")
+				.with(TourController.class, "findByLink");
         
  
         ///////////////////////////////////////////////////////////////////////

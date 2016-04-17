@@ -1,6 +1,14 @@
 package model;
 
-public class Tour {
+import net.binggl.ninja.mongodb.MorphiaModel;
+
+public class Tour extends MorphiaModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 723189505453315712L;
+	private String link;
+	private String type;
 	private String headTitle;
 	private String image;
 	private String additionalInfo;
@@ -37,5 +45,22 @@ public class Tour {
 	public void setPrices(Price prices) {
 		this.prices = prices;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 
 }

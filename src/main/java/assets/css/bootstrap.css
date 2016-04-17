@@ -9880,3 +9880,11 @@ a.more-link {
 .ninja-forms-response-msg.ninja-forms-success-msg {
   color: #0db4ff;
 }
+
+#loading {
+	 position: absolute; width: 100%; height: 63px; background: url('../images/loading.gif') no-repeat center center;
+}
+
+#separators {
+	 position: absolute; width: 100%; height: 100%;
+}
