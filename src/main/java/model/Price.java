@@ -1,6 +1,13 @@
 package model;
 
-public class Price {
+import java.io.Serializable;
+
+public class Price  implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8394258322963816435L;
+
     private Integer adult;
     
     private Integer children;

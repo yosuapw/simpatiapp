@@ -1,8 +1,14 @@
 package model;
 
-public class Destination {
+import java.io.Serializable;
 
-	private Integer index;
+public class Destination implements Serializable {
+
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -3714698254335976308L;
+    private Integer index;
 	private String title;
 	private String description;
 
