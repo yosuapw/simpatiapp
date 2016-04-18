@@ -77,9 +77,45 @@ public class TourController {
         return explorers;
     }
 
+	private List<Object> getAllTours() {
+
+		List<Object> lstObject = new ArrayList<Object>();
+		lstObject.addAll(dailyTourDAO.getAll());
+		lstObject.addAll(explorerDAO.getAll());
+		Collections.shuffle(lstObject);
+
+		return lstObject;
+	}
+
 	public Result explorer() {
 		Result result = Results.html();
 		result.render("tours", explorerDAO.getAll());
 		return result;
+	}
+	public Result detail(@PathParam("id") String id,
+			@PathParam("link") String link) {
+		Result result = Results.html();
+		
+		if (id.equalsIgnoreCase("dailytour")) {
+			result.render("tour", dailyTourDAO.findByLink(link));
+		} else {
+			result.render("tour", explorerDAO.findByLink(link));
+		}
+		return result;
+	}
+
+	// ** FOR JSON REQUESTS **
+	public Result getAll() {
+		return Results.json().render(getAllTours());
+	}
+
+	public Result findByLink(@PathParam("id") String id,
+			@PathParam("link") String link) {
+
+		if (id.equalsIgnoreCase("dailytour")) {
+			return Results.json().render(dailyTourDAO.findByLink(link));
+		} else {
+			return Results.json().render(explorerDAO.findByLink(link));
+		}
 	}
 }

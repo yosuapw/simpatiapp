@@ -49,7 +49,7 @@
 
 				<div class="container-fluid collapse-md" id="navbar-main-container">
 					<div class="navbar-header">
-						<a href="index.html" class="navbar-brand"><img alt="GoExplore!" src="../../assets/images/logo.png"><span class="sr-only">&nbsp; GoExplore!</span></a>
+						<a href="/" class="navbar-brand"><img alt="GoExplore!" src="../../assets/images/logo.png"><span class="sr-only">&nbsp; GoExplore!</span></a>
 						<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -203,24 +203,26 @@
 					<#if tour.type == 'explorer'>
 					<article class="post">
 						<div class="entry-summary">
-							<#if tour.line??><p class="lead">${tour.line}</p> </#if>
+							<#if tour.line??> <p class="lead">${tour.line};</p> </#if>
 						</div>
 						<div class="entry-content">
 							<p>${tour.information}</p>
 						</div>
-						<#if tour.tourIncluded?? >
-							<article class="page-box">
-								<h3 class="entry-title">Tour Included</h3>
-	
-								<p class="entry-excerpt">${tour.tourIncluded}</p>
-							</article>
+						<#if tour.tourIncluded??>
+							<div class="panel panel-success">
+								<div class="panel-heading"><h4 class="panel-title">Tour Included</h4></div>
+								<div class="panel-body">
+									${tour.tourIncluded}
+								</div>
+							</div>
 						</#if>
 						<#if tour.whatToBring?? >
-							<article class="page-box">
-								<h3 class="entry-title">What to Bring</h3>
-	
-								<p class="entry-excerpt">${tour.whatToBring}</p>
-							</article>
+							<div class="panel panel-warning">
+								<div class="panel-heading"><h4 class="panel-title">What to Bring</h4></div>
+								<div class="panel-body">
+									${tour.whatToBring}
+								</div>
+							</div>
 						</#if>
 					</article>
 					<#elseif tour.type == 'dailyTour'>
@@ -236,33 +238,39 @@
 					<div class="entry-meta">
 						<h3>Price:</h3>
 
-						<div class="byline icon-meta">
-							<span class="posted-on"> <i class="fa fa-tag"></i>
-								<span class="meta-item">Adult: &#8364; ${tour.prices.adult}</span>
-							</span>
-						</div>
-
-						<div class="byline icon-meta">
-							<span class="posted-on"> <i class="fa fa-tag"></i>
-								<span class="meta-item">Children: &#8364; ${tour.prices.children}</span>
-							</span>
-						</div>
-						<div class="byline icon-meta">
-							<span class="posted-on"> <i class="fa fa-asterisk"></i>
-								<span class="meta-item">${tour.prices.additionalInfo}</span>
-						</div>
+						<#if tour.prices.adult??>
+							<div class="byline icon-meta">
+								<span class="posted-on"> <i class="fa fa-tag"></i>
+									<span class="meta-item">Adult: &#8364; ${tour.prices.adult}</span>
+								</span>
+							</div>
+						</#if>
+						<#if tour.prices.children??>
+							<div class="byline icon-meta">
+								<span class="posted-on"> <i class="fa fa-tag"></i>
+									<span class="meta-item">Children: &#8364; ${tour.prices.children}</span>
+								</span>
+							</div>
+						</#if>
+						<#if tour.prices.car??>
+							<div class="byline icon-meta">
+								<span class="posted-on"> <i class="fa fa-tag"></i>
+									<span class="meta-item">Children: &#8364; ${tour.prices.car}</span>
+								</span>
+							</div>
+						</#if>
+						<#if tour.prices.additionalInfo??>
+							<div class="byline icon-meta">
+								<span class="posted-on"> <i class="fa fa-asterisk"></i>
+									<span class="meta-item">${tour.prices.additionalInfo}</span>
+							</div>
+						</#if>
 					</div>
 
 					<div class="sidebar">
 						<div class="sidebar-padder">
 							<div class="widget scg_widget single-post-left widget_text">
-								<div class="textwidget">
-									<hr>
-									<p>Are you a writer? Are you interested in seeing the world, and being paid to do it? Of course you are.
-										<br>
-										<br> <a href="#"><strong>Find our more</strong> <i class="fa fa-arrow-right"></i></a></p>
-									<hr>
-								</div>
+								<button type="button" class="btn btn-primary btn-lg">book now</button>
 							</div>
 						</div>
 					</div>
@@ -271,22 +279,18 @@
 				<div class="sidebar col-xs-12 col-sm-4 col-md-3">
 					<div class="sidebar-padder">
 						<aside id="nav_menu-3" class="widget widget_nav_menu">
-							<h3 class="widget-title">Top Destinations</h3>
+							<h3 class="widget-title">Destinations</h3>
 							<div class="menu-top-destinations-container">
 								<ul id="menu-top-destinations" class="menu">
-									<li class="menu-item"><a href="destination-sub-page.html">London, England</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">Sydney, Australia</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">Chicago, USA</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">San Francisco, USA</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">Toronto, Canada</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">Buenos Aires, Argentina</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">Queenstown, New Zealand</a></li>
-									<li class="menu-item"><a href="destination-sub-page.html">Santorini, Greece</a></li>
+									<li class="menu-item"><a href="/tours/all">All</a></li>
+									<li class="menu-item"><a href="/tours/explorer">Explorer</a></li>
+									<li class="menu-item"><a href="/tours/roundtrip">Round Trip</a></li>
+									<li class="menu-item"><a href="/tours/excursions">Excursions</a></li>
 								</ul>
 							</div>
 						</aside>
 						<aside id="recent-posts-4" class="widget widget_recent_entries">
-							<h3 class="widget-title">From the Blog</h3>
+							<h3 class="widget-title">Top Destinations</h3>
 							<ul>
 								<li> <a href="single-hero.html">Living the Travel Lifestyle</a></li>
 								<li> <a href="single-hero.html">Choosing Your Next Vacation Destination</a></li>
@@ -296,23 +300,6 @@
 								<li> <a href="single-hero.html">Time To Hit The Road</a></li>
 								<li> <a href="single-hero.html">Safety First When Traveling Alone</a></li>
 								<li> <a href="single-hero.html">The Trip of a Lifetime</a></li>
-							</ul>
-						</aside>
-						<aside id="categories-2" class="widget widget_categories">
-							<h3 class="widget-title">Topics</h3>
-							<ul>
-								<li class="cat-item cat-item-48"><a href="destinations.html">Destinations</a>
-									<ul class="children">
-										<li class="cat-item"><a href="destination-parent.html">Europe</a></li>
-										<li class="cat-item"><a href="destination-parent.html">North America</a></li>
-										<li class="cat-item"><a href="destination-parent.html">Oceania</a></li>
-										<li class="cat-item"><a href="destination-parent.html">South America</a></li>
-									</ul>
-								</li>
-								<li class="cat-item"><a href="blog.html">Family Travel</a></li>
-								<li class="cat-item"><a href="blog.html">Travel News</a></li>
-								<li class="cat-item"><a href="blog.html">Travel Planning</a></li>
-								<li class="cat-item"><a href="blog.html">Travel Tips</a></li>
 							</ul>
 						</aside>
 					</div>
