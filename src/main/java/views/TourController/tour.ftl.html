@@ -27,17 +27,17 @@
 					<div class="navbar container-fluid">
 						<ul class="nav navbar-nav navbar-left">
 							<li class="menu-item"><a href="contact.html"><i class="fa fa-envelope"></i> Contact Us</a></li>
-							<li class="menu-item"><a href="#"><i class="fa fa-suitcase"></i> Join the Explorers!</a></li>
-							<li class="menu-item"><a href="login.html"><i class="fa fa-sign-in"></i> Sign in</a></li>
+							<!--<li class="menu-item"><a href="#"><i class="fa fa-suitcase"></i> Join the Explorers!</a></li>
+							<li class="menu-item"><a href="login.html"><i class="fa fa-sign-in"></i> Sign in</a></li> -->
 						</ul>
 						<div class="navbar-top-right">
 							<ul class="nav navbar-nav navbar-right">
-								<li><a href="#"><i class="fa fa-facebook fa-fw"></i></a></li>
+						<!-- 		<li><a href="#"><i class="fa fa-facebook fa-fw"></i></a></li>
 								<li><a href="#"><i class="fa fa-google-plus fa-fw"></i></a></li>
 								<li><a href="#"><i class="fa fa-twitter fa-fw"></i></a></li>
-								<li><a href="#"><i class="fa fa-instagram fa-fw"></i></a></li>
+								<li><a href="#"><i class="fa fa-instagram fa-fw"></i></a></li> -->
 							</ul>
-							<form class="navbar-form navbar-right navbar-search" role="search" action="search.html">
+							<form class="navbar-form navbar-right navbar-search" role="search" action="#">
 								<div class="form-group">
 									<input type="text" class="form-control" placeholder="Search">
 								</div>
@@ -49,7 +49,7 @@
 
 				<div class="container-fluid collapse-md" id="navbar-main-container">
 					<div class="navbar-header">
-						<a href="/" class="navbar-brand"><img alt="GoExplore!" src="../../assets/images/logo.png"><span class="sr-only">&nbsp; GoExplore!</span></a>
+						<a href="/" class="navbar-brand"><img alt="GoExplore!" src="../assets/images/logo.png"><span class="sr-only">&nbsp; GoExplore!</span></a>
 						<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -63,12 +63,13 @@
 								<a href="/tours/dailytour">Daily Tour</a>
 							</li>
 
+							<li><a href="/tours/explorer">Explorer</a></li>
+								
+							<li><a href="/tours/roundtrip">Round Trip</a></li>
+
 							<li class="dropdown show-on-hover">
 								<a href="/tours/excusions">Excursions</a>
 							</li>
-							<li><a href="/tours/roundtrip">Round Trip</a></li>
-
-							<li><a href="/tours/explorer">Explorer</a></li>
 						</ul>
 					</nav>
 				</div><!-- /.container-fluid -->
@@ -82,15 +83,20 @@
 			<div class="bg-overlay">
 				<div class="container">
 					<div class="intro-wrap">
-						<h1 class="intro-title">San Francisco</h1>
+						<#if state == "all"><h1 class="intro-title">All Tours</h1></#if>
+						<#if state == "dailytour"><h1 class="intro-title">Daily Tour</h1></#if>
+						<#if state == "excursions"><h1 class="intro-title">Excursions</h1></#if>
+						<#if state == "roundtrip"><h1 class="intro-title">Round Trip</h1></#if>
+						<#if state == "explorer"><h1 class="intro-title">Explorer</h1></#if>
 						<!-- <div class="intro-text">
 							<p>And more text below if you need it...</p>
 						</div> -->
-						<ul class="breadcrumbs">
-							<!-- <li class="no-arrow"><a href="#" class="destination-context-menu"><i class="fa fa-ellipsis-v"></i><a></li> -->
-							<li class="no-arrow"><i class="icon fa fa-map-marker"></i></li>
-							<li><a href="#">United States</a></li>
-							<li><a href="#">California</a></li>
+						<ul class="breadcrumbs">	
+							<#if state == "all"><li><a href="#">All tours prodived</a></li></#if>
+							<#if state == "explorer"><li><a href="#">Go meet the nature by hiking, snorkeling and other exploration</a></li></#if>
+							<#if state == "dailytour"><li><a href="#">Provide one destination tour</a></li></#if>
+							<#if state == "excursions"><li><a href="#">Look and feel the culture of the local</a></li></#if>
+							<#if state == "roundtrip"><li><a href="#">Enjoy around Bali with a scheduled trip all week long!</a></li></#if>
 						</ul>
 					</div>
 				</div>
@@ -105,13 +111,11 @@
 				<div class="container">
 					<!-- Sub Nav Title -->
 					<div class="navbar-header">
-						<a href="#" class="navbar-brand"><i class="fa fa-fw fa-map-marker"></i> San Francisco</a>
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-sub">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
+						<#if state == "all"><a href="#" class="navbar-brand">All Tours</a></#if>
+						<#if state == "dailytour"><a href="#" class="navbar-brand">Daily Tour</a></h1></#if>
+						<#if state == "excursions"><a href="#" class="navbar-brand">Excursions</a></#if>
+						<#if state == "roundtrip"><a href="#" class="navbar-brand">Round Trip</a></#if>
+						<#if state == "explorer"><a href="#" class="navbar-brand">Explorer</a></#if>
 					</div>
 
 					<!-- Sub Nav Links -->
@@ -192,7 +196,7 @@
 									<#if state == "roundtrip"><li class="active"><a href="/tours/roundtrip">Round Trip</a></li></#if>
 									<#if state != "roundtrip"><li><a href="/tours/roundtrip">Round Trip</a></li></#if>
 									
-									<#if state == "excursions"><li class="active"><a href="/tours/excursions">Excursionsr</a></li></#if>
+									<#if state == "excursions"><li class="active"><a href="/tours/excursions">Excursions</a></li></#if>
 									<#if state != "excursions"><li><a href="/tours/excursions">Excursions</a></li></#if>
 								</ul>
 							</div><!-- /.page-navigation -->
@@ -228,14 +232,13 @@
 											</a>
 										</div>
 										<div class="media-body">
-											<h4 class="media-heading">${tour.headTitle}</h4>
+											<h4 class="media-heading"><a href="/tours/${tour.type}/${tour.link}">${tour.headTitle}</a></h4>
 											<div class="media-description">
 												<#if tour.line??><p>${tour.line}&hellip;</p><#else>
 												<p>Neutra bitters Truffaut, migas small batch forage taxidermy Pinterest. Umami Portlnd kogi. Photo booth bicycle rights taxidermy&hellip;</p></#if>
 											</div>
 											<div class="media-details">
 												<ul class="list-inline">
-													<li class="destination"><i class="fa fa-map-marker fa-fw"></i> <span>Destination Name</span></li>
 													<li>
 														<span class="rating rating-star">
 															<i class="fa fa-star icon highlighted"></i>
@@ -284,10 +287,10 @@
 		</section>
 
 
-		<!-- Footer
+<!-- Footer
 		================================================== -->
 		<footer id="footer">
-			<section class="top-footer regular">
+			<!--<section class="top-footer regular">
 				<div class="container">
 					<div class="row">
 
@@ -297,19 +300,19 @@
 							<div class="footer-content-left">
 
 								<p style="font-size:14px; color:#aaa;">
-									<!--  --><a href="page.html">About Us</a> &nbsp; | &nbsp;
+									<a href="/about">About Us</a> &nbsp; | &nbsp;
+									<a href="/tours/all">Destinations</a> &nbsp; | &nbsp;
 									<a href="login.html">Sign in</a> &nbsp; | &nbsp;
 									<a href="cover-with-page-content.html">Be an Explorer!</a> &nbsp; | &nbsp;
-									<a href="destinations.html">Destinations</a> &nbsp; | &nbsp;
 									<a href="blog.html">Blog</a> &nbsp; | &nbsp;
-									<a href="contact.html">Contact us</a>
+									<a href="/contact">Contact us</a>
 								</p>
 
-								<p style="font-size:14px; color: #999; margin-bottom:0;">
+								 <p style="font-size:14px; color: #999; margin-bottom:0;">
 									<strong>An HTML travel template for destinations, guides, blogs, hotels, resorts, tours, vacations, events, and more for a perfect travel experience!</strong>
 
 									<br>Created by <a href="http://para.llel.us" target="_blank">Parallelus</a> and available for purchase on <a href="http://para.llel.us/+/get-goexplore-html" target="_blank">ThemeForest</a>.
-								</p>
+								</p> 
 
 							</div>
 						</div>
@@ -317,13 +320,13 @@
 						<div class="col-lg-3">
 							<div class="footer-content-right">
 								<div style="text-align: right;" class="visible-lg-block">
-									<img src="../../assets/images/logo-symbol-complex-colors.png" alt="GoExplore!" width="1024" height="565" style="max-width: 175px;">
+									<img src="images/logo-symbol-complex-colors.png" alt="GoExplore!" width="1024" height="565" style="max-width: 175px;">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</section>
+			</section>-->
 
 			<section class="sub-footer">
 				<div class="container">
@@ -333,12 +336,9 @@
 
 						<div class="col-xs-12">
 							<span style="color:#999; font-size: 15px;" class="pull-right">
-								<a href="http://para.llel.us/+/get-goexplore-html" target="_blank" class="text-info" style="text-decoration:none;">
-									<strong><i class="fa fa-download"></i> &nbsp; Download GoExplore!</strong>
-								</a>
 							</span>
 
-							<span style="color:#999; font-size: 13px;">&copy; 2015 Parallelus | GoExplore! HTML Travel Template. Terms of Use and Privacy Policy.</span>
+							<span style="color:#999; font-size: 13px;">&copy; 2015 Simpati Tour & Travel | Go Explore Bali.</span>
 						</div>
 					</div>
 				</div>
