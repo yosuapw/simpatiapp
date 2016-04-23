@@ -59,17 +59,13 @@
 
 					<nav class="navbar-collapse collapse" id="navbar-main">
 						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown show-on-hover">
-								<a href="/tours/dailytour">Daily Tour</a>
-							</li>
+							<li><a href="/tours/explorer">Daily Tour - Explorer</a></li>
 
-							<li><a href="/tours/explorer">Explorer</a></li>
+							<li><a href="/tours/excusions">Daily Tour - Excursion</a></li>
 								
 							<li><a href="/tours/roundtrip">Round Trip</a></li>
-
-							<li class="dropdown show-on-hover">
-								<a href="/tours/excusions">Excursions</a>
-							</li>
+								
+							<li><a href="/tours/transportation-and-rental">Transportation & Rental</a></li>
 						</ul>
 					</nav>
 				</div><!-- /.container-fluid -->
@@ -84,7 +80,6 @@
 				<div class="container">
 					<div class="intro-wrap">
 						<#if state == "all"><h1 class="intro-title">All Tours</h1></#if>
-						<#if state == "dailytour"><h1 class="intro-title">Daily Tour</h1></#if>
 						<#if state == "excursions"><h1 class="intro-title">Excursions</h1></#if>
 						<#if state == "roundtrip"><h1 class="intro-title">Round Trip</h1></#if>
 						<#if state == "explorer"><h1 class="intro-title">Explorer</h1></#if>
@@ -94,7 +89,6 @@
 						<ul class="breadcrumbs">	
 							<#if state == "all"><li><a href="#">All tours prodived</a></li></#if>
 							<#if state == "explorer"><li><a href="#">Go meet the nature by hiking, snorkeling and other exploration</a></li></#if>
-							<#if state == "dailytour"><li><a href="#">Provide one destination tour</a></li></#if>
 							<#if state == "excursions"><li><a href="#">Look and feel the culture of the local</a></li></#if>
 							<#if state == "roundtrip"><li><a href="#">Enjoy around Bali with a scheduled trip all week long!</a></li></#if>
 						</ul>
@@ -112,7 +106,6 @@
 					<!-- Sub Nav Title -->
 					<div class="navbar-header">
 						<#if state == "all"><a href="#" class="navbar-brand">All Tours</a></#if>
-						<#if state == "dailytour"><a href="#" class="navbar-brand">Daily Tour</a></h1></#if>
 						<#if state == "excursions"><a href="#" class="navbar-brand">Excursions</a></#if>
 						<#if state == "roundtrip"><a href="#" class="navbar-brand">Round Trip</a></#if>
 						<#if state == "explorer"><a href="#" class="navbar-brand">Explorer</a></#if>
@@ -186,9 +179,6 @@
 								<ul class="nav nav-stacked">
 									<#if state == "all"><li class="active"><a href="/tours/all">All</a></li></#if>
 									<#if state != "all"><li><a href="/tours/all">All</a></li></#if>
-									
-									<#if state == "dailytour"><li class="active"><a href="/tours/dailytour">Daily Tour</a></li></#if>
-									<#if state != "dailytour"><li><a href="/tours/dailytour">Daily Tour</a></li></#if>
 									
 									<#if state == "explorer"><li class="active"><a href="/tours/explorer">Explorer</a></li></#if>
 									<#if state != "explorer"><li><a href="/tours/explorer">Explorer</a></li></#if>

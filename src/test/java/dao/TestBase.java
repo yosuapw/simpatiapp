@@ -11,7 +11,7 @@ public class TestBase {
         @Override
         protected void configure() {
 
-            bind(DailyTourDAO.class).to(DailyTourDAOImpl.class);
+            bind(ExcursionDAO.class).to(ExcursionDAOImpl.class);
         }
     });
 

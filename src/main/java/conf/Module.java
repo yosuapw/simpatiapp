@@ -19,8 +19,8 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import dao.DailyTourDAO;
-import dao.DailyTourDAOImpl;
+import dao.ExcursionDAO;
+import dao.ExcursionDAOImpl;
 import dao.ExplorerDAO;
 import dao.ExplorerDAOImpl;
 
@@ -32,7 +32,7 @@ public class Module extends AbstractModule {
         
         // bind your injections here!
 
-        bind(DailyTourDAO.class).to(DailyTourDAOImpl.class);
+        bind(ExcursionDAO.class).to(ExcursionDAOImpl.class);
 
 		bind(ExplorerDAO.class).to(ExplorerDAOImpl.class);
         

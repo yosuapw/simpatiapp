@@ -59,17 +59,13 @@
 
 					<nav class="navbar-collapse collapse" id="navbar-main">
 						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown show-on-hover">
-								<a href="/tours/dailytour">Daily Tour</a>
-							</li>
+							<li><a href="/tours/explorer">Daily Tour - Explorer</a></li>
 
-							<li><a href="/tours/explorer">Explorer</a></li>
+							<li><a href="/tours/excusions">Daily Tour - Excursion</a></li>
 								
 							<li><a href="/tours/roundtrip">Round Trip</a></li>
-
-							<li class="dropdown show-on-hover">
-								<a href="/tours/excusions">Excursions</a>
-							</li>
+								
+							<li><a href="/tours/transportation-and-rental">Transportation & Rental</a></li>
 						</ul>
 					</nav>
 				</div><!-- /.container-fluid -->
@@ -129,7 +125,7 @@
 							</div>
 						</#if>
 					</article>
-					<#elseif tour.type == 'dailytour'>
+					<#elseif tour.type == 'excursion'>
 					
 							<ul>
 								<#list tour.destinations as destination>

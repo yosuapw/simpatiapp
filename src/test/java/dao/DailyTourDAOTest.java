@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 public class DailyTourDAOTest extends TestBase {
     
     @Inject
-    private DailyTourDAO dailyTourDAO;
+    private ExcursionDAO dailyTourDAO;
     
     
     @Test

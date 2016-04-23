@@ -18,23 +18,23 @@ package controllers;
 
 import java.util.List;
 
-import model.DailyTour;
+import model.Excursion;
 import ninja.Result;
 import ninja.Results;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import dao.DailyTourDAO;
+import dao.ExcursionDAO;
 
 
 @Singleton
 public class ApplicationController {
     
-    DailyTourDAO dailyTourDAO;
+    ExcursionDAO dailyTourDAO;
     
     @Inject
-    public ApplicationController(DailyTourDAO dailyTourDAO) {
+    public ApplicationController(ExcursionDAO dailyTourDAO) {
         this.dailyTourDAO = dailyTourDAO;
     }
 
@@ -59,7 +59,7 @@ public class ApplicationController {
 	 */
 
 	public Result getAll() {
-		List<DailyTour> result = dailyTourDAO.getAll();
+		List<Excursion> result = dailyTourDAO.getAll();
 		return Results.json().render(result);
 	}
 

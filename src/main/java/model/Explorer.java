@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 
+import org.mongodb.morphia.annotations.Entity;
+
+@Entity("explorer")
 public class Explorer extends Tour  implements Serializable {
 
     /**
