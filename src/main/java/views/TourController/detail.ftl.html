@@ -96,7 +96,7 @@
 
 		<section class="main container">
 			<div id="content" class="row">
-				<div class="col-sm-8 col-md-6 col-md-push-3">
+				<div class="col-sm-8 col-md-7 col-md-push-2">
 					<header class="entry-header">
 						<h1 class="entry-title">${tour.headTitle}</h1>
 					</header>
@@ -126,15 +126,24 @@
 						</#if>
 					</article>
 					<#elseif tour.type == 'excursion'>
-					
+						<ul>
+							<#list tour.destinations as destination>
+								<li><bold>${destination.title}:</bold> ${destination.description}</li>
+							</#list>
+						</ul>
+					<#elseif tour.type == 'roundtrip'>
+						<#list tour.destinations as destination>
+							<h3>Day ${destination.index + 1}</h3>
+							<h4>${destination.title} (${destination.time})</h4>
 							<ul>
-								<#list tour.destinations as destination>
-									<li><bold>${destination.title}:</bold> ${destination.description}</li>
+								<#list destination.descriptions as description>
+									<li><p>${description}</p></li>
 								</#list>
 							</ul>
+						</#list>
 					</#if>
 				</div>
-				<div class="col-xs-12 col-sm-4 col-md-3 col-md-pull-6 blog-details-column">
+				<div class="col-xs-12 col-sm-4 col-md-3 col-md-pull-7 blog-details-column">
 					<div class="entry-meta">
 						<h3>Price:</h3>
 
@@ -176,7 +185,7 @@
 					</div>
 				</div>
 
-				<div class="sidebar col-xs-12 col-sm-4 col-md-3">
+				<div class="sidebar col-xs-12 col-sm-4 col-md-2">
 					<div class="sidebar-padder">
 						<aside id="nav_menu-3" class="widget widget_nav_menu">
 							<h3 class="widget-title">Destinations</h3>
@@ -188,19 +197,6 @@
 									<li class="menu-item"><a href="/tours/excursions">Excursions</a></li>
 								</ul>
 							</div>
-						</aside>
-						<aside id="recent-posts-4" class="widget widget_recent_entries">
-							<h3 class="widget-title">Top Destinations</h3>
-							<ul>
-								<li> <a href="single-hero.html">Living the Travel Lifestyle</a></li>
-								<li> <a href="single-hero.html">Choosing Your Next Vacation Destination</a></li>
-								<li> <a href="single-hero.html">Unusual Places to Consider Visiting</a></li>
-								<li> <a href="single-hero.html">8 Useful Tools for Planning a Great Trip</a></li>
-								<li> <a href="single-hero.html">Great Advise for Ski Travelers</a></li>
-								<li> <a href="single-hero.html">Time To Hit The Road</a></li>
-								<li> <a href="single-hero.html">Safety First When Traveling Alone</a></li>
-								<li> <a href="single-hero.html">The Trip of a Lifetime</a></li>
-							</ul>
 						</aside>
 					</div>
 				</div>

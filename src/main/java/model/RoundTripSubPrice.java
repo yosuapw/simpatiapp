@@ -1,6 +1,6 @@
 package model;
 
-public class DailyTourPrice {
+public class RoundTripSubPrice {
 
 	//
 	// "2": 218,

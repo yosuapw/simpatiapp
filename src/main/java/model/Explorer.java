@@ -15,6 +15,7 @@ public class Explorer extends Tour  implements Serializable {
 	private String line;
 	private String whatToBring;
 	private String tourIncluded;
+	private Price prices;
 
 	public String getLine() {
 		return line;
@@ -46,6 +47,14 @@ public class Explorer extends Tour  implements Serializable {
 
 	public void setInformation(String information) {
 		this.information = information;
+	}
+
+	public Price getPrices() {
+		return prices;
+	}
+
+	public void setPrices(Price prices) {
+		this.prices = prices;
 	}
 
 }

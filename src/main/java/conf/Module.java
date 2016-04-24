@@ -23,6 +23,8 @@ import dao.ExcursionDAO;
 import dao.ExcursionDAOImpl;
 import dao.ExplorerDAO;
 import dao.ExplorerDAOImpl;
+import dao.RoundTripDAO;
+import dao.RoundTripDAOImpl;
 
 @Singleton
 public class Module extends AbstractModule {
@@ -35,6 +37,8 @@ public class Module extends AbstractModule {
         bind(ExcursionDAO.class).to(ExcursionDAOImpl.class);
 
 		bind(ExplorerDAO.class).to(ExplorerDAOImpl.class);
+
+		bind(RoundTripDAO.class).to(RoundTripDAOImpl.class);
         
         
     }

@@ -13,7 +13,16 @@ public class Excursion extends Tour implements Serializable {
      */
     private static final long serialVersionUID = 6958091159172208795L;
     private List<Destination> destinations;
+	private Price prices;
 
+
+	public Price getPrices() {
+		return prices;
+	}
+
+	public void setPrices(Price prices) {
+		this.prices = prices;
+	}
 
 	public List<Destination> getDestinations() {
 		return destinations;

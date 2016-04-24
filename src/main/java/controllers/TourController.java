@@ -6,6 +6,7 @@ import java.util.List;
 
 import model.Excursion;
 import model.Explorer;
+import model.RoundTrip;
 import ninja.Result;
 import ninja.Results;
 import ninja.cache.NinjaCache;
@@ -17,6 +18,7 @@ import com.google.inject.Singleton;
 
 import dao.ExcursionDAO;
 import dao.ExplorerDAO;
+import dao.RoundTripDAO;
 
 @Singleton
 public class TourController {
@@ -24,6 +26,8 @@ public class TourController {
 	ExcursionDAO excursionDAO;
 
 	ExplorerDAO explorerDAO;
+
+	RoundTripDAO roundTripDAO;
 	
 	NinjaCache ninjaCache;
 
@@ -31,9 +35,11 @@ public class TourController {
 
 	@Inject
 	public TourController(ExcursionDAO excursionDAO, ExplorerDAO explorerDAO,
-			NinjaCache ninjaCache, NinjaProperties ninjaProperties) {
+			RoundTripDAO roundTripDAO, NinjaCache ninjaCache,
+			NinjaProperties ninjaProperties) {
 		this.excursionDAO = excursionDAO;
 		this.explorerDAO = explorerDAO;
+		this.roundTripDAO = roundTripDAO;
 		this.ninjaCache = ninjaCache;
 		this.ninjaProperties = ninjaProperties;
 	}
@@ -54,6 +60,8 @@ public class TourController {
 			result.render("tours", getExcursions());
 		} else if (id.equalsIgnoreCase("explorer")) {
 			result.render("tours", getExplorers());
+		} else if (id.equalsIgnoreCase("roundtrip")) {
+			result.render("tours", getExplorers());
 		} else {
 			result.render("tours", getExcursions());
 		}
@@ -72,9 +80,9 @@ public class TourController {
 		return excursions;
 	}
     
-    private List<Explorer> getExplorers() {
+	private List<Explorer> getExplorers() {
         
-        List<Explorer> explorers = ninjaCache.get("explorers", List.class);
+		List<Explorer> explorers = ninjaCache.get("explorers", List.class);
         if (explorers == null) {
             explorers = explorerDAO.getAll();
 			ninjaCache.set("explorers", explorers,
@@ -83,6 +91,18 @@ public class TourController {
         
         return explorers;
     }
+
+	private List<RoundTrip> getRoundTrips() {
+
+		List<RoundTrip> roundtrips = ninjaCache.get("roundtrips", List.class);
+		if (roundtrips == null) {
+			roundtrips = roundTripDAO.getAll();
+			ninjaCache.set("roundtrips", roundtrips,
+					ninjaProperties.get("cacheDuration"));
+		}
+
+		return roundtrips;
+	}
 
 	private Excursion getExcursion(String link) {
 
@@ -94,9 +114,10 @@ public class TourController {
 			for (Excursion excursion : excursions) {
 				if (excursion.getLink().equalsIgnoreCase(link)) {
 					tour = excursion;
-					break;
+					return tour;
 				}
 			}
+			tour = excursionDAO.findByLink(link);
 		}
 
 		return tour;
@@ -112,19 +133,40 @@ public class TourController {
 			for (Explorer data : explorers) {
 				if (data.getLink().equalsIgnoreCase(link)) {
 					explorer = data;
-					break;
+					return explorer;
 				}
 			}
+			explorer = explorerDAO.findByLink(link);
 		}
 
 		return explorer;
 	}
 
+	private RoundTrip getRoundTrip(String link) {
+
+		List<RoundTrip> roundTrips = ninjaCache.get("roundtrips", List.class);
+		RoundTrip roundtrip = null;
+		if (roundtrip == null) {
+			roundtrip = roundTripDAO.findByLink(link);
+		} else {
+			for (RoundTrip data : roundTrips) {
+				if (data.getLink().equalsIgnoreCase(link)) {
+					roundtrip = data;
+					return roundtrip;
+				}
+			}
+			roundtrip = roundTripDAO.findByLink(link);
+		}
+
+		return roundtrip;
+	}
+
 	private List<Object> getAllTours() {
 
 		List<Object> lstObject = new ArrayList<Object>();
-		lstObject.addAll(excursionDAO.getAll());
-		lstObject.addAll(explorerDAO.getAll());
+		lstObject.addAll(getExcursions());
+		lstObject.addAll(getExplorers());
+		lstObject.addAll(getRoundTrips());
 		Collections.shuffle(lstObject);
 
 		return lstObject;
@@ -141,8 +183,10 @@ public class TourController {
 		
 		if (id.equalsIgnoreCase("excursion")) {
 			result.render("tour", getExcursion(link));
-		} else {
+		} else if (id.equalsIgnoreCase("explorer")) {
 			result.render("tour", getExplorer(link));
+		} else {
+			result.render("tour", getRoundTrip(link));
 		}
 		return result;
 	}
@@ -156,9 +200,11 @@ public class TourController {
 			@PathParam("link") String link) {
 
 		if (id.equalsIgnoreCase("excursion")) {
-			return Results.json().render(excursionDAO.findByLink(link));
+			return Results.json().render(getExcursion(link));
+		} else if (id.equalsIgnoreCase("explorer")) {
+			return Results.json().render(getExplorer(link));
 		} else {
-			return Results.json().render(explorerDAO.findByLink(link));
+			return Results.json().render(getRoundTrip(link));
 		}
 	}
 }
