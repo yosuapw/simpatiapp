@@ -33,6 +33,9 @@ public class Routes implements ApplicationRoutes {
 		 * router.GET().route("/tours")
 		 * .with(Results.html().template("/views/directory-list.html"));
 		 */
+		router.GET().route("/transportation-and-rental")
+				.with(TourController.class, "transportation");
+
 		router.GET().route("/tours/{id}")
 				.with(TourController.class, "tour");
 

@@ -83,7 +83,7 @@
 			<div class="bg-overlay">
 				<div class="container">
 					<div class="intro-wrap">
-						<h3 class="intro-title hidden">${tour.headTitle}</h3>
+						<h3 class="intro-title hidden"> </h3>
 					</div>
 				</div>
 			</div>
@@ -96,158 +96,78 @@
 		================================================== -->
 
 		<section class="main container">
-			<div id="content" class="row">
+			<div id="content" class="row" data-ng-app='myApp' data-ng-controller='transportsController'>
 				<div class="col-xs-12 col-sm-4 col-md-3 blog-details-column">
 					<div class="entry-meta">
 						<h3>Price:</h3>
-
-						<#if tour.prices.adult??>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">Adult: &#8364; ${tour.prices.adult}</span>
-								</span>
-							</div>
-						</#if>
-						<#if tour.prices.children??>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">Children: &#8364; ${tour.prices.children}</span>
-								</span>
-							</div>
-						</#if>
-						<#if tour.prices.car??>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">Children: &#8364; ${tour.prices.car}</span>
-								</span>
-							</div>
-						</#if>
-						<#if tour.prices.additionalInfo??>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-asterisk"></i>
-									<span class="meta-item">${tour.prices.additionalInfo}</span>
-							</div>
-						</#if>
-						<#if tour.type == 'roundtrip'>
-						<h4>Half board <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Half board meals arrangement with lunch at local Restaurant 3 times lunch as progam"></i></h4>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">2 Persons: &#8364;</span>
-									<span class="meta-item"> ${tour.prices.half.two}</span>
-								</span>
-							</div>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">3 to 5 Persons: &#8364; </span>
-									<span class="meta-item">${tour.prices.half.threeToFive}</span>
-								</span>
-							</div>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">6 to 9 Persons: &#8364; </span>
-									<span class="meta-item">${tour.prices.half.sixToNine}</span>
-								</span>
-							</div>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Additional single"></i>
-									<span class="meta-item">Single: &#8364; </span>
-									<span class="meta-item">${tour.prices.half.single}</span>
-								</span>
-							</div>
-							<br/>
-							<h4>Full board <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Full board meals arrangement with lunch at local Restaurant 3 times lunch Dinner 2 times"></i></h4> 
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">2 Persons: &#8364;</span>
-									<span class="meta-item"> ${tour.prices.full.two}</span>
-								</span>
-							</div>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">3 to 5 Persons: &#8364; </span>
-									<span class="meta-item">${tour.prices.full.threeToFive}</span>
-								</span>
-							</div>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-tag"></i>
-									<span class="meta-item">6 to 9 Persons: &#8364; </span>
-									<span class="meta-item">${tour.prices.full.sixToNine}</span>
-								</span>
-							</div>
-							<div class="byline icon-meta">
-								<span class="posted-on"> <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Additional single"></i></i>
-								
-									<span class="meta-item">Single: &#8364; </span>
-									<span class="meta-item">${tour.prices.full.single}</span>
-								</span>
-								
-							</div>
-						</#if>
+						<h2 style="valign:top"> &#8364; {{data.price}}</h2>
+						
 					</div>
 
 					<div class="sidebar">
 						<div class="sidebar-padder">
 							<div class="widget scg_widget single-post-left widget_text">
-								<button type="button" class="btn btn-primary btn-lg  btn-success">book now</button>
+								<button type="button" class="btn btn-primary btn-lg  btn-success">Book Now</button>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-8 col-md-7">
 					<header class="entry-header">
-						<h1 class="entry-title">${tour.headTitle}</h1>
+						<h1 class="entry-title">Transportation & Car Rental</h1>
 					</header>
-					<#if tour.type == 'explorer'>
-					<article class="post">
-						<div class="entry-summary">
-							<#if tour.line??> <p class="lead">${tour.line}</p> </#if>
-						</div>
-						<div class="entry-content">
-							<p>${tour.information}</p>
-						</div>
-						<#if tour.tourIncluded??>
-							<div class="panel panel-success">
-								<div class="panel-heading"><h4 class="panel-title">Tour Included</h4></div>
-								<div class="panel-body">
-									${tour.tourIncluded}
-								</div>
-							</div>
-						</#if>
-						<#if tour.whatToBring?? >
-							<div class="panel panel-warning">
-								<div class="panel-heading"><h4 class="panel-title">What to Bring</h4></div>
-								<div class="panel-body">
-									${tour.whatToBring}
-								</div>
-							</div>
-						</#if>
-					</article>
-					<#elseif tour.type == 'excursion'>
-						<ul>
-							<#list tour.destinations as destination>
-								<li><bold>${destination.title}:</bold> ${destination.description}</li>
-							</#list>
-						</ul>
-					<#elseif tour.type == 'roundtrip'>
-						<#list tour.destinations as destination>
-							<h3>Day ${destination.index + 1}</h3>
-							<h4>${destination.title} (${destination.time})</h4>
-							<ul>
-								<#list destination.descriptions as description>
-									<li><p>${description}</p></li>
-								</#list>
-							</ul>
-						</#list>
-						
-						<div class="panel panel-success">
-							<div class="panel-heading"><h4 class="panel-title"></h4></div>
-							<div class="panel-body">
-								<#list tour.additionalInfos as description>
-									<li><p>${description}</p></li>
-								</#list>
+					<form class="form-horizontal">
+						<div class="form-group" style="margin:auto">
+							<label for="inputName" class="col-lg-2 control-label">Service</label>
+							<div class="col-lg-10">						      
+						        <select name="availableService" data-ng-model="data.service">
+							      <option data-ng-repeat="option in data.availableServices" value="{{option}}">{{option}}</option>
+							    </select>
 							</div>
 						</div>
-					</#if>
+						<div class="form-group" style="margin:auto">
+							<label for="inputName" class="col-lg-2 control-label">Airport to Destination</label>
+							<div class="col-lg-10">				      
+						        <select name="availableDestination" data-ng-change="calculate()" data-ng-model="data.destination">
+							      <option data-ng-repeat="option in data.availableDestinations" value="{{option.key}}">{{option.val}}</option>
+							    </select>
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="inputName" class="col-lg-2 control-label">Persons</label>
+							<div class="col-lg-10">		      
+						        <select name="availablePersons" data-ng-change="calculate()" data-ng-model="data.person" data-ng-if="data.vip != true">
+							      <option data-ng-repeat="option in data.availablePersons" value="{{option.key}}">{{option.val}}</option>
+							    </select>      
+						        <select name="availablePersons" data-ng-change="calculate()" data-ng-model="data.vipPerson" data-ng-if="data.vip == true">
+							      <option data-ng-repeat="option in data.availableVipPersons" value="{{option.key}}">{{option.val}}</option>
+							    </select>
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="inputEmail" class="col-lg-2 control-label">Additional</label>
+							<div class="col-lg-10">
+								<label class="checkbox-inline"><input type="checkbox" data-ng-change="guideChange()" data-ng-model="data.guide">+ Guide <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Additional guide with multilanguague service"></i></label>&nbsp;&nbsp;
+								<label class="checkbox-inline" data-ng-if='data.guide == true'><input type="checkbox" data-ng-change="vipChange()" data-ng-model="data.vip">+ VIP Service <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="VIP pick up from imigration"></i></label>
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto" data-ng-if="data.guide == true">
+							<label for="inputName" class="col-lg-2 control-label">Preferrence Guide Languague</label>
+							<div class="col-lg-10">		      
+						        <select name="availableLanguagues" data-ng-model="data.guideLanguague">
+							      <option data-ng-repeat="option in data.availableLanguagues" value="{{option.key}}">{{option.val}}</option>
+							    </select>      
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="inputComments" class="col-lg-2 control-label">Comments</label>
+							<div class="col-lg-10">
+								<textarea class="form-control" id="inputComments" rows="9" placeholder="Comments"></textarea>
+							</div>
+						</div>
+						<br/>
+						<button  style="margin-right:10px" type="submit" class="btn btn-default pull-right">Book</button>
+					</form>
 				</div>
 
 				<div class="sidebar col-xs-12 col-sm-4 col-md-2">
@@ -293,5 +213,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="../../assets/js/bootstrap.min.js"></script>
 		<script src="../../assets/js/custom.js"></script>
+		<script src="../assets/js/angular/angular.js"></script>
+		<script src="../assets/js/angular/transportsController.js"></script>
 	</body>
 </html>

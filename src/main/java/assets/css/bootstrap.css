@@ -1444,6 +1444,10 @@ pre code {
   padding-left: 20px;
   padding-right: 20px;
 }
+.detailRow {
+  margin-left: -60px;
+  margin-right: -60px;
+}
 .row {
   margin-left: -20px;
   margin-right: -20px;

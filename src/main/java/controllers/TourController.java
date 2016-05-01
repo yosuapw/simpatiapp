@@ -52,6 +52,7 @@ public class TourController {
 			List<Object> lstObject = new ArrayList<Object>();
 			lstObject.addAll(getExcursions());
             lstObject.addAll(getExplorers());
+			lstObject.addAll(getRoundTrips());
             
 			Collections.shuffle(lstObject);
 			result.render("tours", lstObject);
@@ -61,7 +62,7 @@ public class TourController {
 		} else if (id.equalsIgnoreCase("explorer")) {
 			result.render("tours", getExplorers());
 		} else if (id.equalsIgnoreCase("roundtrip")) {
-			result.render("tours", getExplorers());
+			result.render("tours", getRoundTrips());
 		} else {
 			result.render("tours", getExcursions());
 		}
@@ -188,6 +189,11 @@ public class TourController {
 		} else {
 			result.render("tour", getRoundTrip(link));
 		}
+		return result;
+	}
+
+	public Result transportation() {
+		Result result = Results.html();
 		return result;
 	}
 
