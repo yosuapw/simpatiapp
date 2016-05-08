@@ -3,14 +3,23 @@ var myApp = angular.module('myApp', []);
 var transportsController = function($scope){
 	
 	$scope.data = {
-			service: null,
-			person: null,
-			destination: null,
-			price: 0
+			service: 0,
+			person: 0,
+			destination: 0,
+			price: 0,
+			vip: false,
+			guide: false,
+			vipPerson: null
+	}	
+	
+	$scope.data.rental = {
+			duration: 0,
+			person: 0,
+			guide: false
 	}
 	
-	$scope.data.availableServices = ['One Way Transportation from Airport',
-	                   'Car Rental'];
+	$scope.data.availableServices = [{key:0,val:'One Way Transportation from Airport'},
+	                                 {key:1,val:'Car Rental'}];
 	
 	$scope.data.availableDestinations = [
 	                           {key:0,val:'Kuta, Legian, Seminyak'},
@@ -47,6 +56,15 @@ var transportsController = function($scope){
 	                                   {key:0,val:'Indonesia'},
 	                                   {key:0,val:'Malaysia'}
 	                                   ]
+	
+
+	
+	$scope.data.rental.availableDurations = [{key:0,val:'Half Day/ 6 hours'},
+	                                 {key:1,val:'Full Day/ 12 hours'}];
+	
+	$scope.data.rental.availablePersons = [{key:0,val:'Max 3 Passangers'},
+	                                 {key:1,val:'Max 5 Passangers'}];
+	
 	function initData() {
 		
 		function createArray(length) {
@@ -119,19 +137,33 @@ var transportsController = function($scope){
 		$scope.data.guideVipPriceArray = array;
 		
 		
+		var array = createArray(2, 2);
+		array[0][0] = 60; array[0][1] = 75;
+		array[1][0] = 75; array[1][1] = 90;
+		
+		$scope.data.rental.priceArray = array;
 	}
 	
-	initData();
-	
 	$scope.calculate = function () {
-		if ($scope.data.destination && $scope.data.person && $scope.data.guide != true && $scope.data.vip != true) {
+		if ($scope.data.destination != null && $scope.data.person != null && $scope.data.guide != true && $scope.data.vip != true) {
 			$scope.data.price = $scope.data.defaultPriceArray[$scope.data.destination][$scope.data.person];
-		} else if ($scope.data.destination && $scope.data.person && $scope.data.guide == true && $scope.data.vip != true) {
+		} else if ($scope.data.destination != null && $scope.data.person != null && $scope.data.guide == true && $scope.data.vip != true) {
 			$scope.data.price = $scope.data.guidePriceArray[$scope.data.destination][$scope.data.person];
-		} else if ($scope.data.destination && $scope.data.vipPerson && $scope.data.vip == true) {
+		} else if ($scope.data.destination != null && $scope.data.vipPerson != null && $scope.data.vip == true) {
 			$scope.data.price = $scope.data.guideVipPriceArray[$scope.data.destination][$scope.data.vipPerson];
 		} else {
 			$scope.data.price = 0;
+		}
+	}
+	
+	$scope.calculateRental = function () {
+		if ($scope.data.rental.person != null & $scope.data.rental.duration != null) {
+			var additionalPrice = 0;
+			if ($scope.data.rental.guide == true) additionalPrice += 10;
+			$scope.data.rental.price = $scope.data.rental.priceArray[$scope.data.rental.person][$scope.data.rental.duration];
+			$scope.data.rental.price += additionalPrice;
+		} else {
+			$scope.data.rental.price = 0;
 		}
 	}
 	
@@ -145,6 +177,21 @@ var transportsController = function($scope){
 		$scope.data.vipPerson = null;
 		$scope.calculate();
 	}
+	
+	$scope.serviceChange = function () {
+		if ($scope.data.service == 0) {
+			$scope.calculate();
+		} else {
+			$scope.calculateRental();
+		}
+	}
+	
+	function startInit() {
+		initData();
+		$scope.calculate();
+	}
+	
+	startInit();
 	
 
 }

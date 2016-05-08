@@ -22,6 +22,7 @@ import ninja.Results;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
 import controllers.ApplicationController;
+import controllers.BookController;
 import controllers.TourController;
 
 public class Routes implements ApplicationRoutes {
@@ -42,10 +43,11 @@ public class Routes implements ApplicationRoutes {
 		router.GET().route("/tours/{id}/{link}")
 				.with(TourController.class, "detail");
 
-		/*
-		 * router.GET().route("/tours/explorers") .with(TourController.class,
-		 * "explorers");
-		 */
+		router.GET().route("/tours/{id}/{link}/booking")
+				.with(BookController.class, "book");
+
+		router.POST().route("/tours/{id}/{link}/booking2")
+				.with(BookController.class, "book2");
 
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
@@ -55,12 +57,19 @@ public class Routes implements ApplicationRoutes {
 				.with(ApplicationController.class, "getAll");
 		
 		
+		// FOR JSON REQUEST
 
 		router.GET().route("/service/tours/all")
 				.with(TourController.class, "getAll");
 
 		router.GET().route("/service/tours/{id}/{link}")
 				.with(TourController.class, "findByLink");
+
+		router.GET().route("/service/tours/{id}/{link}/booking")
+				.with(BookController.class, "book");
+
+		router.POST().route("/service/tours/{id}/{link}/booking2")
+				.with(BookController.class, "book2");
         
  
         ///////////////////////////////////////////////////////////////////////

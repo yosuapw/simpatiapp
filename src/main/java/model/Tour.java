@@ -12,6 +12,7 @@ public class Tour extends MorphiaModel {
 	private String headTitle;
 	private String image;
 	private String additionalInfo;
+	private Price prices;
 
 	public String getHeadTitle() {
 		return headTitle;
@@ -53,5 +54,12 @@ public class Tour extends MorphiaModel {
 		this.link = link;
 	}
 
+	public Price getPrices() {
+		return prices;
+	}
+
+	public void setPrices(Price prices) {
+		this.prices = prices;
+	}
 
 }

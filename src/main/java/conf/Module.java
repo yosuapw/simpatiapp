@@ -19,6 +19,8 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import dao.BookDAO;
+import dao.BookDAOImpl;
 import dao.ExcursionDAO;
 import dao.ExcursionDAOImpl;
 import dao.ExplorerDAO;
@@ -39,6 +41,8 @@ public class Module extends AbstractModule {
 		bind(ExplorerDAO.class).to(ExplorerDAOImpl.class);
 
 		bind(RoundTripDAO.class).to(RoundTripDAOImpl.class);
+
+		bind(BookDAO.class).to(BookDAOImpl.class);
         
         
     }

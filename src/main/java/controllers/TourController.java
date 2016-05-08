@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import model.Excursion;
-import model.Explorer;
-import model.RoundTrip;
+import ninja.Context;
 import ninja.Result;
 import ninja.Results;
 import ninja.cache.NinjaCache;
@@ -21,27 +19,14 @@ import dao.ExplorerDAO;
 import dao.RoundTripDAO;
 
 @Singleton
-public class TourController {
-
-	ExcursionDAO excursionDAO;
-
-	ExplorerDAO explorerDAO;
-
-	RoundTripDAO roundTripDAO;
-	
-	NinjaCache ninjaCache;
-
-	NinjaProperties ninjaProperties;
+public class TourController extends BaseController {
 
 	@Inject
 	public TourController(ExcursionDAO excursionDAO, ExplorerDAO explorerDAO,
 			RoundTripDAO roundTripDAO, NinjaCache ninjaCache,
-			NinjaProperties ninjaProperties) {
-		this.excursionDAO = excursionDAO;
-		this.explorerDAO = explorerDAO;
-		this.roundTripDAO = roundTripDAO;
-		this.ninjaCache = ninjaCache;
-		this.ninjaProperties = ninjaProperties;
+			NinjaProperties ninjaProperties, Context context) {
+		super(excursionDAO, explorerDAO, roundTripDAO, ninjaCache,
+				ninjaProperties, context);
 	}
 
 	public Result tour(@PathParam("id") String id) {
@@ -57,6 +42,7 @@ public class TourController {
 			Collections.shuffle(lstObject);
 			result.render("tours", lstObject);
 			
+			result.render("user", context.getSession().get("username"));
 		} else if (id.equalsIgnoreCase("excursion")) {
 			result.render("tours", getExcursions());
 		} else if (id.equalsIgnoreCase("explorer")) {
@@ -67,99 +53,6 @@ public class TourController {
 			result.render("tours", getExcursions());
 		}
 		return result;
-	}
-	
-	private List<Excursion> getExcursions() {
-	    
-		List<Excursion> excursions = ninjaCache.get("excursions", List.class);
-		if (excursions == null) {
-			excursions = excursionDAO.getAll();
-			ninjaCache.set("excursions", excursions,
-					ninjaProperties.get("cacheDuration"));
-        }
-        
-		return excursions;
-	}
-    
-	private List<Explorer> getExplorers() {
-        
-		List<Explorer> explorers = ninjaCache.get("explorers", List.class);
-        if (explorers == null) {
-            explorers = explorerDAO.getAll();
-			ninjaCache.set("explorers", explorers,
-					ninjaProperties.get("cacheDuration"));
-        }
-        
-        return explorers;
-    }
-
-	private List<RoundTrip> getRoundTrips() {
-
-		List<RoundTrip> roundtrips = ninjaCache.get("roundtrips", List.class);
-		if (roundtrips == null) {
-			roundtrips = roundTripDAO.getAll();
-			ninjaCache.set("roundtrips", roundtrips,
-					ninjaProperties.get("cacheDuration"));
-		}
-
-		return roundtrips;
-	}
-
-	private Excursion getExcursion(String link) {
-
-		List<Excursion> excursions = ninjaCache.get("excursions", List.class);
-		Excursion tour = null;
-		if (excursions == null) {
-			tour = excursionDAO.findByLink(link);
-		} else {
-			for (Excursion excursion : excursions) {
-				if (excursion.getLink().equalsIgnoreCase(link)) {
-					tour = excursion;
-					return tour;
-				}
-			}
-			tour = excursionDAO.findByLink(link);
-		}
-
-		return tour;
-	}
-
-	private Explorer getExplorer(String link) {
-
-		List<Explorer> explorers = ninjaCache.get("explorers", List.class);
-		Explorer explorer = null;
-		if (explorers == null) {
-			explorer = explorerDAO.findByLink(link);
-		} else {
-			for (Explorer data : explorers) {
-				if (data.getLink().equalsIgnoreCase(link)) {
-					explorer = data;
-					return explorer;
-				}
-			}
-			explorer = explorerDAO.findByLink(link);
-		}
-
-		return explorer;
-	}
-
-	private RoundTrip getRoundTrip(String link) {
-
-		List<RoundTrip> roundTrips = ninjaCache.get("roundtrips", List.class);
-		RoundTrip roundtrip = null;
-		if (roundtrip == null) {
-			roundtrip = roundTripDAO.findByLink(link);
-		} else {
-			for (RoundTrip data : roundTrips) {
-				if (data.getLink().equalsIgnoreCase(link)) {
-					roundtrip = data;
-					return roundtrip;
-				}
-			}
-			roundtrip = roundTripDAO.findByLink(link);
-		}
-
-		return roundtrip;
 	}
 
 	private List<Object> getAllTours() {
@@ -181,6 +74,7 @@ public class TourController {
 	public Result detail(@PathParam("id") String id,
 			@PathParam("link") String link) {
 		Result result = Results.html();
+		context.getSession().put("username", "kevin");
 		
 		if (id.equalsIgnoreCase("excursion")) {
 			result.render("tour", getExcursion(link));
@@ -191,6 +85,7 @@ public class TourController {
 		}
 		return result;
 	}
+
 
 	public Result transportation() {
 		Result result = Results.html();
