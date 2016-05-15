@@ -25,9 +25,10 @@
 		<div class="navbar-wrapper">
 			<header class="navbar navbar-default navbar-fixed-top" id="MainMenu">
 				<div class="navbar-extra-top clearfix">
-					<div class="navbar container-fluid">
+					<div class="navbar container-fluid" data-ng-app="cartApp" data-ng-controller="CartsController">
 						<ul class="nav navbar-nav navbar-left">
-							<li class="menu-item"><a href="contact.html"><i class="fa fa-envelope"></i> Contact Us</a></li>
+							<li class="menu-item"><a href="contact.html"><i class="fa fa-envelope"></i> Contact Usa</a></li>
+							<li class="menu-item"><a href="contact.html"><i class="fa fa-envelope"></i> {{toursData}}</a></li>
 							<!--<li class="menu-item"><a href="#"><i class="fa fa-suitcase"></i> Join the Explorers!</a></li>
 							<li class="menu-item"><a href="login.html"><i class="fa fa-sign-in"></i> Sign in</a></li> -->
 						</ul>
@@ -301,5 +302,6 @@
 		<script src="../assets/js/angular/angular.js"></script>
 		<script src="../assets/js/angular/ng-infinite.js"></script>
 		<script src="../assets/js/angular/numbersController.js"></script>
+		<script src="../assets/js/angular/cartsController.js"></script>
 	</body>
 </html>

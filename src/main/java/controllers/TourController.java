@@ -74,7 +74,8 @@ public class TourController extends BaseController {
 	public Result detail(@PathParam("id") String id,
 			@PathParam("link") String link) {
 		Result result = Results.html();
-		context.getSession().put("username", "kevin");
+		result.render("id", id);
+		result.render("link", link);
 		
 		if (id.equalsIgnoreCase("excursion")) {
 			result.render("tour", getExcursion(link));

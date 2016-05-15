@@ -6,6 +6,8 @@ import model.Excursion;
 import model.Explorer;
 import model.RoundTrip;
 import ninja.Context;
+import ninja.Result;
+import ninja.Results;
 import ninja.cache.NinjaCache;
 import ninja.utils.NinjaProperties;
 
@@ -39,6 +41,11 @@ public class BaseController {
 		this.ninjaCache = ninjaCache;
 		this.ninjaProperties = ninjaProperties;
 		this.context = context;
+	}
+
+	public Result index() {
+		Result result = Results.html();
+		return result;
 	}
 
 	protected List<Excursion> getExcursions() {

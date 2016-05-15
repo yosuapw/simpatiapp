@@ -14,6 +14,8 @@ import ninja.cache.NinjaCache;
 import ninja.params.PathParam;
 import ninja.utils.NinjaProperties;
 
+import org.bson.types.ObjectId;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -36,53 +38,102 @@ public class BookController extends BaseController {
 		this.bookDAO = bookDAO;
 	}
 
+
+	private Cart getCart() {
+		String cartId = context.getSession().get("cartId");
+		Cart cart = null;
+		if (cartId == null) {
+			cart = new Cart();
+			ObjectId id = new ObjectId();
+			cart.setId(id);
+			context.getSession().put("cartId", id.toString());
+			bookDAO.save(cart);
+			ninjaCache.set(Helper.constructCartSession(cartId), cart, "10mn");
+		} else {
+			cart = ninjaCache.get(Helper.constructCartSession(cartId),
+					Cart.class);
+			if (cart == null) {
+				cart = bookDAO.findByID(cartId);
+			}
+		}
+		return cart;
+	}
+
+	public Result book() {
+		Result result = Results.html();
+		return result;
+	}
+
+	public Result cart() {
+		Result result = Results.html();
+		return result;
+	}
+
+	public Result addBook(@PathParam("id") String id,
+			@PathParam("link") String link, Cart cart) {
+		// Result result = Results.html();
+		Cart dataCart = getCart();
+
+		if (dataCart.getCartItems() == null)
+			dataCart.setCartItems(new ArrayList<CartItem>());
+
+		generateCartItemIds(cart.getCartItems());
+
+		dataCart.getCartItems().addAll(cart.getCartItems());
+
+		bookDAO.save(dataCart);
+
+		ninjaCache.set(
+				Helper.constructCartSession(dataCart.getId().toString()),
+				dataCart, "10mn");
+
+		return Results.json().render(
+				ninjaProperties.getContextPath() + "/tours/" + id + "/" + link);
+	}
+
+	private void generateCartItemIds(List<CartItem> cartItems) {
+		for (CartItem cartItem : cartItems) {
+			cartItem.setObjectid(new ObjectId().toString());
+		}
+	}
+
+	public Result allBooks() {
+		Result result = Results.html();
+		result.render("cart", getCart());
+		return result;
+	}
+
 	// ** FOR JSON REQUESTS **
 
-	public Result book(@PathParam("id") String id,
-			@PathParam("link") String link) {
-		// Result result = Results.html();
-		String cartId = context.getSession().get("cartId");
-		Cart cart = null;
-		if (cartId == null) {
-			cart = new Cart();
-		} else {
-			cart = bookDAO.findByID(cartId);
-		}
-
-		CartItem cartItem = new CartItem("excursion", 10);
-		List<CartItem> cartItems = new ArrayList<CartItem>();
-		cartItems.add(cartItem);
-
-		if (cart.getCartItems() == null) {
-			cart.setCartItems(new ArrayList<CartItem>());
-		}
-
-		cart.getCartItems().add(cartItem);
-
-		String generatedCartId = bookDAO.save(cart);
-
-		if (cartId == null)
-			context.getSession().put("cartId", generatedCartId);
-
-		return Results.json().render(cart);
+	public Result getCarts() {
+		return Results.json().render(getCart());
 	}
 
-	public Result book2(@PathParam("id") String id,
-			@PathParam("link") String link, Cart cartItems) {
-		// Result result = Results.html();
-		String cartId = context.getSession().get("cartId");
-		Cart cart = null;
-		if (cartId == null) {
-			cart = new Cart();
-		} else {
-			cart = bookDAO.findByID(cartId);
-		}
-
-		CartItem cartItem = new CartItem("excursion", 10);
-
-
-		return Results.json().render(cart);
+	public Result getTotalCart() {
+		Cart cart = getCart();
+		int result = 0;
+		if (cart.getCartItems() != null)
+			result = cart.getCartItems().size();
+		return Results.json().render(result);
 	}
+
+	public Result deleteCarts(CartItem cartItem) {
+		Cart cart = getCart();
+		for (CartItem data : cart.getCartItems()) {
+			if (data.getObjectid().equals(cartItem.getObjectid())) {
+				cart.getCartItems().remove(data);
+				break;
+			}
+		}
+		bookDAO.save(cart);
+
+		ninjaCache.set(Helper.constructCartSession(cart.getId().toString()),
+				cart, "10mn");
+
+		return Results.ok();
+	}
+
+
 
 	public Result detail(@PathParam("id") String id,
 			@PathParam("link") String link) {

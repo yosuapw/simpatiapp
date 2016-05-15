@@ -1,6 +1,8 @@
 package model;
 
+
 public class CartItem {
+	String objectid;
 	String type;
 	String item;
 	String priceType;
@@ -65,5 +67,14 @@ public class CartItem {
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
+
+	public String getObjectid() {
+		return objectid;
+	}
+
+	public void setObjectid(String objectid) {
+		this.objectid = objectid;
+	}
+
 
 }

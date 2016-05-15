@@ -18,10 +18,10 @@ package conf;
 
 
 import ninja.AssetsController;
-import ninja.Results;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
 import controllers.ApplicationController;
+import controllers.BaseController;
 import controllers.BookController;
 import controllers.TourController;
 
@@ -29,7 +29,7 @@ public class Routes implements ApplicationRoutes {
 
     @Override
     public void init(Router router) {  
-		router.GET().route("/").with(Results.html().template("/views/index.html"));
+		router.GET().route("/").with(BaseController.class, "index");
 		/*
 		 * router.GET().route("/tours")
 		 * .with(Results.html().template("/views/directory-list.html"));
@@ -46,8 +46,10 @@ public class Routes implements ApplicationRoutes {
 		router.GET().route("/tours/{id}/{link}/booking")
 				.with(BookController.class, "book");
 
-		router.POST().route("/tours/{id}/{link}/booking2")
-				.with(BookController.class, "book2");
+		router.POST().route("/tours/{id}/{link}/booking")
+				.with(BookController.class, "addBook");
+
+		router.GET().route("/cart").with(BookController.class, "cart");
 
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
@@ -65,12 +67,21 @@ public class Routes implements ApplicationRoutes {
 		router.GET().route("/service/tours/{id}/{link}")
 				.with(TourController.class, "findByLink");
 
-		router.GET().route("/service/tours/{id}/{link}/booking")
-				.with(BookController.class, "book");
+		/*
+		 * router.GET().route("/service/tours/{id}/{link}/booking")
+		 * .with(BookController.class, "book");
+		 */
 
-		router.POST().route("/service/tours/{id}/{link}/booking2")
-				.with(BookController.class, "book2");
-        
+		router.POST().route("/service/tours/{id}/{link}/booking")
+				.with(BookController.class, "addBook");
+		router.GET().route("/service/totalcart")
+				.with(BookController.class, "getTotalCart");
+
+		router.GET().route("/service/cart")
+				.with(BookController.class, "getCarts");
+
+		router.POST().route("/service/cart/delete")
+				.with(BookController.class, "deleteCarts");
  
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
