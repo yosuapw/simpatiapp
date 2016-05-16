@@ -69,6 +69,11 @@ public class BookController extends BaseController {
 		return result;
 	}
 
+	public Result checkout() {
+		Result result = Results.html();
+		return result;
+	}
+
 	public Result addBook(@PathParam("id") String id,
 			@PathParam("link") String link, Cart cart) {
 		// Result result = Results.html();

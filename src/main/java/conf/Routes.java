@@ -51,6 +51,8 @@ public class Routes implements ApplicationRoutes {
 
 		router.GET().route("/cart").with(BookController.class, "cart");
 
+		router.GET().route("/checkout").with(BookController.class, "checkout");
+
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
 		// router.GET().route("/hello_world3.json").with(ApplicationController.class,

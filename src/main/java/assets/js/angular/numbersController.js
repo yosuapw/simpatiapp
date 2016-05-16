@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['infinite-scroll']);
+var myApp = angular.module('numbersApp', ['infinite-scroll']);
 
 var numbersController = function($scope, dataLoadService){
 
@@ -55,3 +55,6 @@ myApp.service(
         }
     }
 );
+
+
+angular.bootstrap($('#numbersApp'),['numbersApp']);

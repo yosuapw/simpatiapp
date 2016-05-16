@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app='myApp'>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<title>Simpati Tour</title>
@@ -21,7 +21,9 @@
 
 		<!-- Navigation (main menu)
 		================================================== -->
-		<#include "../header.ftl.html">
+		<div data-ng-app='myApp'>
+			<#include "../header.ftl.html">
+		</div>
 		
 
 
@@ -119,7 +121,7 @@
 						</div>
 					</div>
 		
-					<div data-ng-controller='numbersController'>
+					<div id='numbersApp' data-ng-app='numbersApp' data-ng-controller='numbersController'>
 						<hr>
 						<div id="separator" data-ng-if="toursData"><h2>All Tours</h2></div>
 						<div id="loading" data-ng-if="!toursData"></div>
@@ -252,7 +254,7 @@
 		
 		<script src="../assets/js/angular/angular.js"></script>
 		<script src="../assets/js/angular/ng-infinite.js"></script>
-		<script src="../assets/js/angular/numbersController.js"></script>
 		<script src="../../assets/js/angular/cartsController.js"></script>
+		<script src="../assets/js/angular/numbersController.js"></script>
 	</body>
 </html>
