@@ -14,7 +14,27 @@ public class Cart extends MorphiaModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	List<CartItem> cartItems;
+	private List<CartItem> cartItems;
+
+	private PersonDetail personDetail;
+
+	private Payment payment;
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public PersonDetail getPersonDetail() {
+		return personDetail;
+	}
+
+	public void setPersonDetail(PersonDetail personDetail) {
+		this.personDetail = personDetail;
+	}
 
 	public List<CartItem> getCartItems() {
 		return cartItems;

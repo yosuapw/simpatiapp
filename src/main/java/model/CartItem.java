@@ -1,7 +1,13 @@
 package model;
 
+import java.io.Serializable;
 
-public class CartItem {
+public class CartItem implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	String objectid;
 	String type;
 	String item;

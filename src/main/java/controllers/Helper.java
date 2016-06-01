@@ -8,4 +8,8 @@ public class Helper {
 		return CART_SESSION + cartId;
 	}
 
+	public static String constructValidation() {
+		return java.util.UUID.randomUUID().toString();
+	}
+
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import model.Cart;
 import model.CartItem;
 import model.Excursion;
+import model.Payment;
+import model.PersonDetail;
 import model.Tour;
 import ninja.Context;
 import ninja.Result;
@@ -26,6 +28,8 @@ import dao.RoundTripDAO;
 
 @Singleton
 public class BookController extends BaseController {
+	
+	final String UNPAID = "unpaid";
 
 	BookDAO bookDAO;
 
@@ -71,6 +75,16 @@ public class BookController extends BaseController {
 
 	public Result checkout() {
 		Result result = Results.html();
+		return result;
+	}
+
+	public Result saveCheckout(PersonDetail personDetail) {
+		Cart cart = getCart();
+		cart.setPersonDetail(personDetail);
+		cart.setPayment(new Payment(Helper.constructValidation(), UNPAID));
+		bookDAO.save(cart);
+		Result result = Results.html();
+		result.render("message", "process created. please check your email");
 		return result;
 	}
 

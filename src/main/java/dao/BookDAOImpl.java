@@ -1,6 +1,8 @@
 
 package dao;
 
+import java.util.List;
+
 import model.Cart;
 import net.binggl.ninja.mongodb.MongoDB;
 
@@ -35,5 +37,12 @@ public class BookDAOImpl implements BookDAO {
 	public Cart findByID(String id) {
 		// TODO Auto-generated method stub
 		return mongoDB.findById(new ObjectId(id), Cart.class);
+	}
+
+	@Override
+	public List<Cart> findByStatus(String status) {
+		// TODO Auto-generated method stub
+		return mongoDB.getDatastore()
+				.find(Cart.class, "payment.status", status).asList();
 	}
 }

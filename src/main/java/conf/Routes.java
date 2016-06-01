@@ -23,6 +23,7 @@ import ninja.application.ApplicationRoutes;
 import controllers.ApplicationController;
 import controllers.BaseController;
 import controllers.BookController;
+import controllers.MailController;
 import controllers.TourController;
 
 public class Routes implements ApplicationRoutes {
@@ -53,6 +54,9 @@ public class Routes implements ApplicationRoutes {
 
 		router.GET().route("/checkout").with(BookController.class, "checkout");
 
+		router.POST().route("/checkout")
+				.with(BookController.class, "saveCheckout");
+
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
 		// router.GET().route("/hello_world3.json").with(ApplicationController.class,
@@ -68,6 +72,14 @@ public class Routes implements ApplicationRoutes {
 
 		router.GET().route("/service/tours/{id}/{link}")
 				.with(TourController.class, "findByLink");
+
+		router.GET().route("/service/mail")
+				.with(MailController.class, "mail");
+
+		/*
+		 * router.GET().route("/service/mail") .with(MailController.class,
+		 * "sendMail");
+		 */
 
 		/*
 		 * router.GET().route("/service/tours/{id}/{link}/booking")

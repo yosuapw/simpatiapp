@@ -1,13 +1,10 @@
 var myApp = angular.module('myApp');
 
-var booksController = function($scope, $location, dataLoadService){
+var booksController = function($scope, $location, checkoutService){
 	
 	$scope.data = {
 			priceType: null,
-			number: null,
-			cart: {
-				cartItems: []
-			}
+			number: null
 	}	
 	
 	$scope.newItem = function () {
@@ -18,16 +15,11 @@ var booksController = function($scope, $location, dataLoadService){
 	
 	$scope.data.availablePaymentTypes = [
 	        {key:'banktransfer', value: 'Bank Transfer'},
-			{key:'paypal', value: 'paypal'}]
+			{key:'paypal', value: 'paypal'}];
 	
-	$scope.addItem = function () {
-		$scope.data.cart.cartItems.push({priceType: $scope.data.priceType,
-										number: $scope.data.number});
-		$scope.newItem();
-	}
 	
 	$scope.submitData = function () {
-		dataLoadService.saveData($scope.data.cart, $location.absUrl());
+		checkoutService.saveData($scope.data.personDetail, $location.absUrl());
 	}
 
 }
@@ -36,7 +28,7 @@ myApp.controller('CheckoutsController', booksController);
 
 //I act a repository for the remote friend collection.
 myApp.service(
-    "dataLoadService",
+    "checkoutService",
     function( $http, $q, $location, $window) {
         // Return public API.
         return({
