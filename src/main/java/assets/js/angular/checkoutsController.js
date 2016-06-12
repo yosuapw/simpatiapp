@@ -12,6 +12,9 @@ var booksController = function($scope, $location, checkoutService){
 		$scope.data.number = null;
 	}
 	
+	$scope.message = "";
+	
+	$scope.enableField = true;
 	
 	$scope.data.availablePaymentTypes = [
 	        {key:'banktransfer', value: 'Bank Transfer'},
@@ -19,7 +22,14 @@ var booksController = function($scope, $location, checkoutService){
 	
 	
 	$scope.submitData = function () {
-		checkoutService.saveData($scope.data.personDetail, $location.absUrl());
+		checkoutService.saveData($scope.data.personDetail, $location.absUrl()).then(function (data) {
+			if (data === 200) {
+				$scope.message = "success";
+				$scope.enableField = false;
+			} else {
+				$scope.message = "failed";
+			}
+		});
 	}
 
 }
@@ -66,12 +76,7 @@ myApp.service(
         // I transform the successful response, unwrapping the application data
         // from the API response payload.
         function handleSuccess( response ) {
-        	var path = "";
-        	if($location.protocol()) path = path.concat($location.protocol());
-        	if($location.host()) path = path.concat("://"+$location.host());
-        	if($location.port()) path = path.concat(":"+$location.port());
-         // path() is also a setter
-        	$window.location.href = path + response.data;
+        	return response.status;
         }
     }
 );

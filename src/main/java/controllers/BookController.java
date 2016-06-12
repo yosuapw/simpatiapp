@@ -14,6 +14,7 @@ import ninja.Result;
 import ninja.Results;
 import ninja.cache.NinjaCache;
 import ninja.params.PathParam;
+import ninja.session.Session;
 import ninja.utils.NinjaProperties;
 
 import org.bson.types.ObjectId;
@@ -36,21 +37,22 @@ public class BookController extends BaseController {
 	@Inject
 	public BookController(ExcursionDAO excursionDAO, ExplorerDAO explorerDAO,
 			RoundTripDAO roundTripDAO, NinjaCache ninjaCache,
-			NinjaProperties ninjaProperties, Context context, BookDAO bookDAO) {
+			NinjaProperties ninjaProperties, Context context, BookDAO bookDAO,
+			Session sessionz) {
 		super(excursionDAO, explorerDAO, roundTripDAO, ninjaCache,
-				ninjaProperties, context);
+				ninjaProperties, context, sessionz);
 		this.bookDAO = bookDAO;
 	}
 
 
-	private Cart getCart() {
-		String cartId = context.getSession().get("cartId");
+	private Cart getCart(Session session) {
+		String cartId = session.get("cartId");
 		Cart cart = null;
 		if (cartId == null) {
 			cart = new Cart();
 			ObjectId id = new ObjectId();
 			cart.setId(id);
-			context.getSession().put("cartId", id.toString());
+			session.put("cartId", id.toString());
 			bookDAO.save(cart);
 			ninjaCache.set(Helper.constructCartSession(cartId), cart, "10mn");
 		} else {
@@ -78,20 +80,23 @@ public class BookController extends BaseController {
 		return result;
 	}
 
-	public Result saveCheckout(PersonDetail personDetail) {
-		Cart cart = getCart();
+	public Result saveCheckout(PersonDetail personDetail, Session session) {
+		Cart cart = getCart(session);
+		saveCheckout(personDetail, cart);
+		return Results.ok();
+	}
+
+	private void saveCheckout(PersonDetail personDetail, Cart cart) {
 		cart.setPersonDetail(personDetail);
-		cart.setPayment(new Payment(Helper.constructValidation(), UNPAID));
+		cart.setPayment(new Payment(Helper.constructValidation(),
+				UNPAID));
 		bookDAO.save(cart);
-		Result result = Results.html();
-		result.render("message", "process created. please check your email");
-		return result;
 	}
 
 	public Result addBook(@PathParam("id") String id,
-			@PathParam("link") String link, Cart cart) {
+			@PathParam("link") String link, Cart cart, Session session) {
 		// Result result = Results.html();
-		Cart dataCart = getCart();
+		Cart dataCart = getCart(session);
 
 		if (dataCart.getCartItems() == null)
 			dataCart.setCartItems(new ArrayList<CartItem>());
@@ -107,7 +112,7 @@ public class BookController extends BaseController {
 				dataCart, "10mn");
 
 		return Results.json().render(
-				ninjaProperties.getContextPath() + "/tours/" + id + "/" + link);
+				ninjaProperties.get("fullServerName") + "/tours/" + id + "/" + link);
 	}
 
 	private void generateCartItemIds(List<CartItem> cartItems) {
@@ -116,20 +121,20 @@ public class BookController extends BaseController {
 		}
 	}
 
-	public Result allBooks() {
+	public Result allBooks(Session session) {
 		Result result = Results.html();
-		result.render("cart", getCart());
+		result.render("cart", getCart(session));
 		return result;
 	}
 
 	// ** FOR JSON REQUESTS **
 
-	public Result getCarts() {
-		return Results.json().render(getCart());
+	public Result getCarts(Session session) {
+		return Results.json().render(getCart(session));
 	}
 
-	public Result getTotalCart() {
-		Cart cart = getCart();
+	public Result getTotalCart(Session session) {
+		Cart cart = getCart(session);
 		int result = 0;
 		if (cart.getCartItems() != null)
 			result = cart.getCartItems().size();
@@ -137,7 +142,7 @@ public class BookController extends BaseController {
 	}
 
 	public Result deleteCarts(CartItem cartItem) {
-		Cart cart = getCart();
+		Cart cart = getCart(session);
 		for (CartItem data : cart.getCartItems()) {
 			if (data.getObjectid().equals(cartItem.getObjectid())) {
 				cart.getCartItems().remove(data);
@@ -157,7 +162,7 @@ public class BookController extends BaseController {
 	public Result detail(@PathParam("id") String id,
 			@PathParam("link") String link) {
 		Result result = Results.html();
-		context.getSession().put("username", "kevin");
+		session.put("username", "kevin");
 
 		if (id.equalsIgnoreCase("excursion")) {
 			Excursion excursion = getExcursion(link);

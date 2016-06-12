@@ -7,6 +7,8 @@ import model.Cart;
 import net.binggl.ninja.mongodb.MongoDB;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.query.Criteria;
+import org.mongodb.morphia.query.Query;
 
 import com.google.inject.Inject;
 
@@ -44,5 +46,24 @@ public class BookDAOImpl implements BookDAO {
 		// TODO Auto-generated method stub
 		return mongoDB.getDatastore()
 				.find(Cart.class, "payment.status", status).asList();
+	}
+
+	@Override
+	public Cart findByLink(String link) {
+		// TODO Auto-generated method stub
+		return mongoDB.getDatastore()
+				.find(Cart.class, "payment.link", link).get();
+	}
+
+	@Override
+	public List<Cart> findByStatuses() {
+		Criteria criteria;
+		Query<Cart> query = mongoDB.getDatastore()
+				.find(Cart.class); 
+		// TODO Auto-generated method stub
+		 query.or(query.criteria("payment.status").equal("CONFIRM_PAYMENT"),
+				  query.criteria("payment.status").equal("CONFIRM_PAYMENT_EMAILED"));
+		 
+		 return query.asList();
 	}
 }

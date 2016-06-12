@@ -54,7 +54,8 @@
 					<header class="entry-header">
 						<h1 class="entry-title">Payment Type</h1>
 					</header>
-					<form class="form-horizontal">
+					{{message}}
+					<form class="form-horizontal" data-ng-show="enableField">
 						<div class="form-group" style="margin:auto">
 							<label for="availableTypes" class="col-lg-2 control-label">Type</label>
 							<div class="col-lg-10">						      

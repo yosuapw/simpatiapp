@@ -1,4 +1,4 @@
-package controllers;
+package scheduler;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -7,6 +7,7 @@ import model.Cart;
 import ninja.postoffice.Mail;
 import ninja.postoffice.Postoffice;
 import ninja.scheduler.Schedule;
+import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -15,31 +16,35 @@ import com.google.inject.Singleton;
 import dao.BookDAO;
 
 @Singleton
-public class Scheduler {
+public class AdminReminderScheduler {
 
-	final String UNPAID = "unpaid";
+
+	final String CONFIRM_PAYMENT = "CONFIRM_PAYMENT";
 
 	@Inject
 	Provider<Mail> mailProvider;
 
 	@Inject
 	BookDAO bookDAO;
+	
+	@Inject
+	NinjaProperties ninjaProperties;
 
 	@Inject
 	Postoffice postoffice;
 
 	@Schedule(delay = 60, initialDelay = 5, timeUnit = TimeUnit.SECONDS)
 	public void doStuffEach60Seconds() {
-		List<Cart> cartList = bookDAO.findByStatus(UNPAID);
+		List<Cart> cartList = bookDAO.findByStatus(CONFIRM_PAYMENT);
 
 		for (Cart cart : cartList) {
-			cart.getPayment().setStatus("NOTIFIED");
+			cart.getPayment().setStatus("CONFIRM_PAYMENT_EMAILED");
 			bookDAO.save(cart);
-			sendMail();
+			sendMail(cart);
 		}
 	}
 
-	public void sendMail() {
+	public void sendMail(Cart cart) {
 
 		Mail mail = mailProvider.get();
 
@@ -55,8 +60,10 @@ public class Scheduler {
 		mail.addHeader("header2", "value2");
 
 		mail.addTo("yosua161@gmail.com");
+		
+		String serverName = ninjaProperties.get("fullServerName");
 
-		mail.setBodyHtml("bodyHtml");
+		mail.setBodyHtml("some payment need to be verified");
 
 		mail.setBodyText("bodyText");
 

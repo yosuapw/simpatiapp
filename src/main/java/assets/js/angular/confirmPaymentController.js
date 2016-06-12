@@ -1,56 +1,49 @@
-var myApp = angular.module('myApp');
+var cartApp = angular.module('myApp', []);
 
-var booksController = function($scope, $location, dataLoadService){
-	
-	$scope.data = {
-			priceType: null,
-			number: null,
-			cart: {
-				cartItems: []
-			}
-	}	
-	
-	$scope.newItem = function () {
-		$scope.data.priceType = null;
-		$scope.data.number = null;
-	}
-	
-	
-	$scope.data.availableTypes = [
-	        {key:'adult', value: 'Adult'},
-			{key:'children', value: 'Children'}]
-	
-	$scope.addItem = function () {
-		$scope.data.cart.cartItems.push({priceType: $scope.data.priceType,
-										number: $scope.data.number});
-		$scope.newItem();
-	}
-	
-	$scope.submitData = function () {
-		dataLoadService.saveData($scope.data.cart, $location.absUrl());
-	}
+var numbersController = function($scope, confirmPaymentService){
 
+    $scope.loadMore = function () {
+    	confirmPaymentService.loadData().then(function (data) {
+    		$scope.bookings = data;
+    	});
+    }
+    
+    $scope.confirm = function (index, item) {
+    	confirmPaymentService.confirm({link: item.payment.link}).then(function () {
+    		
+    	});
+    }
+    
+    $scope.loadMore();
 }
+cartApp.controller('AdminConfirmPaymentsController', numbersController); 
 
-myApp.controller('booksController', booksController); 
 
-//I act a repository for the remote friend collection.
-myApp.service(
-    "dataLoadService",
-    function( $http, $q, $location, $window) {
+// I act a repository for the remote friend collection.
+cartApp.service(
+    "confirmPaymentService",
+    function( $http, $q ) {
         // Return public API.
         return({
-        	saveData: saveData
+            loadData: loadData,
+            confirm: confirm
         });
         // ---
         // PUBLIC METHODS.
         // ---
         // I add a friend with the given name to the remote collection.
-        function saveData(data, param) {
+        function loadData( ) {
+            var request = $http({
+                method: "get",
+                url: "/service/admin/confirm/payment/list"
+            });
+            return( request.then( handleSuccess, handleError ) );
+        }
+        function confirm(link) {
             var request = $http({
                 method: "post",
-                url: param,
-                data: data
+                url: "/service/admin/confirm/payment",
+                data: link
             });
             return( request.then( handleSuccess, handleError ) );
         }
@@ -74,10 +67,8 @@ myApp.service(
         // I transform the successful response, unwrapping the application data
         // from the API response payload.
         function handleSuccess( response ) {
-         // path() is also a setter
-        	$window.location.href =  response.data;
+            return( response.data );
         }
     }
 );
-
 

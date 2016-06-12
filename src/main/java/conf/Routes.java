@@ -20,9 +20,11 @@ package conf;
 import ninja.AssetsController;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
+import controllers.AdminController;
 import controllers.ApplicationController;
 import controllers.BaseController;
 import controllers.BookController;
+import controllers.BookValidationController;
 import controllers.MailController;
 import controllers.TourController;
 
@@ -57,12 +59,18 @@ public class Routes implements ApplicationRoutes {
 		router.POST().route("/checkout")
 				.with(BookController.class, "saveCheckout");
 
+		router.GET().route("/book/validate/{link}")
+				.with(BookValidationController.class, "validateBook");
+		
+
+		router.GET().route("/admin/confirmation")
+				.with(AdminController.class, "waitConfirmation");
+
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
 		// router.GET().route("/hello_world3.json").with(ApplicationController.class,
 		// "testJson");
-		router.GET().route("/dailytour/list.json")
-				.with(ApplicationController.class, "getAll");
+		router.GET().route("/dailytour/list.json").with(ApplicationController.class, "getAll");
 		
 		
 		// FOR JSON REQUEST
@@ -75,6 +83,19 @@ public class Routes implements ApplicationRoutes {
 
 		router.GET().route("/service/mail")
 				.with(MailController.class, "mail");
+
+		router.GET().route("/service/book/validate/{link}")
+				.with(BookValidationController.class, "findBookValidation");
+
+		router.GET().route("/service/book/confirm/{link}")
+				.with(BookValidationController.class, "confirmPayment");
+
+		router.GET().route("/service/admin/confirm/payment/list")
+				.with(AdminController.class, "paymentConfirmation");
+
+		router.POST().route("/service/admin/confirm/payment")
+				.with(AdminController.class, "confirmItem");
+
 
 		/*
 		 * router.GET().route("/service/mail") .with(MailController.class,

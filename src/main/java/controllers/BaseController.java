@@ -9,6 +9,7 @@ import ninja.Context;
 import ninja.Result;
 import ninja.Results;
 import ninja.cache.NinjaCache;
+import ninja.session.Session;
 import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
@@ -31,16 +32,19 @@ public class BaseController {
 
 	Context context;
 
+	Session session;
+
 	@Inject
 	public BaseController(ExcursionDAO excursionDAO, ExplorerDAO explorerDAO,
 			RoundTripDAO roundTripDAO, NinjaCache ninjaCache,
-			NinjaProperties ninjaProperties, Context context) {
+			NinjaProperties ninjaProperties, Context context, Session session) {
 		this.excursionDAO = excursionDAO;
 		this.explorerDAO = explorerDAO;
 		this.roundTripDAO = roundTripDAO;
 		this.ninjaCache = ninjaCache;
 		this.ninjaProperties = ninjaProperties;
 		this.context = context;
+		this.session = session;
 	}
 
 	public Result index() {

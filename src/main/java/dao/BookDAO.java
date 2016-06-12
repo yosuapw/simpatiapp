@@ -9,5 +9,9 @@ public interface BookDAO {
 
 	Cart findByID(String id);
 
+	Cart findByLink(String id);
+
 	List<Cart> findByStatus(String status);
+
+	List<Cart> findByStatuses();
 }

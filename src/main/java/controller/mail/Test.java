@@ -1,4 +1,4 @@
-package controllers;
+package controller.mail;
 
 
 import javax.mail.internet.AddressException;

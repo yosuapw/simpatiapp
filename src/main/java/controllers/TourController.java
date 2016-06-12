@@ -9,6 +9,7 @@ import ninja.Result;
 import ninja.Results;
 import ninja.cache.NinjaCache;
 import ninja.params.PathParam;
+import ninja.session.Session;
 import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
@@ -24,9 +25,9 @@ public class TourController extends BaseController {
 	@Inject
 	public TourController(ExcursionDAO excursionDAO, ExplorerDAO explorerDAO,
 			RoundTripDAO roundTripDAO, NinjaCache ninjaCache,
-			NinjaProperties ninjaProperties, Context context) {
+			NinjaProperties ninjaProperties, Context context, Session session) {
 		super(excursionDAO, explorerDAO, roundTripDAO, ninjaCache,
-				ninjaProperties, context);
+				ninjaProperties, context, session);
 	}
 
 	public Result tour(@PathParam("id") String id) {

@@ -16,10 +16,13 @@
 
 package conf;
 
+import scheduler.AdminReminderScheduler;
+import scheduler.FullyPaidScheduler;
+import scheduler.UnpaidScheduler;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import controllers.Scheduler;
 import dao.BookDAO;
 import dao.BookDAOImpl;
 import dao.ExcursionDAO;
@@ -45,7 +48,13 @@ public class Module extends AbstractModule {
 
 		bind(BookDAO.class).to(BookDAOImpl.class);
 
-		bind(Scheduler.class);
+		bind(UnpaidScheduler.class);
+
+		bind(AdminReminderScheduler.class);
+
+		bind(FullyPaidScheduler.class);
+		
+		
         
         
     }

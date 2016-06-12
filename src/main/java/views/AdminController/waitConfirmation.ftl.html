@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" data-ng-app='myApp'>
 	<head>
 		<meta charset="utf-8">
 		<title>GoExplore! Travel Website Template</title>
@@ -21,9 +21,6 @@
 
 		<!-- Navigation (main menu)
 		================================================== -->
-		
-		<#include "../header.ftl.html">
-
 
 
 
@@ -47,15 +44,51 @@
 		================================================== -->
 
 		<section class="main container">
-			<div id="content" class="row" >
+			<div id="content" class="row" data-ng-controller='AdminConfirmPaymentsController'>
 				<div class="col-xs-12 col-sm-4 col-md-3 blog-details-column">
+					<div class="entry-meta">
+						<h3>Price:</h3>
+						<h2 data-ng-if="data.service == 0" style="valign:top"> &#8364; {{data.price}}</h2>
+						<h2 data-ng-if="data.service == 1" style="valign:top"> &#8364; {{data.rental.price}}</h2>
+						
+					</div>
+
+					<div class="sidebar">
+						<div class="sidebar-padder">
+							<div class="widget scg_widget single-post-left widget_text">
+							</div>
+						</div>
+					</div>
 				</div>
+				
 				<div class="col-sm-8 col-md-7">
-					<h1>${message}</h1>
+					<h3 class="text-primary">Cart</h3>
+					{{message}}
+					<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Pax</th>
+										<th>Number</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-ng-repeat="booking in bookings">
+										<td>{{$index + 1}}</td>
+										<td>{{booking.cartItems.length}}</td>
+										<td>{{booking.payment || json}}</td>
+										<td><button type="button" class="btn btn-primary btn-xs" data-ng-click="confirm($index, booking)">confirm</button></td>
+									</tr>
+								</tbody>
+					</table>
+					
 				</div>
 
 				<div class="sidebar col-xs-12 col-sm-4 col-md-2">
 					<div class="sidebar-padder">
+						<aside id="nav_menu-3" class="widget widget_nav_menu">
+						</aside>
 					</div>
 				</div>
 			</div>
@@ -87,7 +120,7 @@
 		<script src="../../../assets/js/bootstrap.min.js"></script>
 		<script src="../../../assets/js/scroll-main.js"></script>
 		<script src="../../../assets/js/custom.js"></script>
-		<script src="../../../assets/js/uri.js"></script>
 		<script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>
+		<script src="../../../assets/js/angular/confirmPaymentController.js"></script>
 	</body>
 </html>

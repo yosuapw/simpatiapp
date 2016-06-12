@@ -6,6 +6,8 @@ import ninja.Results;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import controller.mail.Test;
+
 @Singleton
 public class MailController {
 	MailService mailService;
