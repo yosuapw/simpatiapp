@@ -9895,3 +9895,33 @@ a.more-link {
 #separators {
 	 position: absolute; width: 100%; height: 100%;
 }
+
+.minicart{
+	float: right;
+	margin-top: 12px;
+	background:url(../images/sprite.png);
+	background-position: -156px 11px;
+	background-repeat:no-repeat;
+	width: 40px;
+	height: 50px;
+	padding-right: 32px;
+}
+
+.inner-circle {
+	font-size: 17px;
+    align: center;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0px;
+    line-height: 20px;
+    opacity: 0.9;
+}
+
+.circle { 
+   width: 20px;
+   height: 20px;
+   background: #BA3635; 
+   -moz-border-radius: 20px; 
+   -webkit-border-radius: 20px; 
+   border-radius: 20px;
+}
