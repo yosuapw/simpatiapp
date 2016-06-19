@@ -28,7 +28,7 @@ public class AdminController {
 
 	public Result confirmItem(Payment payment) {
 		Cart data1 = bookDAO.findByLink(payment.getLink());
-		data1.getPayment().setStatus("FULLY_PAID");
+		data1.getPayment().setStatus("fullyPaid");
 		bookDAO.save(data1);
 
 		return Results.json().render(data1);

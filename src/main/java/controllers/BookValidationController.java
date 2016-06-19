@@ -31,7 +31,7 @@ public class BookValidationController {
 	
 	public Result confirmPayment(@PathParam("link") String link) {
 		Cart cart = bookDAO.findByLink(link);
-		cart.getPayment().setStatus("CONFIRM_PAYMENT");
+		cart.getPayment().setStatus("confirmPayment");
 		bookDAO.save(cart);
 		return Results.ok();
 	}

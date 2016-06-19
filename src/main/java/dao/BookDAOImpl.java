@@ -61,8 +61,8 @@ public class BookDAOImpl implements BookDAO {
 		Query<Cart> query = mongoDB.getDatastore()
 				.find(Cart.class); 
 		// TODO Auto-generated method stub
-		 query.or(query.criteria("payment.status").equal("CONFIRM_PAYMENT"),
-				  query.criteria("payment.status").equal("CONFIRM_PAYMENT_EMAILED"));
+		 query.or(query.criteria("payment.status").equal("confirmPayment"),
+				  query.criteria("payment.status").equal("confirmPaymentEmailed"));
 		 
 		 return query.asList();
 	}

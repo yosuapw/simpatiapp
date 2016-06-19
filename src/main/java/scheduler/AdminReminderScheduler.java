@@ -19,7 +19,7 @@ import dao.BookDAO;
 public class AdminReminderScheduler {
 
 
-	final String CONFIRM_PAYMENT = "CONFIRM_PAYMENT";
+	final String CONFIRM_PAYMENT = "confirmPayment";
 
 	@Inject
 	Provider<Mail> mailProvider;
@@ -37,14 +37,21 @@ public class AdminReminderScheduler {
 	public void doStuffEach60Seconds() {
 		List<Cart> cartList = bookDAO.findByStatus(CONFIRM_PAYMENT);
 
-		for (Cart cart : cartList) {
-			cart.getPayment().setStatus("CONFIRM_PAYMENT_EMAILED");
-			bookDAO.save(cart);
-			sendMail(cart);
-		}
+		
+			try {
+				for (Cart cart : cartList) {
+					sendMail(cart);
+					cart.getPayment().setStatus("confirmPaymentEmailed");
+					bookDAO.save(cart);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("FAILED TO UPDATE FROM CONFIRM_PAYMENT TO CONFIRM_PAYMENT_EMAILED");
+			}
 	}
 
-	public void sendMail(Cart cart) {
+	public void sendMail(Cart cart) throws Exception {
 
 		Mail mail = mailProvider.get();
 
@@ -60,18 +67,11 @@ public class AdminReminderScheduler {
 		mail.addHeader("header2", "value2");
 
 		mail.addTo("yosua161@gmail.com");
-		
-		String serverName = ninjaProperties.get("fullServerName");
 
 		mail.setBodyHtml("some payment need to be verified");
 
 		mail.setBodyText("bodyText");
 
-		// finally send the mail
-		try {
-			postoffice.send(mail);
-		} catch (Exception e) {
-			System.out.println("failed");
-		}
+		postoffice.send(mail);
 	}
 }

@@ -25,7 +25,6 @@ import controllers.ApplicationController;
 import controllers.BaseController;
 import controllers.BookController;
 import controllers.BookValidationController;
-import controllers.MailController;
 import controllers.TourController;
 
 public class Routes implements ApplicationRoutes {
@@ -81,8 +80,6 @@ public class Routes implements ApplicationRoutes {
 		router.GET().route("/service/tours/{id}/{link}")
 				.with(TourController.class, "findByLink");
 
-		router.GET().route("/service/mail")
-				.with(MailController.class, "mail");
 
 		router.GET().route("/service/book/validate/{link}")
 				.with(BookValidationController.class, "findBookValidation");

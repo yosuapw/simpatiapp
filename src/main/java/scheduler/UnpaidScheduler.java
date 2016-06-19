@@ -38,13 +38,18 @@ public class UnpaidScheduler {
 		List<Cart> cartList = bookDAO.findByStatus(UNPAID);
 
 		for (Cart cart : cartList) {
-			cart.getPayment().setStatus("NOTIFIED");
-			bookDAO.save(cart);
-			sendMail(cart);
+			try {
+				sendMail(cart);
+				cart.getPayment().setStatus("notified");
+				bookDAO.save(cart);
+			} catch (Exception e) {
+				System.out.println("FAILED TO UPDATE FROM UNPAID TO NOTIFIED");
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public void sendMail(Cart cart) {
+	public void sendMail(Cart cart) throws Exception {
 
 		Mail mail = mailProvider.get();
 
@@ -65,12 +70,7 @@ public class UnpaidScheduler {
 				+ Helper.constructValidationForEmail(serverName, cart.getPayment().getLink()) + "'>link</a>");
 
 		mail.setBodyText("bodyText");
-
-		// finally send the mail
-		try {
-			postoffice.send(mail);
-		} catch (Exception e) {
-			System.out.println("failed");
-		}
+		
+		postoffice.send(mail);
 	}
 }

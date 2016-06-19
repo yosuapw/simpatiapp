@@ -18,7 +18,7 @@ import dao.BookDAO;
 @Singleton
 public class FullyPaidScheduler {
 
-	final String FULLY_PAID = "FULLY_PAID";
+	final String FULLY_PAID = "fullyPaid";
 
 	@Inject
 	Provider<Mail> mailProvider;
@@ -36,14 +36,20 @@ public class FullyPaidScheduler {
 	public void doStuffEach60Seconds() {
 		List<Cart> cartList = bookDAO.findByStatus(FULLY_PAID);
 
-		for (Cart cart : cartList) {
-			cart.getPayment().setStatus("COMPLETED");
-			bookDAO.save(cart);
-			sendMail(cart);
-		}
+			try {
+				for (Cart cart : cartList) {
+					sendMail(cart);
+					cart.getPayment().setStatus("completed");
+					bookDAO.save(cart);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("FAILED TO UPDATE FROM FULLY_PAID TO COMPLETED");
+			}
 	}
 
-	public void sendMail(Cart cart) {
+	public void sendMail(Cart cart) throws Exception {
 
 		Mail mail = mailProvider.get();
 
@@ -82,10 +88,6 @@ public class FullyPaidScheduler {
 		mail.setBodyHtml(sb.toString());
 
 		// finally send the mail
-		try {
-			postoffice.send(mail);
-		} catch (Exception e) {
-			System.out.println("failed");
-		}
+		postoffice.send(mail);
 	}
 }
