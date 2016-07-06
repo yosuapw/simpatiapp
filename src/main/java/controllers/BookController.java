@@ -82,15 +82,18 @@ public class BookController extends BaseController {
 
 	public Result saveCheckout(PersonDetail personDetail, Session session) {
 		Cart cart = getCart(session);
-		saveCheckout(personDetail, cart);
+		saveCheckout(personDetail, cart, session);
 		return Results.ok();
 	}
 
-	private void saveCheckout(PersonDetail personDetail, Cart cart) {
+	private void saveCheckout(PersonDetail personDetail, Cart cart, Session session) {
 		cart.setPersonDetail(personDetail);
 		cart.setPayment(new Payment(Helper.constructValidation(),
 				UNPAID));
 		bookDAO.save(cart);
+		
+		// Empty the cartId after all completed
+		session.put("cartId", null);
 	}
 
 	public Result addBook(@PathParam("id") String id,

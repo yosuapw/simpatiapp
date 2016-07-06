@@ -35,14 +35,14 @@ cartApp.service(
         function loadData( ) {
             var request = $http({
                 method: "get",
-                url: "/service/admin/confirm/payment/list"
+                url: "/service/boss/confirm/payment/list"
             });
             return( request.then( handleSuccess, handleError ) );
         }
         function confirm(link) {
             var request = $http({
                 method: "post",
-                url: "/service/admin/confirm/payment",
+                url: "/service/boss/confirm/payment",
                 data: link
             });
             return( request.then( handleSuccess, handleError ) );

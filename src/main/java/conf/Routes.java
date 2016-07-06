@@ -62,8 +62,16 @@ public class Routes implements ApplicationRoutes {
 				.with(BookValidationController.class, "validateBook");
 		
 
-		router.GET().route("/admin/confirmation")
+		router.GET().route("/boss/confirmation")
 				.with(AdminController.class, "waitConfirmation");
+		
+
+		router.GET().route("/boss/login")
+				.with(AdminController.class, "login");
+		
+
+		router.POST().route("/boss/login")
+				.with(AdminController.class, "doLogin");
 
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
@@ -87,10 +95,10 @@ public class Routes implements ApplicationRoutes {
 		router.GET().route("/service/book/confirm/{link}")
 				.with(BookValidationController.class, "confirmPayment");
 
-		router.GET().route("/service/admin/confirm/payment/list")
+		router.GET().route("/service/boss/confirm/payment/list")
 				.with(AdminController.class, "paymentConfirmation");
 
-		router.POST().route("/service/admin/confirm/payment")
+		router.POST().route("/service/boss/confirm/payment")
 				.with(AdminController.class, "confirmItem");
 
 

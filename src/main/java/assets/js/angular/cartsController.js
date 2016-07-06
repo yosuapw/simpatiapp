@@ -1,4 +1,4 @@
-var cartApp = angular.module('myApp', []);
+var cartApp = angular.module('myApp', ['720kb.datepicker']);
 
 var numbersController = function($scope, loadTotalCart){
 

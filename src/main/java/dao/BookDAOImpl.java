@@ -22,17 +22,22 @@ public class BookDAOImpl implements BookDAO {
 
 	@Override
 	public String save(Cart cart) {
-		// TODO Auto-generated method stub
-		String id = null;
-		if (cart.getId() == null) {
-			ObjectId newId = new ObjectId();
-			cart.setId(newId);
-			id = newId.toString();
-		} else {
-			id = cart.getId().toString();
+		
+		try {
+			String id = null;
+			if (cart.getId() == null) {
+				ObjectId newId = new ObjectId();
+				cart.setId(newId);
+				id = newId.toString();
+			} else {
+				id = cart.getId().toString();
+			}
+			mongoDB.save(cart);
+			return id.toString();
+		} catch(Exception e){
+			e.printStackTrace();
+			throw new RuntimeException("TOO HIGH");
 		}
-		mongoDB.save(cart);
-		return id.toString();
 	}
 
 	@Override

@@ -5,6 +5,7 @@
 		<title>GoExplore! Travel Website Template</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<link rel="stylesheet" href="../../../assets/css/angular-datepicker.css" media="screen">
 		<link rel="stylesheet" href="../../../assets/css/imports.css" media="screen">
 		<link rel="stylesheet" href="../../../assets/css/bootstrap.css" media="screen">
 		<!-- <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" media="screen"> -->
@@ -50,21 +51,18 @@
 			<div id="content" class="row" data-ng-controller='booksController'>
 				<div class="col-xs-12 col-sm-4 col-md-3 blog-details-column">
 					<div class="entry-meta">
-						<h3>Price:</h3>
-						<h2 data-ng-if="data.service == 0" style="valign:top"> &#8364; {{data.price}}</h2>
-						<h2 data-ng-if="data.service == 1" style="valign:top"> &#8364; {{data.rental.price}}</h2>
-						
+						<h3>Destination</h3>
+						<h4>{{tourData.headTitle}}</h4>
 					</div>
 
 					<div class="sidebar">
 						<div class="sidebar-padder">
 							<div class="widget scg_widget single-post-left widget_text">
-								<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="submitData()">Book Now</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-8 col-md-7">
+				<div class="col-sm-6 col-md-5">
 					<header class="entry-header">
 						<h1 class="entry-title">Booking</h1>
 					</header>
@@ -78,22 +76,60 @@
 							</div>
 						</div>
 						<div class="form-group" style="margin:auto">
-							<label for="number" class="col-lg-2 control-label">Number</label>
-							<div class="col-lg-10">						      
-						        <input name="number" data-ng-model="data.number" type="number"/>
+							<label for="availableTypes" class="col-lg-2 control-label">Date</label>
+							<div class="col-lg-10">	
+								<datepicker  date-format="yyyy-MM-dd" date-min-limit="{{dateMinLimit}}">
+								 	 <input data-ng-model="data.bookDate" type="text"/>
+								</datepicker>
 							</div>
 						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="number" class="col-lg-2 control-label">Number</label>
+							<div class="col-lg-10">						      
+						        <input name="number" data-ng-model="data.number" type="number" min="1"/>
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="number" class="col-lg-2 control-label"></label>
+							<div class="col-lg-10">						     
+								<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="addItem()">Add</button>
+							</div>
+							
+						</div>
 						
-					<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="addItem()">Add</button>
+
 					</form>
 				</div>
 
-				<div class="sidebar col-xs-12 col-sm-4 col-md-2">
+				<div class="sidebar col-xs-12 col-sm-6 col-md-4">
 					<div class="sidebar-padder">
 						<aside id="nav_menu-3" class="widget widget_nav_menu">
-							<h3 class="widget-title">Destinations</h3>
-							{{data.cart | json}}
+							<h3 class="widget-title">Book Items</h3>
+							
+							
+							<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Type</th>
+												<th>Number</th>
+												<th>Date</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr data-ng-repeat="cart in data.cart.cartItems">
+												<td>{{$index + 1}}</td>
+												<td>{{cart.priceType}}</td>
+												<td>{{cart.number}}</td>
+												<td>{{cart.bookDate}}</td>
+												<td>&#8364; {{cart.total}}</td>
+											</tr>
+										</tbody>
+							</table>
 						</aside>
+						
+						<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="submitData()">Submit Booking</button>
 					</div>
 				</div>
 			</div>
@@ -120,13 +156,9 @@
 				</div>
 			</section>
 		</footer>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="../../../assets/js/bootstrap.min.js"></script>
+		<#include "../js-load.ftl.html">
 		<script src="../../../assets/js/scroll-main.js"></script>
-		<script src="../../../assets/js/custom.js"></script>
-		<script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>
-		<script src="../../../assets/js/angular/cartsController.js"></script>
+		<script src="../../../assets/js/moment.js"></script>
 		<script src="../../../assets/js/angular/booksController.js"></script>
 	</body>
 </html>

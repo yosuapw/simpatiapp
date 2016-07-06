@@ -8,13 +8,15 @@ public class CartItem implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String objectid;
 	String type;
 	String item;
-	String priceType;
-	Integer number;
 	Integer price;
+	Integer total;
 	Integer amount;
+	Integer number;
+	String bookDate;
+	String objectid;
+	String priceType;
 
 	public CartItem(String type, Integer number) {
 		super();
@@ -82,5 +84,20 @@ public class CartItem implements Serializable {
 		this.objectid = objectid;
 	}
 
+	public Integer getTotal() {
+		return total;
+	}
 
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
+
+	public String getBookDate() {
+		return bookDate;
+	}
+
+	public void setBookDate(String bookDate) {
+		this.bookDate = bookDate;
+	}
+	
 }
