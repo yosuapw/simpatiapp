@@ -1,12 +1,18 @@
 var myApp = angular.module('myApp');
 
 var booksController = function($scope, $location, dataLoadService){
+	
+	$scope.message = "";
+	
+	$scope.dataLoaded = false;
+	
 	$scope.dateMinLimit = moment(new Date()).add(30, 'days').format("YYYY-MM-DD");
 	
 	$scope.data = {
 			priceType: null,
 			bookDate: null,
 			number: null,
+			item: null,
 			cart: {
 				cartItems: []
 			}
@@ -17,6 +23,7 @@ var booksController = function($scope, $location, dataLoadService){
 		var link = getLink($location.absUrl());
     	dataLoadService.loadPrice(id, link).then(function (data) {
     		$scope.tourData = data;
+    		$scope.dataLoaded = true;
     	});
     }
     
@@ -40,16 +47,35 @@ var booksController = function($scope, $location, dataLoadService){
 	
 	
 	$scope.data.availableTypes = [
-	        {key:'adult', value: 'Adult'},
-			{key:'children', value: 'Children'}]
+	        {key:'adult', value: 'adult'},
+			{key:'children', value: 'children'}]
 	
 	$scope.addItem = function () {
-		var total = calculatePrice($scope.data.priceType, $scope.data.number);
-		$scope.data.cart.cartItems.push({priceType: $scope.data.priceType,
-										number: $scope.data.number, 
-										bookDate: $scope.data.bookDate,
-										total: total});
-		$scope.newItem();
+		
+		var checkResult = checkItemData($scope.data.priceType, $scope.data.number, $scope.data.bookDate);
+		if (checkResult) {
+			var total = calculatePrice($scope.data.priceType, $scope.data.number);
+			$scope.data.cart.cartItems.push({priceType: $scope.data.priceType,
+											number: $scope.data.number, 
+											item: $scope.tourData.headTitle,
+											bookDate: $scope.data.bookDate,
+											total: total});
+			$scope.newItem();
+		}
+	}
+	
+	$scope.removeItem = function (index) {
+		$scope.data.cart.cartItems.splice(index, 1);
+	}
+	
+	var checkItemData = function(priceType, number, bookDate) {
+		if(!priceType || !number || !bookDate) {
+			$scope.message = "please complete all data";
+			return false;
+		} else {
+			$scope.message = "";
+			return true;
+		}
 	}
 	
 	var calculatePrice = function (priceType, number) {

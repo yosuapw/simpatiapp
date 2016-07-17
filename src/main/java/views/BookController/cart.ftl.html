@@ -48,48 +48,43 @@
 
 		<section class="main container">
 			<div id="content" class="row" data-ng-controller='CartsDetailController'>
-				<div class="col-xs-12 col-sm-4 col-md-3 blog-details-column">
-					<div class="entry-meta">
-						<h3>Price:</h3>
-						<h2 data-ng-if="data.service == 0" style="valign:top"> &#8364; {{data.price}}</h2>
-						<h2 data-ng-if="data.service == 1" style="valign:top"> &#8364; {{data.rental.price}}</h2>
-						
-					</div>
-
-					<div class="sidebar">
-						<div class="sidebar-padder">
-							<div class="widget scg_widget single-post-left widget_text">
-							</div>
-						</div>
-					</div>
-				</div>
 				
-				<div class="col-sm-8 col-md-7">
-					<h3 class="text-primary">Cart</h3>
+				<div class="col-sm-8 col-md-12" data-ng-show="cart.cartItems.length > 0">
+					<h3 class="text-primary">cart</h3>
 					<table class="table table-striped">
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>Pax</th>
-										<th>Number</th>
-										<th>Price</th>
-										<th>Amount</th>
+										<th>destination</th>
+										<th>type</th>
+										<th>qty</th>
+										<th>date</th>
+										<th>amount</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr data-ng-repeat="item in cart.cartItems">
 										<td>{{$index + 1}}</td>
+										<td>{{item.item}}</td>
 										<td>{{item.priceType}}</td>
 										<td>{{item.number}}</td>
-										<td>{{item.price}}</td>
-										<td>{{item.amount}}</td>
-										<td><button type="button" class="btn btn-primary btn-xs" data-ng-click="cancelItem($index, item)">cancel</button></td>
+										<td>{{item.bookDate}}</td>
+										<td>&#8364; {{item.total}}</td>
+										<td>
+											<span class="glyphicon glyphicon-remove" data-ng-click="cancelItem($index, item)"></span>
+										</td>
 									</tr>
 								</tbody>
 					</table>
-					
-					<a href="/checkout"><button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="checkout()">Checkout</button></a>
+				</div>
+				
+				<div class="col-sm-8 col-md-12 pull-right" data-ng-show="cart.cartItems.length > 0">
+					<a href="/checkout"><button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="checkout()">checkout</button></a>
+				</div>
+				<div class="col-sm-8 col-md-7" data-ng-show="cart.cartItems.length == 0 || !cart.cartItems">
+					<h3 class="text-primary">cart</h3>
+					your cart is empty
 				</div>
 
 				<div class="sidebar col-xs-12 col-sm-4 col-md-2">

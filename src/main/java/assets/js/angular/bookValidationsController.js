@@ -11,6 +11,9 @@ var numbersController = function($scope, bookValidationService, $location){
     $scope.loadMore = function () {
     	bookValidationService.loadData(getLink($location.absUrl())).then(function (data) {
     		$scope.cart = data;
+    		if ($scope.cart.payment.status == "confirmPayment") {
+    			paymentConfirmed();
+    		}
     	});
     }
     
@@ -21,10 +24,14 @@ var numbersController = function($scope, bookValidationService, $location){
     
     $scope.confirmPayment = function() {
     	bookValidationService.confirmPayment(getLink($location.absUrl())).then(function() {
-    		$scope.message = "Please wait for 2/24 hours for confirmation. We will send you the payment confirmation."
-    	    $scope.state.confirmed = true;
-	});
+			paymentConfirmed();
+    	});
     };
+    
+    var paymentConfirmed = function() {
+		$scope.message = "Please wait for 2/24 hours for confirmation. We will send you the payment confirmation."
+    	$scope.state.confirmed = true;
+    }
     
     $scope.loadMore();
 }

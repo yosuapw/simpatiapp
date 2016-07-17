@@ -48,56 +48,34 @@
 
 		<section class="main container">
 			<div id="content" class="row" data-ng-controller='BookValidationController'>
-				<div class="col-xs-12 col-sm-4 col-md-3 blog-details-column">
-					<div class="entry-meta">
-						<h3>Price:</h3>
-						<h2 data-ng-if="data.service == 0" style="valign:top"> &#8364; {{data.price}}</h2>
-						<h2 data-ng-if="data.service == 1" style="valign:top"> &#8364; {{data.rental.price}}</h2>
-						
-					</div>
-
-					<div class="sidebar">
-						<div class="sidebar-padder">
-							<div class="widget scg_widget single-post-left widget_text">
-							</div>
-						</div>
-					</div>
-				</div>
 				
-				<div class="col-sm-8 col-md-7">
-					<h3 class="text-primary">Cart</h3>
+				<div class="col-sm-8 col-md-12">
+					<h3 class="text-primary">Payment Confirmation</h3>
 					{{message}}
 					<table class="table table-striped">
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>Pax</th>
-										<th>Number</th>
-										<th>Price</th>
-										<th>Amount</th>
-										<th></th>
+										<th>destination</th>
+										<th>type</th>
+										<th>qty</th>
+										<th>date</th>
+										<th>amount</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr data-ng-repeat="item in cart.cartItems">
 										<td>{{$index + 1}}</td>
+										<td>{{item.item}}</td>
 										<td>{{item.priceType}}</td>
 										<td>{{item.number}}</td>
-										<td>{{item.price}}</td>
-										<td>{{item.amount}}</td>
-										<td><button type="button" class="btn btn-primary btn-xs" data-ng-click="cancelItem($index, item)">cancel</button></td>
+										<td>{{item.bookDate}}</td>
+										<td>&#8364; {{item.total}}</td>
 									</tr>
 								</tbody>
 					</table>
 					
-					<button data-ng-show="!state.confirmed" type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="confirmPayment()">Confirm Payment</button>
-				</div>
-
-				<div class="sidebar col-xs-12 col-sm-4 col-md-2">
-					<div class="sidebar-padder">
-						<aside id="nav_menu-3" class="widget widget_nav_menu">
-						</aside>
-					</div>
+					<button data-ng-show="!state.confirmed" type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="confirmPayment()">confirm payment</button>
 				</div>
 			</div>
 		</section>
@@ -124,8 +102,8 @@
 			</section>
 		</footer>
 
-		<script src="../../../assets/js/scroll-main.js"></script>
 		<#include "../js-load.ftl.html">
+		<script src="../../../assets/js/scroll-main.js"></script>
 		<script src="../../assets/js/angular/bookValidationsController.js"></script>
 	</body>
 </html>

@@ -62,13 +62,18 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-6 col-md-5">
+				<div class="col-sm-6 col-md-4">
 					<header class="entry-header">
 						<h1 class="entry-title">Booking</h1>
 					</header>
 					<form class="form-horizontal">
 						<div class="form-group" style="margin:auto">
-							<label for="availableTypes" class="col-lg-2 control-label">Type</label>
+							<div class="col-lg-10">			
+								{{message}}
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="availableTypes" class="col-lg-2 control-label">type</label>
 							<div class="col-lg-10">						      
 						        <select name="availableTypes" data-ng-model="data.priceType" 
 							        	data-ng-options="option.key as option.value for option in data.availableTypes">
@@ -76,7 +81,7 @@
 							</div>
 						</div>
 						<div class="form-group" style="margin:auto">
-							<label for="availableTypes" class="col-lg-2 control-label">Date</label>
+							<label for="availableTypes" class="col-lg-2 control-label">date</label>
 							<div class="col-lg-10">	
 								<datepicker  date-format="yyyy-MM-dd" date-min-limit="{{dateMinLimit}}">
 								 	 <input data-ng-model="data.bookDate" type="text"/>
@@ -84,7 +89,7 @@
 							</div>
 						</div>
 						<div class="form-group" style="margin:auto">
-							<label for="number" class="col-lg-2 control-label">Number</label>
+							<label for="number" class="col-lg-2 control-label">number</label>
 							<div class="col-lg-10">						      
 						        <input name="number" data-ng-model="data.number" type="number" min="1"/>
 							</div>
@@ -92,7 +97,10 @@
 						<div class="form-group" style="margin:auto">
 							<label for="number" class="col-lg-2 control-label"></label>
 							<div class="col-lg-10">						     
-								<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="addItem()">Add</button>
+								<button type="button" class="btn btn-primary btn-lg  btn-success" 
+								data-ng-click="addItem()" data-ng-show="dataLoaded">
+									{{data.cart.cartItems.length > 0 ? "add more" : "add"}}
+								</button>
 							</div>
 							
 						</div>
@@ -101,8 +109,8 @@
 					</form>
 				</div>
 
-				<div class="sidebar col-xs-12 col-sm-6 col-md-4">
-					<div class="sidebar-padder">
+				<div class="sidebar col-xs-12 col-sm-6 col-md-5">
+					<div class="sidebar-padder" data-ng-show="data.cart.cartItems.length > 0">
 						<aside id="nav_menu-3" class="widget widget_nav_menu">
 							<h3 class="widget-title">Book Items</h3>
 							
@@ -111,10 +119,11 @@
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Type</th>
-												<th>Number</th>
-												<th>Date</th>
-												<th>Total</th>
+												<th>type</th>
+												<th>qty</th>
+												<th>date</th>
+												<th>amount</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -124,12 +133,15 @@
 												<td>{{cart.number}}</td>
 												<td>{{cart.bookDate}}</td>
 												<td>&#8364; {{cart.total}}</td>
+												<td>
+													<span class="glyphicon glyphicon-remove" data-ng-click="removeItem($index)"></span>
+												</td>
 											</tr>
 										</tbody>
 							</table>
 						</aside>
 						
-						<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="submitData()">Submit Booking</button>
+						<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="submitData()">add to cart</button>
 					</div>
 				</div>
 			</div>

@@ -13,6 +13,11 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		<style>
+		    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-    ng-cloak {
+		        display: none !important;
+		    }
+		</style>
 	</head>
 
 	<body class="home">
@@ -121,7 +126,7 @@
 						</div>
 					</div>
 		
-					<div id='numbersApp' data-ng-app='numbersApp' data-ng-controller='numbersController'>
+					<div id='numbersApp' data-ng-app='numbersApp' data-ng-controller='numbersController' data-ng-cloak>
 						<hr>
 						<div id="separator" data-ng-if="toursData"><h2>All Tours</h2></div>
 						<div id="loading" data-ng-if="!toursData"></div>
