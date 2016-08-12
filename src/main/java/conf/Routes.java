@@ -25,6 +25,7 @@ import controllers.ApplicationController;
 import controllers.BaseController;
 import controllers.BookController;
 import controllers.BookValidationController;
+import controllers.PaypalController;
 import controllers.TourController;
 
 public class Routes implements ApplicationRoutes {
@@ -72,6 +73,10 @@ public class Routes implements ApplicationRoutes {
 
 		router.POST().route("/boss/login")
 				.with(AdminController.class, "doLogin");
+		
+
+		router.GET().route("/paypal/coba")
+				.with(PaypalController.class, "coba");
 
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
