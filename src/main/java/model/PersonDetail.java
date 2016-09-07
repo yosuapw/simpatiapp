@@ -14,8 +14,35 @@ public class PersonDetail implements Serializable {
 	private String email;
 	private String phone;
 	private String address;
+	private String postal;
 	private String city;
 	private String nationality;
+	
+	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPostal() {
+		return postal;
+	}
+
+	public void setPostal(String postal) {
+		this.postal = postal;
+	}
 
 	public String getPaymentType() {
 		return paymentType;

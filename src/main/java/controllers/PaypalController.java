@@ -16,6 +16,7 @@ import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Item;
 import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payee;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.RedirectUrls;
@@ -33,8 +34,8 @@ public class PaypalController {
 		
 		public Result coba() {
 			Result result = Results.html();
-			String clientId = "AYSq3RDGsmBLJE-otTkBtM-jBRd1TCQwFf9RGfwddNXWz0uFU9ztymylOhRS";
-			String clientSecret = "EGnHDxD_qRPdaLdZz8iCr8N7_MzF-YHPTkjs6NKYQvQSBngp4PTTVWkPZRbL";
+			String clientId = "AUxPSA2AL6-sHrUwK1txlCSrhXcSAhyzLS4XuBeOUbj3-v-wBB4564BydjKsT55Xz8SyXjBN6mifflxZ";
+			String clientSecret = "EF8KP0AVnUoHaNPgJLLor5AgJK97EenZCmRLeoDzZyHHz97zmccKjiiSj7DOb4ciWmwu_dCcg1vzZWrj";
 			InputStream is = PaypalController.class
 					.getResourceAsStream("/sdk_config.properties");
 			try {
@@ -79,22 +80,27 @@ public class PaypalController {
 				Payer payer = new Payer();
 				payer.setPaymentMethod("paypal");
 				
+				Payee payee = new Payee();
+				payee.setAccountNumber("77024194599");
+				payee.setEmail("yosua.merchant@gmail.com");
+				
 				Payment payment = new Payment();
 				payment.setIntent("sale");
 				payment.setPayer(payer);
+			//	payment.setPayee(payee);
 				payment.setTransactions(transactions);
 				
 				
 				RedirectUrls redirectUrls = new RedirectUrls();
 				String guid = UUID.randomUUID().toString().replaceAll("-", "");
-				redirectUrls.setCancelUrl("localhost:8080");
-				redirectUrls.setReturnUrl("localhost:8080");
+				redirectUrls.setCancelUrl("http://localhost:8080/");
+				redirectUrls.setReturnUrl("http://localhost:8080/");
 				
 				payment.setRedirectUrls(redirectUrls);
 				
 				createdpayment = payment.create(context);
 				
-				LOGGER.info("Created payment with id = " + createdpayment.getId()+
+				LOGGER.info("Created payment with id = " + createdpayment.getId() +
 						" and status = " + createdpayment.getState());
 				
 				Iterator<Links> links = createdpayment.getLinks().iterator();

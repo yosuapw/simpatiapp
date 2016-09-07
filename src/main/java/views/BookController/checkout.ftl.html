@@ -52,7 +52,7 @@
 				</div>
 				<div class="col-sm-8 col-md-7">
 					<header class="entry-header">
-						<h1 class="entry-title">Payment Type</h1>
+						<h1 class="entry-title">Payment</h1>
 					</header>
 					{{message}}
 					<form class="form-horizontal" data-ng-show="enableField">
@@ -97,7 +97,13 @@
 						<div class="form-group" style="margin:auto">
 							<label for="address" class="col-lg-2 control-label">Address</label>
 							<div class="col-lg-10">						      
-						        <input name="address" data-ng-model="data.personDetail.address" class="form-control" placeholder="address"/>
+						        <input name="phone" data-ng-model="data.personDetail.address" class="form-control" placeholder="address"/>
+							</div>
+						</div>
+						<div class="form-group" style="margin:auto">
+							<label for="postal" class="col-lg-2 control-label">Postal Code</label>
+							<div class="col-lg-10">						      
+						        <input name="phone" data-ng-model="data.personDetail.postal" class="form-control" placeholder="postal"/>
 							</div>
 						</div>
 						<div class="form-group" style="margin:auto">
@@ -112,12 +118,9 @@
 						<div class="form-group" style="margin:auto">
 							<label for="address" class="col-lg-2 control-label"> </label>
 							<div class="col-lg-1">
-								<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="submitData()">Add</button>
+								<button type="button" class="btn btn-primary btn-lg  btn-success" data-ng-click="submitData()">submit</button>
 							</div>
 						</div>
-						
-						
-			
 					</form>
 				</div>
 

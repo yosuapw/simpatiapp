@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp');
 
-var booksController = function($scope, $location, checkoutService){
+var booksController = function($scope, $location, checkoutService, $window){
 	
 	$scope.data = {
 			priceType: null,
@@ -17,15 +17,15 @@ var booksController = function($scope, $location, checkoutService){
 	$scope.enableField = true;
 	
 	$scope.data.availablePaymentTypes = [
-	        {key:'banktransfer', value: 'Bank Transfer'},
-			{key:'paypal', value: 'paypal'}];
+	        {key:'creditcard', value: 'Credit Card'}];
 	
 	
 	$scope.submitData = function () {
 		checkoutService.saveData($scope.data.personDetail, $location.absUrl()).then(function (data) {
-			if (data === 200) {
+			if (data.status === 200) {
 				$scope.message = "success";
 				$scope.enableField = false;
+				$window.location.href = data.data;
 			} else {
 				$scope.message = "failed";
 			}
@@ -76,7 +76,7 @@ myApp.service(
         // I transform the successful response, unwrapping the application data
         // from the API response payload.
         function handleSuccess( response ) {
-        	return response.status;
+        	return response;
         }
     }
 );

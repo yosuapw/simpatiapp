@@ -23,6 +23,7 @@ import ninja.application.ApplicationRoutes;
 import controllers.AdminController;
 import controllers.ApplicationController;
 import controllers.BaseController;
+import controllers.BastetController;
 import controllers.BookController;
 import controllers.BookValidationController;
 import controllers.PaypalController;
@@ -77,6 +78,18 @@ public class Routes implements ApplicationRoutes {
 
 		router.GET().route("/paypal/coba")
 				.with(PaypalController.class, "coba");
+		
+
+		router.GET().route("/veritrans/asd")
+				.with(BastetController.class, "asd");
+		
+
+		router.GET().route("/veritrans/success")
+				.with(BastetController.class, "success");
+		
+
+		router.POST().route("/veritrans/noti")
+				.with(BastetController.class, "noti");
 
 		router.GET().route("/").with(ApplicationController.class, "index");
         router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");

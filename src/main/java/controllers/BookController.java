@@ -1,7 +1,21 @@
 package controllers;
 
+import id.co.veritrans.mdk.v1.VtGatewayConfig;
+import id.co.veritrans.mdk.v1.VtGatewayConfigBuilder;
+import id.co.veritrans.mdk.v1.VtGatewayFactory;
+import id.co.veritrans.mdk.v1.config.EnvironmentType;
+import id.co.veritrans.mdk.v1.exception.RestClientException;
+import id.co.veritrans.mdk.v1.gateway.VtWeb;
+import id.co.veritrans.mdk.v1.gateway.model.Address;
+import id.co.veritrans.mdk.v1.gateway.model.CustomerDetails;
+import id.co.veritrans.mdk.v1.gateway.model.TransactionDetails;
+import id.co.veritrans.mdk.v1.gateway.model.VtResponse;
+import id.co.veritrans.mdk.v1.gateway.model.vtweb.VtWebChargeRequest;
+import id.co.veritrans.mdk.v1.gateway.model.vtweb.VtWebParam;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import model.Cart;
 import model.CartItem;
@@ -82,11 +96,10 @@ public class BookController extends BaseController {
 
 	public Result saveCheckout(PersonDetail personDetail, Session session) {
 		Cart cart = getCart(session);
-		saveCheckout(personDetail, cart, session);
-		return Results.ok();
+		return saveCheckout(personDetail, cart, session);
 	}
 
-	private void saveCheckout(PersonDetail personDetail, Cart cart, Session session) {
+	private Result saveCheckout(PersonDetail personDetail, Cart cart, Session session) {
 		cart.setPersonDetail(personDetail);
 		cart.setPayment(new Payment(Helper.constructValidation(),
 				UNPAID));
@@ -94,6 +107,8 @@ public class BookController extends BaseController {
 		
 		// Empty the cartId after all completed
 		session.put("cartId", null);
+		
+		return createVeritransPayment(personDetail, cart);
 	}
 
 	public Result addBook(@PathParam("id") String id,
@@ -201,5 +216,71 @@ public class BookController extends BaseController {
 		cartItem.setAmount(number * cartItem.getPrice());
 		return cartItem;
 	}
+	
+	public Result createVeritransPayment(PersonDetail personDetail, Cart cart) {
+
+		VtGatewayConfigBuilder vtGatewayConfigBuilder = new VtGatewayConfigBuilder();
+		vtGatewayConfigBuilder.setServerKey("VT-server--DKnApbVGMb9DJQeAYTQCu_B");
+		vtGatewayConfigBuilder.setClientKey("VT-client-HDXeZLmF6qosm1UB");
+		// config for sandbox environment
+		vtGatewayConfigBuilder.setEnvironmentType(EnvironmentType.SANDBOX);
+
+		
+		VtGatewayConfig vtGatewayConfig = vtGatewayConfigBuilder.createVtGatewayConfig();
+		VtGatewayFactory vtGatewayFactory = new VtGatewayFactory(vtGatewayConfig);
+		
+		
+		VtWeb vtWeb = vtGatewayFactory.vtWeb();
+		
+		VtWebChargeRequest vtWebChargeRequest = new VtWebChargeRequest();
+		//setVtWebChargeRequestValues(vtWebChargeRequest);
+		vtWebChargeRequest.setVtWeb(new VtWebParam());
+		vtWebChargeRequest.getVtWeb().setCreditCardUse3dSecure(false);
+		setVtDirectChargeRequestValues(vtWebChargeRequest, personDetail, cart);
+		final VtResponse vtResponse;
+		try {
+			vtResponse = vtWeb.charge(vtWebChargeRequest);
+			if (vtResponse.getStatusCode().equals("201")) {
+			    // Redirect user to redirecturl param [vtResponse.getRedirectUrl()]
+				return Results.json().render(vtResponse.getRedirectUrl());
+			} else {
+			    // Handle denied / unexpected response
+			}
+		} catch (RestClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public void setVtDirectChargeRequestValues(VtWebChargeRequest vtDirectChargeRequest, PersonDetail personDetail, Cart cart) {
+		
+		Integer total = 0;
+		if (cart.getCartItems() != null) {
+			for (CartItem item : cart.getCartItems()) {
+				if (item.getTotal() != null) {
+					total += item.getTotal() * 100 * 15000;
+				}
+			}
+		}
+	    vtDirectChargeRequest.setTransactionDetails(new TransactionDetails());
+	    vtDirectChargeRequest.setCustomerDetails(new CustomerDetails());
+
+	    vtDirectChargeRequest.getTransactionDetails().setOrderId(UUID.randomUUID().toString());
+	    vtDirectChargeRequest.getTransactionDetails().setGrossAmount(new Long(total));
+
+	    vtDirectChargeRequest.getCustomerDetails().setEmail(personDetail.getEmail());
+	    vtDirectChargeRequest.getCustomerDetails().setFirstName(personDetail.getFirstname());
+	    vtDirectChargeRequest.getCustomerDetails().setPhone(personDetail.getPhone());
+	    vtDirectChargeRequest.getCustomerDetails().setLastName(personDetail.getLastname());
+
+	    Address billingAddress = new Address();
+	    billingAddress.setAddress(personDetail.getAddress());
+	    billingAddress.setCity(personDetail.getCity());
+	    billingAddress.setPostalCode(personDetail.getPostal());
+	    vtDirectChargeRequest.getCustomerDetails().setBillingAddress(billingAddress);
+	}
+	
 
 }
