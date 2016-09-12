@@ -10,8 +10,7 @@ public class Helper {
 	}
 
 	public static String constructValidationForEmail(String contextPath, String link) {
-		return contextPath + PAYMENT_VALIDATION_LINK
-				+ link;
+		return contextPath + PAYMENT_VALIDATION_LINK + link;
 	}
 
 	public static String constructValidation() {

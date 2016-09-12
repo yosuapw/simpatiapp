@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import model.Cart;
+import model.CartItem;
 import ninja.postoffice.Mail;
 import ninja.postoffice.Postoffice;
 import ninja.scheduler.Schedule;
@@ -13,13 +14,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import controllers.Helper;
 import dao.BookDAO;
 
 @Singleton
 public class UnpaidScheduler {
 
-	final String UNPAID = "unpaid";
+	final String PAID_UNVERIFIED = "paid_unverified";
 
 	@Inject
 	Provider<Mail> mailProvider;
@@ -35,7 +35,7 @@ public class UnpaidScheduler {
 
 	@Schedule(delay = 60, initialDelay = 5, timeUnit = TimeUnit.SECONDS)
 	public void doStuffEach60Seconds() {
-		List<Cart> cartList = bookDAO.findByStatus(UNPAID);
+		List<Cart> cartList = bookDAO.findByStatus(PAID_UNVERIFIED);
 
 		for (Cart cart : cartList) {
 			try {
@@ -102,13 +102,60 @@ public class UnpaidScheduler {
 		sb.append("<br>");
 		sb.append("");
 		sb.append("<div class='body-text' style='font-family: Helvetica, Arial, sans-serif;font-size: 14px;line-height: 20px;text-align: left;color: #333333;'>");
-		sb.append("  please verify your payment by clicking this <a href='%s'>link</a>");
-		sb.append("  <br><br>");
+		sb.append("  your booking has been created with this booking code <strong>%s</strong>");
 		sb.append("  <br><br>");
 		sb.append("</div>");
 		sb.append("");
 		sb.append("          </td>");
 		sb.append("        </tr>");
+		
+		
+
+		sb.append("        <tr>");
+		sb.append("        <td>");
+		sb.append("<table border='1' width='600' cellpadding='0' cellspacing='0' class='container' style='width: 600px;max-width: 600px;'>");
+		sb.append("			<thead>");
+		sb.append("				<tr>");
+		sb.append("					<th>#</th>");
+		sb.append("					<th>destination</th>");
+		sb.append("					<th>type</th>");
+		sb.append("					<th>qty</th>");
+		sb.append("					<th>date</th>");
+		sb.append("					<th>amount</th>");
+		sb.append("				</tr>");
+		sb.append("			</thead>");
+		sb.append("			<tbody>");
+		int i = 1;
+		for (CartItem item : cart.getCartItems()){
+			sb.append("				<tr>");
+			sb.append("					<td>");
+			sb.append(i);
+			sb.append("					</td>");
+			sb.append("					<td>");
+			sb.append(item.getItem());
+			sb.append("					</td>");
+			sb.append("					<td>");
+			sb.append(item.getPriceType());
+			sb.append("					</td>");
+			sb.append("					<td>");
+			sb.append(item.getNumber());
+			sb.append("					</td>");
+			sb.append("					<td>");
+			sb.append(item.getBookDate());
+			sb.append("					</td>");
+			sb.append("					<td>");
+			sb.append(item.getTotal());
+			sb.append("					</td>");
+			sb.append("				</tr>");
+			i++;
+		}
+		sb.append("			</tbody>");
+		sb.append("</table>");
+		sb.append("  <br><br>");
+		sb.append("				</td>");
+		sb.append("				</tr>");
+		
+
 		sb.append("        <tr>");
 		sb.append("          <td class='container-padding footer-text' align='left' style='font-family: Helvetica, Arial, sans-serif;font-size: 12px;line-height: 16px;color: #aaaaaa;padding-left: 24px;padding-right: 24px;'>");
 		sb.append("            <br><br>");
@@ -128,6 +175,9 @@ public class UnpaidScheduler {
 		sb.append("");
 		sb.append("          </td>");
 		sb.append("        </tr>");
+		sb.append("			</tbody>");
+		sb.append("</table>");
+		sb.append("        </tr>");
 		sb.append("      </table><!--/600px container -->");
 		sb.append("");
 		sb.append("");
@@ -137,10 +187,8 @@ public class UnpaidScheduler {
 		sb.append("");
 		sb.append("</body>");
 		sb.append("</html>");
-
-		String link = Helper.constructValidationForEmail(serverName, cart.getPayment().getLink());
 		
-		mail.setBodyHtml(String.format(sb.toString(),link).replace("%%", "%"));
+		mail.setBodyHtml(String.format(sb.toString(),cart.getVeritransResult().getOrderId()).replace("%%", "%"));
 
 		mail.setBodyText("bodyText");
 		

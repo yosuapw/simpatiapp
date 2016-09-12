@@ -13,5 +13,7 @@ public interface BookDAO {
 
 	List<Cart> findByStatus(String status);
 
+	Cart findByOrderId(String orderId);
+
 	List<Cart> findByStatuses();
 }

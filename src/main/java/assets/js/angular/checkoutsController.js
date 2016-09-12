@@ -22,12 +22,20 @@ var booksController = function($scope, $location, checkoutService, $window){
 	
 	$scope.submitData = function () {
 		checkoutService.saveData($scope.data.personDetail, $location.absUrl()).then(function (data) {
+			debugger
 			if (data.status === 200) {
-				$scope.message = "success";
-				$scope.enableField = false;
-				$window.location.href = data.data;
+				if (data.data.statusCode == 201) {
+					$scope.message = "processing connection to the 3rd party payment system, please wait..";
+					$scope.enableField = false;
+					$window.location.href = data.data.redirectUrl;
+				} else if (data.data.statusMessage) {
+					$scope.message = data.data.statusMessage;
+				}
+				else {
+					$scope.message = "we are experiencing a connection issue to the 3rd party payment system, please kindly retry it 10 minutes later.";
+				}
 			} else {
-				$scope.message = "failed";
+				$scope.message = "we are experiencing a connection issue to the 3rd party payment system, please kindly retry it 10 minutes later.";
 			}
 		});
 	}

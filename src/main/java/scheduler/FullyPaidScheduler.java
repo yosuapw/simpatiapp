@@ -1,12 +1,10 @@
 package scheduler;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import model.Cart;
 import ninja.postoffice.Mail;
 import ninja.postoffice.Postoffice;
-import ninja.scheduler.Schedule;
 import ninja.utils.NinjaProperties;
 
 import com.google.inject.Inject;
@@ -32,7 +30,7 @@ public class FullyPaidScheduler {
 	@Inject
 	Postoffice postoffice;
 
-	@Schedule(delay = 60, initialDelay = 5, timeUnit = TimeUnit.SECONDS)
+//	@Schedule(delay = 60, initialDelay = 5, timeUnit = TimeUnit.SECONDS)
 	public void doStuffEach60Seconds() {
 		List<Cart> cartList = bookDAO.findByStatus(FULLY_PAID);
 

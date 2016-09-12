@@ -55,12 +55,16 @@ var booksController = function($scope, $location, dataLoadService){
 		var checkResult = checkItemData($scope.data.priceType, $scope.data.number, $scope.data.bookDate);
 		if (checkResult) {
 			var total = calculatePrice($scope.data.priceType, $scope.data.number);
-			$scope.data.cart.cartItems.push({priceType: $scope.data.priceType,
-											number: $scope.data.number, 
-											item: $scope.tourData.headTitle,
-											bookDate: $scope.data.bookDate,
-											total: total});
-			$scope.newItem();
+			if (total && total > 0) {
+				$scope.data.cart.cartItems.push({priceType: $scope.data.priceType,
+												number: $scope.data.number, 
+												item: $scope.tourData.headTitle,
+												bookDate: $scope.data.bookDate,
+												total: total});
+				$scope.newItem();
+			} else {
+				$scope.message = "type for this destination is not provided, please change to children/adult";
+			}
 		}
 	}
 	

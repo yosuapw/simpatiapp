@@ -16,20 +16,42 @@ import id.co.veritrans.mdk.v1.gateway.model.vtweb.VtWebParam;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
+import model.Cart;
 import model.VeritransNotif;
+import model.VeritransResult;
 import ninja.Result;
 import ninja.Results;
+import ninja.cache.NinjaCache;
+import ninja.params.Param;
+import ninja.session.Session;
 
 import org.apache.log4j.Logger;
 
-public class BastetController {
+import com.google.inject.Inject;
 
+import dao.BookDAO;
+
+public class BastetController {
+	
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = Logger
 			.getLogger(BastetController.class);
+	
+	final String PAID_UNVERIFIED = "paid_unverified";
+
+	private BookDAO bookDAO;
+
+	private NinjaCache ninjaCache;
+
+	private Session session;
+	
+	@Inject
+	public BastetController(Session session, NinjaCache ninjaCache, BookDAO bookDAO){
+		this.session = session;
+		this.bookDAO = bookDAO;
+		this.ninjaCache = ninjaCache;
+	}
 	
 	public Result asd() {	// this demonstrate configuring proxy settings using method chaining from the builder class
 		
@@ -38,28 +60,9 @@ public class BastetController {
 		vtGatewayConfigBuilder.setClientKey("VT-client-HDXeZLmF6qosm1UB");
 		// config for sandbox environment
 		vtGatewayConfigBuilder.setEnvironmentType(EnvironmentType.SANDBOX);
-		
-	/*	HttpConfigBuilder httpConfigBuilder = new HttpConfigBuilder();
-		httpConfigBuilder.setMaxConnectionPoolSize(16);
-		vtGatewayConfigBuilder.setHttpConfig(httpConfigBuilder.createHttpConfig());
-		
-		ProxyConfigBuilder proxyConfigBuilder = new ProxyConfigBuilder();
-
-		vtGatewayConfigBuilder.setProxyConfig(
-		    proxyConfigBuilder.setHost("proxy host address")
-		        .setPort(12345)
-		        .setUsername("proxy username or null")
-		        .setPassword("proxy password or null")
-		        .createProxyConfig()
-		).createVtGatewayConfig();*/
-
-		
 		VtGatewayConfig vtGatewayConfig = vtGatewayConfigBuilder.createVtGatewayConfig();
 		VtGatewayFactory vtGatewayFactory = new VtGatewayFactory(vtGatewayConfig);
-		
-		
 		VtWeb vtWeb = vtGatewayFactory.vtWeb();
-		
 		VtWebChargeRequest vtWebChargeRequest = new VtWebChargeRequest();
 		//setVtWebChargeRequestValues(vtWebChargeRequest);
 		vtWebChargeRequest.setVtWeb(new VtWebParam());
@@ -100,26 +103,29 @@ public class BastetController {
 	    billingAddress.setPostalCode("12210");
 	}
 	
-	public Result success(HttpServletRequest req) {
-	   /* try {
-	        ServletInputStream inputStream = req.getInputStream();
-	        VtResponse vtResponse = VtResponse.deserializeJson(inputStream);
+	public Result success(Session session, @Param("order_id") String orderId, 
+			@Param("status_code") String statusCode,
+			@Param("transaction_status") String transactionStatus) {
 
-	        // if necessary, we can utilize VtDirect's or VtWeb's Check Transaction Status Feature to make sure the notification is really coming from Veritrans
-	        String orderId = vtResponse.getOrderId();
-	        vtResponse = vtDirect.status(orderId); // we used VtDirect in this example, however we can use VtWeb too
+		String cartId = session.get("cartId");
+		Cart cart = null;
+		if (cartId != null){
+			cart = ninjaCache.get(cartId, Cart.class);
+			
+			if (cart == null || cart.getPayment() == null) {
+				cart = bookDAO.findByID(cartId);
+			}
+		} 
+		if (cart == null) cart = bookDAO.findByOrderId(orderId);
+		
+		if (cart != null) {
+			cart.setVeritransResult(new VeritransResult(orderId, statusCode, transactionStatus));
+			cart.getPayment().setStatus(PAID_UNVERIFIED);
+			bookDAO.save(cart);
+			// Empty the cartId after all completed
+			session.put("cartId", null);
+		}
 
-	        if (vtResponse.getTransactionStatus() == TransactionStatus.SETTLED) {
-	            // handle settled / successful charge request
-	        } else {
-	            // handle denied / unexpected response
-	        }
-	    } catch (JsonDeserializeException e) {
-	        // handle JSON deserialization error
-	        ...
-	    } finally {
-	        resp.setStatus(HttpServletResponse.SC_OK);
-	    }*/
         return Results.html();
 	}
 	

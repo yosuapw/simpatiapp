@@ -9,13 +9,13 @@ import id.co.veritrans.mdk.v1.gateway.VtWeb;
 import id.co.veritrans.mdk.v1.gateway.model.Address;
 import id.co.veritrans.mdk.v1.gateway.model.CustomerDetails;
 import id.co.veritrans.mdk.v1.gateway.model.TransactionDetails;
+import id.co.veritrans.mdk.v1.gateway.model.TransactionItem;
 import id.co.veritrans.mdk.v1.gateway.model.VtResponse;
 import id.co.veritrans.mdk.v1.gateway.model.vtweb.VtWebChargeRequest;
 import id.co.veritrans.mdk.v1.gateway.model.vtweb.VtWebParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import model.Cart;
 import model.CartItem;
@@ -23,6 +23,7 @@ import model.Excursion;
 import model.Payment;
 import model.PersonDetail;
 import model.Tour;
+import model.VeritransResult;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -36,6 +37,7 @@ import org.bson.types.ObjectId;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import controller.helper.TokenGenerator;
 import dao.BookDAO;
 import dao.ExcursionDAO;
 import dao.ExplorerDAO;
@@ -103,11 +105,10 @@ public class BookController extends BaseController {
 		cart.setPersonDetail(personDetail);
 		cart.setPayment(new Payment(Helper.constructValidation(),
 				UNPAID));
+		cart.setVeritransResult(new VeritransResult(TokenGenerator.getToken(8), null, null));
 		bookDAO.save(cart);
-		
-		// Empty the cartId after all completed
-		session.put("cartId", null);
-		
+		String cartId = session.get("cartId");
+		ninjaCache.set(cartId, cart, "10mn");
 		return createVeritransPayment(personDetail, cart);
 	}
 
@@ -240,12 +241,7 @@ public class BookController extends BaseController {
 		final VtResponse vtResponse;
 		try {
 			vtResponse = vtWeb.charge(vtWebChargeRequest);
-			if (vtResponse.getStatusCode().equals("201")) {
-			    // Redirect user to redirecturl param [vtResponse.getRedirectUrl()]
-				return Results.json().render(vtResponse.getRedirectUrl());
-			} else {
-			    // Handle denied / unexpected response
-			}
+			return Results.json().render(vtResponse);
 		} catch (RestClientException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -254,20 +250,34 @@ public class BookController extends BaseController {
 	}
 	
 	
-	public void setVtDirectChargeRequestValues(VtWebChargeRequest vtDirectChargeRequest, PersonDetail personDetail, Cart cart) {
-		
+	public void setVtDirectChargeRequestValues(VtWebChargeRequest vtDirectChargeRequest, 
+			PersonDetail personDetail, Cart cart) {
+	    vtDirectChargeRequest.setTransactionDetails(new TransactionDetails());
+	    vtDirectChargeRequest.setItemDetails(new ArrayList<TransactionItem>());
+	    vtDirectChargeRequest.setCustomerDetails(new CustomerDetails());
+
+	    vtDirectChargeRequest.getTransactionDetails().setOrderId(cart.getVeritransResult().getOrderId());
+
 		Integer total = 0;
 		if (cart.getCartItems() != null) {
 			for (CartItem item : cart.getCartItems()) {
+				TransactionItem tItem = new TransactionItem();
+				String name = item.getPriceType()+"-"+item.getItem();
+				if(name.length() > 50) {
+					tItem.setName(name.substring(0,47) + "...");
+				} else {
+					tItem.setName(name);
+				}
+				tItem.setPrice(new Long(item.getTotal()*15000/item.getNumber()));
+				tItem.setQuantity(item.getNumber());
+				
+				vtDirectChargeRequest.getItemDetails().add(tItem);
 				if (item.getTotal() != null) {
-					total += item.getTotal() * 100 * 15000;
+					total += item.getTotal()  * 15000; //TODO: add currency
 				}
 			}
 		}
-	    vtDirectChargeRequest.setTransactionDetails(new TransactionDetails());
-	    vtDirectChargeRequest.setCustomerDetails(new CustomerDetails());
-
-	    vtDirectChargeRequest.getTransactionDetails().setOrderId(UUID.randomUUID().toString());
+		
 	    vtDirectChargeRequest.getTransactionDetails().setGrossAmount(new Long(total));
 
 	    vtDirectChargeRequest.getCustomerDetails().setEmail(personDetail.getEmail());

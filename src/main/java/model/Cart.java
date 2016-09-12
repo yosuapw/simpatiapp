@@ -13,6 +13,8 @@ public class Cart extends MorphiaModel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private VeritransResult veritransResult;
 
 	private List<CartItem> cartItems;
 
@@ -43,4 +45,18 @@ public class Cart extends MorphiaModel implements Serializable {
 	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
+
+	public VeritransResult getVeritransResult() {
+		return veritransResult;
+	}
+
+	public void setVeritransResult(VeritransResult veritransResult) {
+		this.veritransResult = veritransResult;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 }
